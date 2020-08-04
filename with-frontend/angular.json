@@ -24,9 +24,19 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "src/assets/js/ion.rangeSlider.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/jquery.nice-select.min.js",
+              "src/assets/js/map.js",
+              "src/assets/js/munchbox.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/sticksy.js",
+              "src/assets/js/swiper.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -119,6 +129,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "with-frontend"
+    }
+  },
+  "defaultProject": "with-frontend",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
