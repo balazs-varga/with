@@ -27,11 +27,10 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/bootstrap.min.js",
               "src/assets/js/ion.rangeSlider.min.js",
-              "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/jquery.nice-select.min.js",
-              "src/assets/js/map.js",
               "src/assets/js/munchbox.js",
               "src/assets/js/popper.min.js",
               "src/assets/js/sticksy.js",
@@ -100,7 +99,16 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/ion.rangeSlider.min.js",
+              "src/assets/js/jquery.nice-select.min.js",
+              "src/assets/js/munchbox.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/sticksy.js",
+              "src/assets/js/swiper.min.js"
+            ]
           }
         },
         "lint": {
