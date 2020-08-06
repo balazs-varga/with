@@ -68,14 +68,15 @@
                                                     provide a valid email address</small>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-4">
                                             <label class="text-light-white fs-14">Password</label>
                                             <input id="password" [type]="isPasswordVisible ? 'text' : 'password'"
                                                 name="password" formControlName="password"
                                                 class="form-control form-control-submit"
                                                 [class.is-invalid]="registrationForm.controls.password.invalid && registrationForm.controls.password.touched"
                                                 placeholder="Password">
-                                            <div (click)="toggleShowPassword()" *ngIf="registrationForm.controls.password.valid"
+                                            <div (click)="toggleShowPassword()"
+                                                *ngIf="registrationForm.controls.password.valid"
                                                 [class]="isPasswordVisible ? 'fa fa-fw fa-eye-slash field-icon toggle-password' : 'fa fa-fw fa-eye field-icon toggle-password'">
                                             </div>
                                             <div *ngIf="(registrationForm.controls.password.invalid && registrationForm.controls.password.touched) || registrationForm.controls.password.dirty"
@@ -87,10 +88,13 @@
                                                     provide a valid password</small>
                                             </div>
                                         </div>
-                                        <button class="registration-button full-width"
-                                            [disabled]="!registrationForm.valid" (click)="registration()">Create your
-                                            account</button>
-                                        <div class="form-group text-center"> <span>or</span></div>
+                                        <div class="form-group text-center">
+                                            <button class="registration-button full-width"
+                                                [disabled]="!registrationForm.valid" (click)="registration()">Create
+                                                your
+                                                account</button>
+                                        </div>
+                                        <div class="form-group text-center mb-2"> <span>or</span></div>
                                         <div class="form-group text-center">
                                             <p class="text-light-black mb-0">Have an account?
                                                 <a routerLink="/login" class="sign-in-link">Sign in</a>
