@@ -1,0 +1,55 @@
+.registration-logo {
+    height: 50px;
+}
+
+.registration-button {
+    color: #fff;
+    background: #47b272;
+    border-color: #47b272;
+
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 9px 15px 8px;
+    font-size: 14px;
+    line-height: 1.51741;
+    border-radius: 4px;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    vertical-align: middle;
+    white-space: nowrap;
+    font-weight: 500;
+    position: relative;
+}
+
+.registration-button:hover {
+    color: #fff;
+    background: #348e58;
+    border-color: #348e58;
+
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 9px 15px 8px;
+    font-size: 14px;
+    line-height: 1.51741;
+    border-radius: 4px;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    vertical-align: middle;
+    white-space: nowrap;
+    font-weight: 500;
+    position: relative;
+}
+
+.sign-in-link {
+    color: #47b272;
+    text-decoration: none;
+    transition: 0.5s;
+}
+
+.sign-in-link:hover {
+    color: #348e58;
+}

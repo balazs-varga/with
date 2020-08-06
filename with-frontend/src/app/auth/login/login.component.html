@@ -44,7 +44,7 @@
                                             <a routerLink="/password-reset" class="link">Password reset</a>
                                         </div>
                                         <div class="form-group">
-                                            <button class="signin-button full-width">Sign in</button>
+                                            <button class="signin-button full-width" [disabled]="!loginForm.valid" (click)="login()">Sign in</button>
                                         </div>
                                         <div class="form-group text-center mb-0">
                                             <a routerLink="/registration" class="link">Create your account</a>

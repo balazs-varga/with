@@ -1,1 +1,108 @@
-<p>registration works!</p>
+<div class="inner-wrapper">
+    <div class="container-fluid no-padding">
+        <div class="row no-gutters overflow-auto">
+            <div class="col-md-6">
+                <div class="main-banner">
+                    <img src="assets/img/banner/banner-3.jpg" class="img-fluid full-width main-img" alt="banner" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="section-2 user-page main-padding">
+                    <div class="login-sec">
+                        <div class="login-box text-left">
+                            <form [formGroup]="registrationForm">
+                                <div class="form-group text-center mb-4">
+                                    <img src="assets/logo/with_logo3.png"
+                                        class="img-fluid registration-logo text-center" alt="logo" />
+                                </div>
+                                <h4 class="text-light-black fw-600 text-center">Create your account</h4>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="text-light-white fs-14">First name</label>
+                                            <input id="firstName" type="text" name="firstName"
+                                                formControlName="firstName"
+                                                [class.is-invalid]="registrationForm.controls.firstName.invalid && registrationForm.controls.firstName.touched"
+                                                class="form-control form-control-submit" placeholder="First name">
+                                            <div *ngIf="(registrationForm.controls.firstName.invalid && registrationForm.controls.firstName.touched) || registrationForm.controls.firstName.dirty"
+                                                class="text-right">
+                                                <small *ngIf="registrationForm.controls.firstName.errors?.required"
+                                                    class="text-danger">Required</small>
+                                                <small *ngIf="registrationForm.controls.firstName.errors?.minlength"
+                                                    class="text-danger">Too short</small>
+                                                <small *ngIf="registrationForm.controls.firstName.errors?.maxlength"
+                                                    class="text-danger">Too long</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="text-light-white fs-14">Last name</label>
+                                            <input id="lastName" type="text" name="lastName" formControlName="lastName"
+                                                [class.is-invalid]="registrationForm.controls.lastName.invalid && registrationForm.controls.lastName.touched"
+                                                class="form-control form-control-submit" placeholder="Last name">
+                                            <div *ngIf="(registrationForm.controls.lastName.invalid && registrationForm.controls.lastName.touched) || registrationForm.controls.lastName.dirty"
+                                                class="text-right">
+                                                <small *ngIf="registrationForm.controls.lastName.errors?.required"
+                                                    class="text-danger">Required</small>
+                                                <small *ngIf="registrationForm.controls.lastName.errors?.minlength"
+                                                    class="text-danger">Too short</small>
+                                                <small *ngIf="registrationForm.controls.lastName.errors?.maxlength"
+                                                    class="text-danger">Too long</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="text-light-white fs-14">Email</label>
+                                            <input id="email" type="email" name="email"
+                                                [class.is-invalid]="registrationForm.controls.email.invalid && registrationForm.controls.email.touched"
+                                                formControlName="email" class="form-control form-control-submit"
+                                                placeholder="Email">
+                                            <div *ngIf="(registrationForm.controls.email.invalid && registrationForm.controls.email.touched) || registrationForm.controls.email.dirty"
+                                                class="text-right">
+                                                <small *ngIf="registrationForm.controls.email.errors?.required"
+                                                    class="text-danger">Required</small>
+                                                <small *ngIf="registrationForm.controls.email.errors?.pattern"
+                                                    class="text-danger">Please
+                                                    provide a valid email address</small>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="text-light-white fs-14">Password</label>
+                                            <input id="password" [type]="isPasswordVisible ? 'text' : 'password'"
+                                                name="password" formControlName="password"
+                                                class="form-control form-control-submit"
+                                                [class.is-invalid]="registrationForm.controls.password.invalid && registrationForm.controls.password.touched"
+                                                placeholder="Password">
+                                            <div (click)="toggleShowPassword()" *ngIf="registrationForm.controls.password.valid"
+                                                [class]="isPasswordVisible ? 'fa fa-fw fa-eye-slash field-icon toggle-password' : 'fa fa-fw fa-eye field-icon toggle-password'">
+                                            </div>
+                                            <div *ngIf="(registrationForm.controls.password.invalid && registrationForm.controls.password.touched) || registrationForm.controls.password.dirty"
+                                                class="text-right">
+                                                <small *ngIf="registrationForm.controls.password.errors?.required"
+                                                    class="text-danger">Required</small>
+                                                <small *ngIf="registrationForm.controls.password.errors?.pattern"
+                                                    class="text-danger">Please
+                                                    provide a valid password</small>
+                                            </div>
+                                        </div>
+                                        <button class="registration-button full-width"
+                                            [disabled]="!registrationForm.valid" (click)="registration()">Create your
+                                            account</button>
+                                        <div class="form-group text-center"> <span>or</span></div>
+                                        <div class="form-group text-center">
+                                            <p class="text-light-black mb-0">Have an account?
+                                                <a routerLink="/login" class="sign-in-link">Sign in</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
