@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutsModule } from './layouts/layouts.module';
 import { AuthModule } from './auth/auth.module';
+import { IndexModule } from './index/index.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -21,11 +22,12 @@ const routes: Routes = [
     BrowserModule.withServerTransition({ appId: 'with-frontend' }),
     RouterModule.forRoot(routes),
     AppRoutingModule,
-    LayoutsModule,
-    AuthModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LayoutsModule,
+    AuthModule,
+    IndexModule
   ],
   providers: [],
   bootstrap: [AppComponent]
