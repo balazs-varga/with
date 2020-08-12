@@ -331,13 +331,13 @@ p {
     font-family: 'Poppins', sans-serif;
 }
 a {
-    color: #ff0018;
+    color: #47b272;
     text-decoration: none;
     transition: 0.5s;
 }
 a:focus,
 a:hover {
-    color: #bc2634;
+    color: #348e58;
     text-decoration: none;
     transition: 0.5s;
 }
@@ -848,7 +848,7 @@ span.type-tag{
     color: #fcb71b;
 }
 .text-light-green {
-    color: #ff0018;
+    color: #47b272;
 }
 .text-success {
     color: #13aa37;
@@ -1153,7 +1153,7 @@ span.type-tag{
 .header .user-details:hover>.user-dropdown {
     opacity: 1;
     visibility: visible;
-    left: -50%;
+    left: -115%;
     transition: 0.3s;
 }
 .user-dropdown ul {
@@ -1161,7 +1161,7 @@ span.type-tag{
     display: inline-table;
 }
 .user-dropdown ul>li {
-    display: inline-block;
+    display: block;
     width: 50%;
     position: relative;
     float: left;
