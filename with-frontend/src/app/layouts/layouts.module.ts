@@ -6,6 +6,7 @@ import { BasicLayoutComponent } from './basic-layout/basic-layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { HeaderComponent } from './shared/header/header.component';
   declarations: [
     AuthLayoutComponent,
     BasicLayoutComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
 })
 export class LayoutsModule { }
