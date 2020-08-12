@@ -15,7 +15,7 @@
                                     <img src="assets/logo/with_logo3.png" class="img-fluid login-logo text-center"
                                         alt="logo" />
                                 </div>
-                                <h4 class="text-light-black fw-600 text-center">Sign in with your account</h4>
+                                <h4 class="text-light-black fw-600 text-center">Bejelentkezés felhasználói fiókkal</h4>
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -27,19 +27,18 @@
                                             <div *ngIf="(loginForm.controls.email.invalid && loginForm.controls.email.touched) || loginForm.controls.email.dirty"
                                                 class="text-right">
                                                 <small *ngIf="loginForm.controls.email.errors?.required"
-                                                    class="text-danger">Required</small>
+                                                    class="text-danger">Kötelező mező</small>
                                                 <small *ngIf="loginForm.controls.email.errors?.pattern"
-                                                    class="text-danger">Please
-                                                    provide a valid email address</small>
+                                                    class="text-danger">Kérjük adjon meg egy valós email címet</small>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="text-light-white fs-14">Password</label>
+                                            <label class="text-light-white fs-14">Jelszó</label>
                                             <input id="password" [type]="isPasswordVisible ? 'text' : 'password'"
                                                 name="password" formControlName="password"
                                                 class="form-control form-control-submit"
                                                 [class.is-invalid]="loginForm.controls.password.invalid && loginForm.controls.password.touched"
-                                                placeholder="Password">
+                                                placeholder="Jelszó">
                                             <div (click)="toggleShowPassword()"
                                                 *ngIf="loginForm.controls.password.valid"
                                                 [class]="isPasswordVisible ? 'fa fa-fw fa-eye-slash field-icon toggle-password' : 'fa fa-fw fa-eye field-icon toggle-password'">
@@ -47,21 +46,20 @@
                                             <div *ngIf="(loginForm.controls.password.invalid && loginForm.controls.password.touched) || loginForm.controls.password.dirty"
                                                 class="text-right">
                                                 <small *ngIf="loginForm.controls.password.errors?.required"
-                                                    class="text-danger">Required</small>
+                                                    class="text-danger">Kötelező mező</small>
                                                 <small *ngIf="loginForm.controls.password.errors?.pattern"
-                                                    class="text-danger">Please
-                                                    provide a valid password</small>
+                                                    class="text-danger">A jelszó nem egyezik a jelszókövetelményekkel</small>
                                             </div>
                                         </div>
                                         <div class="form-group text-right">
-                                            <a routerLink="/password-reset" class="link">Password reset</a>
+                                            <a routerLink="/password-reset" class="link">Elfelejtett jelszó</a>
                                         </div>
                                         <div class="form-group">
                                             <button class="signin-button full-width" [disabled]="!loginForm.valid"
-                                                (click)="login()">Sign in</button>
+                                                (click)="login()">Bejelentkezés</button>
                                         </div>
                                         <div class="form-group text-center mb-0">
-                                            <a routerLink="/registration" class="link">Create your account</a>
+                                            <a routerLink="/registration" class="link">Felhasználói fiók létrehozása</a>
                                         </div>
                                     </div>
                                 </div>

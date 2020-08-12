@@ -15,40 +15,40 @@
                                     <img src="assets/logo/with_logo3.png"
                                         class="img-fluid registration-logo text-center" alt="logo" />
                                 </div>
-                                <h4 class="text-light-black fw-600 text-center">Create your account</h4>
+                                <h4 class="text-light-black fw-600 text-center">Regisztráció</h4>
                                 <div class="row">
                                     <div class="col-lg-6 col-md-12 col-sm-6">
                                         <div class="form-group">
-                                            <label class="text-light-white fs-14">First name</label>
-                                            <input id="firstName" type="text" name="firstName"
-                                                formControlName="firstName"
-                                                [class.is-invalid]="registrationForm.controls.firstName.invalid && registrationForm.controls.firstName.touched"
-                                                class="form-control form-control-submit" placeholder="First name">
-                                            <div *ngIf="(registrationForm.controls.firstName.invalid && registrationForm.controls.firstName.touched) || registrationForm.controls.firstName.dirty"
+                                            <label class="text-light-white fs-14">Vezetéknév</label>
+                                            <input id="lastName" type="text" name="lastName" formControlName="lastName"
+                                                [class.is-invalid]="registrationForm.controls.lastName.invalid && registrationForm.controls.lastName.touched"
+                                                class="form-control form-control-submit" placeholder="Vezetéknév">
+                                            <div *ngIf="(registrationForm.controls.lastName.invalid && registrationForm.controls.lastName.touched) || registrationForm.controls.lastName.dirty"
                                                 class="text-right">
-                                                <small *ngIf="registrationForm.controls.firstName.errors?.required"
-                                                    class="text-danger">Required</small>
-                                                <small *ngIf="registrationForm.controls.firstName.errors?.minlength"
-                                                    class="text-danger">Too short</small>
-                                                <small *ngIf="registrationForm.controls.firstName.errors?.maxlength"
-                                                    class="text-danger">Too long</small>
+                                                <small *ngIf="registrationForm.controls.lastName.errors?.required"
+                                                    class="text-danger">Kötelező mező</small>
+                                                <small *ngIf="registrationForm.controls.lastName.errors?.minlength"
+                                                    class="text-danger">Túl rövid vezetéknév</small>
+                                                <small *ngIf="registrationForm.controls.lastName.errors?.maxlength"
+                                                    class="text-danger">Túl hosszú vezetéknév</small>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-6">
                                         <div class="form-group">
-                                            <label class="text-light-white fs-14">Last name</label>
-                                            <input id="lastName" type="text" name="lastName" formControlName="lastName"
-                                                [class.is-invalid]="registrationForm.controls.lastName.invalid && registrationForm.controls.lastName.touched"
-                                                class="form-control form-control-submit" placeholder="Last name">
-                                            <div *ngIf="(registrationForm.controls.lastName.invalid && registrationForm.controls.lastName.touched) || registrationForm.controls.lastName.dirty"
+                                            <label class="text-light-white fs-14">Keresztnév</label>
+                                            <input id="firstName" type="text" name="firstName"
+                                                formControlName="firstName"
+                                                [class.is-invalid]="registrationForm.controls.firstName.invalid && registrationForm.controls.firstName.touched"
+                                                class="form-control form-control-submit" placeholder="Keresztnév">
+                                            <div *ngIf="(registrationForm.controls.firstName.invalid && registrationForm.controls.firstName.touched) || registrationForm.controls.firstName.dirty"
                                                 class="text-right">
-                                                <small *ngIf="registrationForm.controls.lastName.errors?.required"
-                                                    class="text-danger">Required</small>
-                                                <small *ngIf="registrationForm.controls.lastName.errors?.minlength"
-                                                    class="text-danger">Too short</small>
-                                                <small *ngIf="registrationForm.controls.lastName.errors?.maxlength"
-                                                    class="text-danger">Too long</small>
+                                                <small *ngIf="registrationForm.controls.firstName.errors?.required"
+                                                    class="text-danger">Kötelező mező</small>
+                                                <small *ngIf="registrationForm.controls.firstName.errors?.minlength"
+                                                    class="text-danger">Túl rövid keresztnév</small>
+                                                <small *ngIf="registrationForm.controls.firstName.errors?.maxlength"
+                                                    class="text-danger">Túl hosszú keresztnév</small>
                                             </div>
                                         </div>
                                     </div>
@@ -62,19 +62,18 @@
                                             <div *ngIf="(registrationForm.controls.email.invalid && registrationForm.controls.email.touched) || registrationForm.controls.email.dirty"
                                                 class="text-right">
                                                 <small *ngIf="registrationForm.controls.email.errors?.required"
-                                                    class="text-danger">Required</small>
+                                                    class="text-danger">Kötelező mező</small>
                                                 <small *ngIf="registrationForm.controls.email.errors?.pattern"
-                                                    class="text-danger">Please
-                                                    provide a valid email address</small>
+                                                    class="text-danger">Kérjük adjon meg egy valós email címet</small>
                                             </div>
                                         </div>
                                         <div class="form-group mb-4">
-                                            <label class="text-light-white fs-14">Password</label>
+                                            <label class="text-light-white fs-14">Jelszó</label>
                                             <input id="password" [type]="isPasswordVisible ? 'text' : 'password'"
                                                 name="password" formControlName="password"
                                                 class="form-control form-control-submit"
                                                 [class.is-invalid]="registrationForm.controls.password.invalid && registrationForm.controls.password.touched"
-                                                placeholder="Password">
+                                                placeholder="Jelszó">
                                             <div (click)="toggleShowPassword()"
                                                 *ngIf="registrationForm.controls.password.valid"
                                                 [class]="isPasswordVisible ? 'fa fa-fw fa-eye-slash field-icon toggle-password' : 'fa fa-fw fa-eye field-icon toggle-password'">
@@ -82,22 +81,19 @@
                                             <div *ngIf="(registrationForm.controls.password.invalid && registrationForm.controls.password.touched) || registrationForm.controls.password.dirty"
                                                 class="text-right">
                                                 <small *ngIf="registrationForm.controls.password.errors?.required"
-                                                    class="text-danger">Required</small>
+                                                    class="text-danger">Kötelező mező</small>
                                                 <small *ngIf="registrationForm.controls.password.errors?.pattern"
-                                                    class="text-danger">Please
-                                                    provide a valid password</small>
+                                                    class="text-danger">A jelszó nem egyezik a jelszókövetelményekkel</small>
                                             </div>
                                         </div>
                                         <div class="form-group text-center">
                                             <button class="registration-button full-width"
-                                                [disabled]="!registrationForm.valid" (click)="registration()">Create
-                                                your
-                                                account</button>
+                                                [disabled]="!registrationForm.valid" (click)="registration()">Regisztráció</button>
                                         </div>
-                                        <div class="form-group text-center mb-2"> <span>or</span></div>
+                                        <div class="form-group text-center mb-2"> <span>vagy</span></div>
                                         <div class="form-group text-center">
-                                            <p class="text-light-black mb-0">Have an account?
-                                                <a routerLink="/login" class="sign-in-link">Sign in</a>
+                                            <p class="text-light-black mb-0">Rendelkezik felhasználói fiókkal?
+                                                <a routerLink="/login" class="sign-in-link">Bejelentkezés</a>
                                             </p>
                                         </div>
                                     </div>
