@@ -1,0 +1,44 @@
+.swiper-slide {
+    flex-shrink: unset;
+}
+
+.first-carousel-caption {
+    position: absolute;
+    bottom: 145px;
+    left: 15%;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.second-carousel-caption {
+    position: absolute;
+    right: 15%;
+    bottom: 145px;
+    left: 15%;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.third-carousel-caption {
+    position: absolute;
+    right: 15%;
+    bottom: 145px;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.carusel-font {
+    font-size: 60px;
+    line-height: 1.2;
+    color: white;
+    font-weight: 600;
+}

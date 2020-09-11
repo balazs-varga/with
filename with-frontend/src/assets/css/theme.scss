@@ -578,9 +578,9 @@ label.custom-checkbox .checkmark:after {
 }
 .green-btn:hover,
 .green-btn:focus {
-    border-color: #ff0018;
+    border-color: black;
     background: #fff;
-    color: #ff0018;
+    color: black;
 }
 .paypal-btn {
     color: #fff;
@@ -898,7 +898,7 @@ span.type-tag{
 /*Navigation*/
 
 .header {
-    position: fixed;
+    position: absolute;
     left: 0;
     z-index: 10;
     display: flex;
