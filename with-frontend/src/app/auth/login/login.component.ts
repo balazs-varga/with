@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl(this.authService.redirectUrl);
           this.authService.redirectUrl = null;
         } else {
-          this.router.navigate(['/']);
+          this.redirectToIndexPage();
         }
       }, (error) => {
         if (error.error.error === 'Unauthorised') {
@@ -46,6 +46,10 @@ export class LoginComponent implements OnInit {
 
   toggleShowPassword(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  redirectToIndexPage(): void {
+    this.router.navigate(['/']);
   }
 
   // use password regex

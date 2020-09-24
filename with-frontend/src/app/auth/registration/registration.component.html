@@ -12,8 +12,10 @@
                         <div class="login-box text-left">
                             <form [formGroup]="registrationForm">
                                 <div class="form-group text-center mb-4">
-                                    <img src="assets/logo/with_logo3.png"
-                                        class="img-fluid registration-logo text-center" alt="logo" />
+                                    <a routerLink="/">
+                                        <img src="assets/logo/with_logo3.png"
+                                            class="img-fluid registration-logo text-center" alt="logo" />
+                                    </a>
                                 </div>
                                 <h4 class="text-light-black fw-600 text-center">Regisztráció</h4>
                                 <div class="row">
@@ -70,7 +72,8 @@
                                                 <small *ngIf="registrationForm.controls.password.errors?.required"
                                                     class="text-danger">Kötelező mező</small>
                                                 <small *ngIf="registrationForm.controls.password.errors?.pattern"
-                                                    class="text-danger">A jelszó nem egyezik a jelszókövetelményekkel</small>
+                                                    class="text-danger">A jelszó nem egyezik a
+                                                    jelszókövetelményekkel</small>
                                             </div>
                                         </div>
                                     </div>
@@ -84,10 +87,12 @@
                                                 placeholder="Jelszó mégegyszer">
                                             <div *ngIf="(registrationForm.controls.confirmPassword.invalid && registrationForm.controls.confirmPassword.touched) || registrationForm.controls.confirmPassword.dirty"
                                                 class="text-right">
-                                                <small *ngIf="registrationForm.controls.confirmPassword.errors?.required"
+                                                <small
+                                                    *ngIf="registrationForm.controls.confirmPassword.errors?.required"
                                                     class="text-danger">Kötelező mező</small>
                                                 <small *ngIf="registrationForm.controls.confirmPassword.errors?.pattern"
-                                                    class="text-danger">A jelszó nem egyezik a jelszókövetelményekkel</small>
+                                                    class="text-danger">A jelszó nem egyezik a
+                                                    jelszókövetelményekkel</small>
                                             </div>
                                         </div>
                                     </div>
@@ -124,10 +129,10 @@
                                     </div>
 
                                     <div class="col-12">
-                                        
-                                        
-                                        
-                                        
+
+
+
+
                                         <div class="form-group">
                                             <label class="text-light-white fs-14">Ország</label>
                                             <input id="country" type="country" name="country"
@@ -147,47 +152,47 @@
                                                 formControlName="city" class="form-control form-control-submit"
                                                 placeholder="Város">
                                             <div *ngIf="(registrationForm.controls.city.invalid && registrationForm.controls.city.touched) || registrationForm.controls.city.dirty"
-                                                class="text-right"> 
+                                                class="text-right">
                                                 <small *ngIf="registrationForm.controls.city.errors?.required"
                                                     class="text-danger">Kötelező mező</small>
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label class="text-light-white fs-14">Irányítószám</label>
-                                                <input id="zip" type="zip" name="zip"
-                                                    [class.is-invalid]="registrationForm.controls.zip.invalid && registrationForm.controls.zip.touched"
-                                                    formControlName="zip" class="form-control form-control-submit"
-                                                    placeholder="Irányítószám">
-                                                <div *ngIf="(registrationForm.controls.zip.invalid && registrationForm.controls.zip.touched) || registrationForm.controls.zip.dirty"
-                                                    class="text-right">
-                                                    <small *ngIf="registrationForm.controls.zip.errors?.required"
-                                                        class="text-danger">Kötelező mező</small>
-                                                </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="text-light-white fs-14">Irányítószám</label>
+                                            <input id="zip" type="zip" name="zip"
+                                                [class.is-invalid]="registrationForm.controls.zip.invalid && registrationForm.controls.zip.touched"
+                                                formControlName="zip" class="form-control form-control-submit"
+                                                placeholder="Irányítószám">
+                                            <div *ngIf="(registrationForm.controls.zip.invalid && registrationForm.controls.zip.touched) || registrationForm.controls.zip.dirty"
+                                                class="text-right">
+                                                <small *ngIf="registrationForm.controls.zip.errors?.required"
+                                                    class="text-danger">Kötelező mező</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label class="text-light-white fs-14">Utca - Házszám</label>
-                                                <input id="house" type="house" name="house"
-                                                    [class.is-invalid]="registrationForm.controls.house.invalid && registrationForm.controls.house.touched"
-                                                    formControlName="house" class="form-control form-control-submit"
-                                                    placeholder="Utca - Házszám">
-                                                <div *ngIf="(registrationForm.controls.house.invalid && registrationForm.controls.house.touched) || registrationForm.controls.house.dirty"
-                                                    class="text-right">
-                                                    <small *ngIf="registrationForm.controls.house.errors?.required"
-                                                        class="text-danger">Kötelező mező</small>
-                                                </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label class="text-light-white fs-14">Utca - Házszám</label>
+                                            <input id="house" type="house" name="house"
+                                                [class.is-invalid]="registrationForm.controls.house.invalid && registrationForm.controls.house.touched"
+                                                formControlName="house" class="form-control form-control-submit"
+                                                placeholder="Utca - Házszám">
+                                            <div *ngIf="(registrationForm.controls.house.invalid && registrationForm.controls.house.touched) || registrationForm.controls.house.dirty"
+                                                class="text-right">
+                                                <small *ngIf="registrationForm.controls.house.errors?.required"
+                                                    class="text-danger">Kötelező mező</small>
                                             </div>
                                         </div>
+                                    </div>
 
 
-                                        
-                                        <div class="col-12">
+
+                                    <div class="col-12">
                                         <div class="form-group text-center">
-                                            <button class="green-button full-width"
-                                                [disabled]="!registrationForm.valid" (click)="registration()">Regisztráció</button>
+                                            <button class="green-button full-width" [disabled]="!registrationForm.valid"
+                                                (click)="registration()">Regisztráció</button>
                                         </div>
                                         <div class="form-group text-center mb-2"> <span>vagy</span></div>
                                         <div class="form-group text-center">
