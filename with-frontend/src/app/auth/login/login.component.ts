@@ -1,5 +1,8 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,17 +13,41 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   isPasswordVisible = false;
+  errorMsg = '';
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthenticationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.createLoginForm();
   }
 
-  login(): void {
+  get authHeaders() {
+    return new HttpHeaders()
+      .set('Content-Type', 'application/json');
+  }
 
+  login(): void {
+    if (this.loginForm.valid) {
+      this.authService.loginWithUsernameAndPassword(this.loginForm.get('email').value, this.loginForm.get('password').value)
+      .subscribe(() => {
+        if (this.authService.redirectUrl) {
+          this.router.navigateByUrl(this.authService.redirectUrl);
+          this.authService.redirectUrl = null;
+        } else {
+          this.router.navigate(['/']);
+        }
+      }, (error) => {
+        if (error.error.error === 'Unauthorised') {
+          this.errorMsg = 'Rossz email vagy jelszó';
+        }
+      });
+    } else {
+      this.errorMsg = 'Email és jelszó szükséges a bejelentkezéshez';
+    }
   }
 
   toggleShowPassword(): void {

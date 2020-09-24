@@ -48,14 +48,18 @@
                                                 <small *ngIf="loginForm.controls.password.errors?.required"
                                                     class="text-danger">Kötelező mező</small>
                                                 <small *ngIf="loginForm.controls.password.errors?.pattern"
-                                                    class="text-danger">A jelszó nem egyezik a jelszókövetelményekkel</small>
+                                                    class="text-danger">A jelszó nem egyezik a
+                                                    jelszókövetelményekkel</small>
                                             </div>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <small *ngIf="errorMsg" class="text-danger">{{errorMsg}}</small>
                                         </div>
                                         <div class="form-group text-right">
                                             <a routerLink="/password-reset" class="link">Elfelejtetted a jelszavad?</a>
                                         </div>
                                         <div class="form-group">
-                                            <button class="signin-button full-width" [disabled]="!loginForm.valid"
+                                            <button class="signin-button full-width" 
                                                 (click)="login()">Bejelentkezés</button>
                                         </div>
                                         <div class="form-group text-center mb-0">
