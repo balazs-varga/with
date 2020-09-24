@@ -1,4 +1,45 @@
-<ngb-carousel>
+<div class="inner-wrapper">
+    <div class="container-fluid no-padding">
+        <div class="row no-gutters">
+            <div class="col-md-6">
+                <div class="main-banner">
+                    <img src="assets/img/banner/banner-3.jpg" class="img-fluid full-width main-img" alt="banner">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="section-2 main-page main-padding">
+                    <ng-container *ngIf="!isLoggedIn()">
+                        <div class="top-nav">
+                            <h5><a routerLink="/login" class="text-light-green fw-700">Bejelentkezés</a></h5>
+                        </div>
+                    </ng-container>
+                    <div class="login-box">
+                        <div class="col-12">
+                            <h1 class="text-light-black fw-700">Munchbox food delivery every time</h1>
+                            <div class="input-group row">
+                                <div class="input-group2 col-xl-8">
+                                    <input type="search" class="form-control form-control-submit"
+                                        placeholder="Enter street address or zip code"
+                                        value="1246 57th St, Brooklyn, NY, 11219">
+                                    <div class="input-group-prepend">
+                                        <button class="input-group-text text-light-green"><i
+                                                class="fab fa-telegram-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="input-group-append col-xl-4">
+                                    <button class="green-button full-width" type="button">Keresés</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <ngb-carousel>
     <ng-template ngbSlide>
         <div>
             <img src="assets/img/about/blog/1920x700/banner-1.jpg" class="img-fluid full-width" alt="First slide">
@@ -72,4 +113,4 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
