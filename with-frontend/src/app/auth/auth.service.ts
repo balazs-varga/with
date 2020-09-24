@@ -14,7 +14,7 @@ export class AuthenticationService {
 
   redirectUrl = '';
 
-  get authHeaders() {
+  get authHeaders(): HttpHeaders {
     return new HttpHeaders()
       .set('Content-Type', 'application/json');
   }
@@ -61,10 +61,10 @@ export class AuthenticationService {
       );
   }
 
-  extractTokenResponse(response) {
+  extractTokenResponse(response): void {
     if (response) {
       const token = response.success.token;
-      //this.user = this.tokenProcessor(token);
+      // this.user = this.tokenProcessor(token);
       localStorage.setItem(this.token, token);
     }
   }
@@ -77,16 +77,16 @@ export class AuthenticationService {
     });
   }
 
-  isAllAuthInfoAvailable() {
-    return this.user && localStorage.getItem(this.token);
+  isAllAuthInfoAvailable(): boolean {
+    return localStorage.getItem(this.token) != null;
   }
 
-  clearAuthInfo() {
+  clearAuthInfo(): void {
     localStorage.removeItem(this.token);
     this.user = null;
   }
 
-  private tokenProcessor(token: string) {
+  private tokenProcessor(token: string): any {
     const tokenUserPart = JSON.parse(this.b64DecodeUnicode(token.split('.', 2)[1]));
     return {
       username: tokenUserPart.sub,
@@ -96,7 +96,7 @@ export class AuthenticationService {
     };
   }
 
-  private b64DecodeUnicode(str: string) {
+  private b64DecodeUnicode(str: string): string {
     return decodeURIComponent(Array.prototype.map.call(atob(str), (c: string) => {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
