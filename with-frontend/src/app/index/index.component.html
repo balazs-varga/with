@@ -4,6 +4,13 @@
             <div class="col-md-6">
                 <div class="main-banner">
                     <img src="assets/img/banner/banner-3.jpg" class="img-fluid full-width main-img" alt="banner">
+                    <ng-container *ngIf="!isLoggedIn()">
+                        <div class="overlay-2 main-padding logo-position">
+                            <a routerLink="/">
+                                <img src="assets/logo/with_logo2.png" class="img-fluid with-logo" alt="logo">
+                            </a>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
             <div class="col-md-6">
@@ -11,27 +18,49 @@
                     <ng-container *ngIf="!isLoggedIn()">
                         <div class="top-nav">
                             <h5><a routerLink="/login" class="text-light-green fw-700">Bejelentkezés</a></h5>
+                            <h5><a routerLink="/registration" class="text-light-green fw-700">Regisztráció</a></h5>
                         </div>
                     </ng-container>
                     <div class="login-box">
-                        <div class="col-12">
-                            <h1 class="text-light-black fw-700">Munchbox food delivery every time</h1>
-                            <div class="input-group row">
-                                <div class="input-group2 col-xl-8">
-                                    <input type="search" class="form-control form-control-submit"
-                                        placeholder="Enter street address or zip code"
-                                        value="1246 57th St, Brooklyn, NY, 11219">
-                                    <div class="input-group-prepend">
-                                        <button class="input-group-text text-light-green"><i
-                                                class="fab fa-telegram-plane"></i>
-                                        </button>
+                        <form [formGroup]="searchForm">
+                            <div class="col-12">
+                                <h1 class="text-light-black fw-700">Fedezd fel szuper éttermeinket</h1>
+                                <div class="input-group row">
+                                    <div class="input-group2 col-xl-8">
+                                        <div class="search-input">
+                                            <input type="number" class="form-control form-control-submit"
+                                                formControlName="search" placeholder="Keresés irányítószám alapján..."
+                                                min="1000" max="9999"
+                                                [class.is-invalid]="searchForm.controls.search.invalid && searchForm.controls.search.touched">
+                                            <div *ngIf="(searchForm.controls.search.invalid && searchForm.controls.search.touched) || searchForm.controls.search.dirty"
+                                                class="text-right">
+                                                <small
+                                                    *ngIf="searchForm.controls.search.errors?.min || searchForm.controls.search.errors?.max"
+                                                    class="text-danger">Kérjük adj meg egy valós irányítószámot</small>
+                                            </div>
+                                        </div>
+                                        <div class="input-group-prepend">
+                                            <button class="input-group-text text-light-green"><i
+                                                    class="fab fa-telegram-plane"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group-append col-xl-4">
+                                        <button class="green-button full-width" type="button"
+                                            [disabled]="!searchForm.valid" (click)="searchByZip()">Keresés</button>
                                     </div>
                                 </div>
-                                <div class="input-group-append col-xl-4">
-                                    <button class="green-button full-width" type="button">Keresés</button>
-                                </div>
+                                <div class="form-group text-center mt-3 mb-3"> <span>vagy</span></div>
+                                <button type="button" class="green-button position-button full-width"
+                                    (click)="searchByLocation()">Keresés jelenlegi
+                                    pozíció alapján</button>
+                                <ng-container *ngIf="currentPositionErrorMessage">
+                                    <div class="col-12 text-center">
+                                        <small class="text-danger">{{currentPositionErrorMessage}}</small>
+                                    </div>
+                                </ng-container>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,7 @@
 <ng-container *ngIf="isLoggedIn()">
     <app-header></app-header>
 </ng-container>
-<router-outlet></router-outlet>
+<div [ngClass]="{'logged-in-container': isLoggedIn()}">
+    <router-outlet></router-outlet>
+</div>
 <app-footer></app-footer>
