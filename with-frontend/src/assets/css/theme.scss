@@ -473,6 +473,18 @@ input[type=text]::placeholder {
     color: #000000de;
     font-size: 14px;
 }
+input[type=password]::placeholder {
+    color: #000000de;
+    font-size: 14px;
+}
+input[type=email]::placeholder {
+    color: #000000de;
+    font-size: 14px;
+}
+input[type=number]::placeholder {
+    color: #000000de;
+    font-size: 14px;
+}
 .form-control-submit {
     border: 1px solid #8f8fa1;
     border-radius: 4px;

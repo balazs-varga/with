@@ -6,8 +6,18 @@
     color: #47b272;
     text-decoration: none;
     transition: 0.5s;
+    cursor: pointer;
 }
 
 .sign-in-link:hover {
     color: #348e58;
+}
+
+.section-2, .main-banner {
+    height: unset;
+}
+
+.user-page .login-sec {
+    position: relative;
+    transform: none;
 }
