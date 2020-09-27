@@ -16,6 +16,7 @@ export class IndexComponent implements OnInit {
 
   searchForm: FormGroup;
   currentPositionErrorMessage = '';
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +31,7 @@ export class IndexComponent implements OnInit {
   }
 
   getLocation(): Promise<any> {
+    this.isLoading = true;
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resp => {
         this.currentPositionErrorMessage = '';
@@ -37,6 +39,7 @@ export class IndexComponent implements OnInit {
       },
         err => {
           this.showCurrentPositionError(err);
+          this.isLoading = false;
           reject();
         });
     });
@@ -47,11 +50,15 @@ export class IndexComponent implements OnInit {
   }
 
   searchByZip(): Subscription {
+    this.isLoading = true;
     this.currentPositionErrorMessage = '';
     return this.http.get<any>(`${environment.apiUrl}/restaurants/near/zip/` + this.searchForm.get('search').value).subscribe(
       (resp) => {
+        this.isLoading = false;
         this.restaurantsCommunicationService.restaurants = resp;
         this.router.navigateByUrl('/restaurants');
+      }, (error) => {
+        this.isLoading = false;
       }
     );
   }
@@ -61,7 +68,10 @@ export class IndexComponent implements OnInit {
       return this.http.get<any>(`${environment.apiUrl}/restaurants/near/geo/${pos.lat}/${pos.lng}`).subscribe(
         (resp) => {
           this.restaurantsCommunicationService.restaurants = resp;
+          this.isLoading = false;
           this.router.navigateByUrl('/restaurants');
+        }, (error) => {
+          this.isLoading = false;
         }
       );
     });

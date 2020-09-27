@@ -5,6 +5,7 @@ import { IndexComponent } from './index.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RestaurantsCommunicationService } from 'src/app/restaurants/restaurants.communication.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { RestaurantsCommunicationService } from 'src/app/restaurants/restaurants
     IndexRoutingModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [
     IndexComponent
