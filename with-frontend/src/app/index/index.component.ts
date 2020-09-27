@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../auth/auth.service';
-import { RestaurantsCommunicationService } from 'src/app/index/restaurants.communication.service';
+import { RestaurantsCommunicationService } from 'src/app/restaurants/restaurants.communication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -20,7 +21,8 @@ export class IndexComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private authService: AuthenticationService,
-    private restaurantsCommunicationService: RestaurantsCommunicationService
+    private restaurantsCommunicationService: RestaurantsCommunicationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -49,6 +51,7 @@ export class IndexComponent implements OnInit {
     return this.http.get<any>(`${environment.apiUrl}/restaurants/near/zip/` + this.searchForm.get('search').value).subscribe(
       (resp) => {
         this.restaurantsCommunicationService.restaurants = resp;
+        this.router.navigateByUrl('/restaurants');
       }
     );
   }
@@ -58,6 +61,7 @@ export class IndexComponent implements OnInit {
       return this.http.get<any>(`${environment.apiUrl}/restaurants/near/geo/${pos.lat}/${pos.lng}`).subscribe(
         (resp) => {
           this.restaurantsCommunicationService.restaurants = resp;
+          this.router.navigateByUrl('/restaurants');
         }
       );
     });
