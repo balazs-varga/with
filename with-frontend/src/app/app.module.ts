@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RestaurantModule } from './restaurants/restaurant.module';
 import { INTERCEPTORS } from './auth/interceptors.provider';
+import { SharedModule } from './shared/shared.module';
 
 const routes: Routes = [
   { path: '**', redirectTo: '404' }
@@ -32,7 +33,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     LayoutsModule,
     AuthModule,
-    RestaurantModule
+    RestaurantModule,
+    SharedModule
   ],
   providers: [
     INTERCEPTORS
