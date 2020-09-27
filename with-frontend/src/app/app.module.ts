@@ -10,6 +10,7 @@ import { IndexModule } from './index/index.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RestaurantModule } from './restaurants/restaurant.module'; 
 
 const routes: Routes = [
   { path: '**', redirectTo: '404' }
@@ -29,7 +30,8 @@ const routes: Routes = [
     IndexModule,
     ReactiveFormsModule,
     LayoutsModule,
-    AuthModule
+    AuthModule,
+    RestaurantModule
   ],
   providers: [],
   bootstrap: [AppComponent]
