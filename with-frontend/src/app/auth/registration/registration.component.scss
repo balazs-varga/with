@@ -1,23 +1,24 @@
 .registration-logo {
-    height: 50px;
+  height: 50px;
 }
 
 .sign-in-link {
-    color: #47b272;
-    text-decoration: none;
-    transition: 0.5s;
-    cursor: pointer;
+  color: #47b272;
+  text-decoration: none;
+  transition: 0.5s;
+  cursor: pointer;
 }
 
 .sign-in-link:hover {
-    color: #348e58;
+  color: #348e58;
 }
 
-.section-2, .main-banner {
-    height: unset;
+.section-2,
+.main-banner {
+  height: unset;
 }
 
 .user-page .login-sec {
-    position: relative;
-    transform: none;
+  position: relative;
+  transform: none;
 }
