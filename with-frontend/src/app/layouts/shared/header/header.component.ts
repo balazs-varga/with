@@ -9,6 +9,9 @@ import { AuthenticationService } from 'src/app/auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
+  nameForAvatar = 'VB';
+  loggedInUserName = 'Balázs';
+
   constructor(
     public auth: AuthenticationService,
     private router: Router

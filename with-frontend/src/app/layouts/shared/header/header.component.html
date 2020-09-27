@@ -155,9 +155,7 @@
 
                         <div class="user-details p-relative">
                             <div class="text-light-white fw-500">
-                                <img src="./../assets/img/user-1.png" class="rounded-circle" alt="userimg" /> <span
-                                    class="ml-1">Hello,
-                                    Kate</span>
+                                <span [attr.data-letters]="nameForAvatar">Hello, {{loggedInUserName}}</span>
                             </div>
                             <div class="user-dropdown">
                                 <ul>
@@ -210,8 +208,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <div class="user-footer"><a class="cursor-pointer"
-                                        (click)="logout()">Kijelentkezés</a>
+                                <div class="user-footer"><a class="cursor-pointer" (click)="logout()">Kijelentkezés</a>
                                 </div>
                             </div>
                         </div>
