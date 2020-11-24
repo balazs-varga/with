@@ -11,9 +11,10 @@ export class HeaderComponent implements OnInit {
 
   nameForAvatar = 'VB';
   loggedInUserName = 'Balázs';
+  isLocationPopupShow = false;
 
   constructor(
-    public auth: AuthenticationService,
+    public authService: AuthenticationService,
     private router: Router
   ) { }
 
@@ -21,8 +22,16 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.auth.logout().subscribe(() => {
+    this.authService.logout().subscribe(() => {
       this.router.navigateByUrl('/login');
     });
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isAllAuthInfoAvailable();
+  }
+
+  toggleLocationPopup(): void {
+    this.isLocationPopupShow = !this.isLocationPopupShow;
   }
 }
