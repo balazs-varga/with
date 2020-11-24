@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -9,10 +10,15 @@ import { AuthenticationService } from 'src/app/auth/auth.service';
 export class BasicLayoutComponent implements OnInit {
 
   constructor(
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+  }
+
+  isNotIndexPage(): boolean {
+    return this.router.url !== '/';
   }
 
   isLoggedIn(): boolean {

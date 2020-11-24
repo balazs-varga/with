@@ -1,82 +1,115 @@
-<footer class="section-padding bg-light-theme pt-0 u-line bg-black">
-    <div class="container-fluid pl-5 pr-5">
+<div class="footer-top section-padding bg-with">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-credit-card-1"></i></span>
+                    <span class="text-custom-white">Biztonságos<br>vásárlás</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-wallet-1"></i></span>
+                    <span class="text-custom-white">Egyszerű<br>és olcsó</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-help"></i></span>
+                    <span class="text-custom-white">Segítőkész<br>ügyfélszolgálat</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-truck"></i></span>
+                    <span class="text-custom-white">Gyors<br>kiszállítás</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-guarantee"></i></span>
+                    <span class="text-custom-white">Prémium<br>minőség</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-app-file-symbol"></i></span>
+                    <span class="text-custom-white">Átlátható<br>és gyors</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="section-padding bg-light-theme pt-0 u-line bg-black">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                 <div class="footer-contact">
-                    <h6 class="text-custom-white">Kapcsolat</h6>
+                    <h6 class="text-with">Segítségre van szüksége?</h6>
                     <ul>
-                        <li class="fw-600"><span class="text-light-white">Telefon: </span> <a href="tel:"
-                                class="text-custom-white">+(347) 123 456 789</a>
+                        <li class="fw-600"><span class="text-light-white">Telefon</span> <a href="tel:" class="text-with">+(00) 00 000 0000</a>
                         </li>
-                        <li class="fw-600"><span class="text-light-white">Email: </span> <a href="mailto:"
-                                class="text-custom-white">support@with.com</a>
+                        <li class="fw-600"><span class="text-light-white">E-mail</span> <a href="mailto:" class="text-with">info@with.hu</a>
+                        </li>
+                        <li class="fw-600"><span class="text-light-white">Facebook</span> <a href="#" class="text-with">@with_hu</a>
+                        </li>
+                        <li class="fw-600"><span class="text-light-white">Instagram</span> <a href="#" class="text-with">@with_hu</a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+            <ng-container *ngIf="isLoggedIn()">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                    <div class="footer-links">
+                        <h6 class="text-with">Az én fiókom:</h6>
+                        <ul>
+                            <li><a href="#" class="text-light-white fw-600">Fiók beállítások</a>
+                            </li>
+                            <li><a href="#" class="text-light-white fw-600">Összes rendelés</a>
+                            </li>
+                            <li><a href="#" class="text-light-white fw-600">Étterem keresés</a>
+                            </li>
+                            <li><a href="#" class="text-light-white fw-600">Rendelés követés</a>
+                            </li>
+                            <li><a href="#" class="text-light-white fw-600">Kijelentkezés</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                 <div class="footer-links">
-                    <h6 class="text-custom-white">Get to Know Us</h6>
+                    <h6 class="text-with">Dokumentumok</h6>
                     <ul>
-                        <li><a href="#" class="text-light-white fw-600">About Us</a>
+                        <li><a href="#" class="text-light-white fw-600">Általános Szerződési Feltételek</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Adatkezelési Tájékoztató</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Weboldal Felhasználási Feltételek</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Céginformáció</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Ügyfélszolgálat</a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
                 <div class="footer-links">
-                    <h6 class="text-custom-white">Let Us Help You</h6>
+                    <h6 class="text-with with-logo">With<span>Partner</span></h6>
                     <ul>
-                        <li><a href="#" class="text-light-white fw-600">Account Details</a>
+                        <li><a href="#" class="text-light-white fw-600">Jelentkezz WithPartner-nek<br/> éttermed regisztrálásával!</a>
                         </li>
-                        <li><a href="#" class="text-light-white fw-600">Order History</a>
-                        </li>
-                        <li><a href="#" class="text-light-white fw-600">Find restaurent</a>
-                        </li>
-                        <li><a href="#" class="text-light-white fw-600">Track order</a>
-                        </li>
-                        <li>
-                            <a routerLink="/login" class="text-light-white fw-600">Login</a>
+                        <li><a href="#" class="text-light-white fw-600">Mi az a <span class="with-logo-style with-color">With</span>?</a>
                         </li>
                     </ul>
-                </div>
-            </div>
-            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
-                <div class="footer-links">
-                    <h6 class="text-custom-white">Doing Business</h6>
-                    <ul>
-                        <li><a href="#" class="text-light-white fw-600">Suggest an Idea</a>
-                        </li>
-                        <li><a href="#" class="text-light-white fw-600">Be a Partner restaurent</a>
-                        </li>
-                        <li><a href="#" class="text-light-white fw-600">Create an Account</a>
-                        </li>
-                        <li><a href="#" class="text-light-white fw-600">Help</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
-                <div class="footer-contact">
-                    <h6 class="text-custom-white">Hírlevél feliratkozás</h6>
-                    <form class="subscribe_form">
-                        <div class="input-group">
-                            <input type="text" class="form-control form-control-submit" name="email"
-                                placeholder="Email" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-second" type="button"><i class="fas fa-paper-plane"></i></button>
-                            </span>
-                        </div>
-                    </form>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="ft-social-media">
-                    <h6 class="text-center text-custom-white">Kövess minket</h6>
+                    <h6 class="text-center text-with">Kövess minket</h6>
                     <ul>
-                        <li> <a href="https://www.facebook.com/with" target="_blank" rel="noopener noreferrer"><i
-                                    class="fab fa-facebook-f"></i></a>
+                        <li> <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </li>
+                        <li> <a href="#"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li> <a href="#"><i class="fab fa-instagram"></i></a>
+                        </li>
+                        <li> <a href="#"><i class="fab fa-youtube"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -84,13 +117,25 @@
         </div>
     </div>
 </footer>
-
 <div class="copyright bg-black">
-    <div class="container-fluid pl-5 pr-5">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-12 text-center">
-                <span class="text-light-white fs-14 mr-3">Minden jog fenntartva <i class="far fa-copyright"></i> With,
-                    {{ currentYear }}</span>
+            <div class="col-lg-4">
+                <div class="payment-logo mb-md-20"> <span class="text-light-white fs-14 mr-3">Mi elfogadjuk ezeket</span>
+                    <div class="payemt-icon">
+                        <img src="assets/img/card-front.jpg" alt="#">
+                        <img src="assets/img/visa.jpg" alt="#">
+                        <img src="assets/img/amex-card-front.png" alt="#">
+                        <img src="assets/img/mastercard.png" alt="#">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center medewithlove align-self-center">
+                
+            </div>
+            <div class="col-lg-4">
+                <div class="copyright-text"> <span class="text-with"><a target="_blank" href="https://with.hu"><span class="with-logo">With</span>.hu</a> </span>
+                </div>
             </div>
         </div>
     </div>

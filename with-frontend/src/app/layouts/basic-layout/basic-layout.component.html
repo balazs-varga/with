@@ -1,4 +1,4 @@
-<ng-container *ngIf="isLoggedIn()">
+<ng-container *ngIf="isNotIndexPage() || (isLoggedIn() && !isNotIndexPage())">
     <app-header></app-header>
 </ng-container>
 <div [ngClass]="{'logged-in-container': isLoggedIn()}">
