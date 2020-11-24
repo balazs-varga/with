@@ -5,6 +5,7 @@ import { RestaurantRoutingModule } from './restaurant.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RestaurantsComponent } from './restaurant-list/restaurants.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { RestaurantsComponent } from './restaurant-list/restaurants.component';
     ReactiveFormsModule
   ],
   declarations: [
-    RestaurantsComponent
+    RestaurantsComponent,
+    RestaurantComponent
   ]
 })
 export class RestaurantModule { }
