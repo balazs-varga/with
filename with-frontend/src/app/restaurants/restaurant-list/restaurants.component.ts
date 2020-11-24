@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RestaurantsCommunicationService } from '../restaurants.communication.service';
 
 @Component({
@@ -11,9 +12,13 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
   restaurants = [];
 
   constructor(
-    private restaurantsCommunicationService: RestaurantsCommunicationService
+    private restaurantsCommunicationService: RestaurantsCommunicationService,
+    private router: Router
   ) {
     this.restaurants = this.restaurantsCommunicationService.restaurants;
+    if (!this.restaurants) {
+      this.router.navigateByUrl('');
+    }
   }
 
   ngOnInit(): void {
@@ -22,5 +27,4 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.restaurantsCommunicationService.restaurants = [];
   }
-
 }
