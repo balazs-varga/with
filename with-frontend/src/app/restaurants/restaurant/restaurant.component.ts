@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -9,12 +10,15 @@ import { AuthenticationService } from 'src/app/auth/auth.service';
 export class RestaurantComponent implements OnInit {
 
   isPizzaCreatorShow = false;
+  restaurant = null;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     public authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
+    this.subscribeToRouteParams();
   }
 
   toggleShowPizzaCreator(): void {
@@ -23,5 +27,9 @@ export class RestaurantComponent implements OnInit {
 
   isLoggedIn(): boolean {
     return this.authService.isAllAuthInfoAvailable();
+  }
+
+  private subscribeToRouteParams(): void {
+    this.restaurant = this.activatedRoute.snapshot.data.restaurant;
   }
 }
