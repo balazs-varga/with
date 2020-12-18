@@ -8,15 +8,31 @@
             <div class="col-md-12">
                 <div class="heading padding-tb-10">
                     <h3 class="text-light-black title fw-700 no-margin">{{restaurant.restaurantname}}</h3>
-                    <p class="text-light-black sub-title no-margin"><span class="r_info"><i
-                                class="far fa-check-circle"></i> Online fizetés </span><span class="r_info"><i
-                                class="not far fa-times-circle"></i> Készpénzes fizetés </span><span class="r_info"><i
-                                class="not far fa-times-circle"></i> Bankkártyás fizetés </span>
+                    <p class="text-light-black sub-title no-margin">
+                        <span class="r_info">
+                            <i class="far"
+                                [ngClass]="{'fa-check-circle': restaurant.isonlinepayment, 'fa-times-circle not': !restaurant.isonlinepayment}"></i>
+                            Online fizetés
+                        </span>
+                        <span class="r_info"><i class="far"
+                                [ngClass]="{'fa-check-circle': restaurant.iscash, 'fa-times-circle not': !restaurant.iscash}"></i>
+                            Készpénzes fizetés </span>
+                        <span class="r_info"><i class="far"
+                                [ngClass]="{'fa-check-circle': restaurant.isbankcard, 'fa-times-circle not': !restaurant.isbankcard}"></i>
+                            Bankkártyás fizetés </span>
+                        <span class="r_info">
+                            <i class="far"
+                                [ngClass]="{'fa-check-circle': restaurant.isszepcard, 'fa-times-circle not': !restaurant.isszepcard}"></i>
+                            Szép kártya
+                        </span>
                     </p>
-                    <p class="text-light-black sub-title no-margin"><span class="r_info"><i
-                                class="far fa-check-circle"></i> Házhozszállítás </span> <span class="r_info"><i
-                                class="not far fa-times-circle"></i> Helyszíni átvétel </span> <span class="r_info"><i
-                                class="not far fa-times-circle"></i> Asztalfoglalás </span>
+                    <p class="text-light-black sub-title no-margin"><span class="r_info"><i class="far"
+                                [ngClass]="{'fa-check-circle': restaurant.isdeliveryavailable, 'fa-times-circle not': !restaurant.isdeliveryavailable}"></i>
+                            Házhozszállítás </span> <span class="r_info"><i class="far"
+                                [ngClass]="{'fa-check-circle': restaurant.ispickupavailable, 'fa-times-circle not': !restaurant.ispickupavailable}"></i>
+                            Helyszíni átvétel </span> <span class="r_info"><i class="far"
+                                [ngClass]="{'fa-check-circle': restaurant.istablereservationavailable, 'fa-times-circle not': !restaurant.istablereservationavailable}"></i>
+                            Asztalfoglalás </span>
                     </p>
                 </div>
                 <div *ngIf="restaurant.logo" class="restaurent-logo">
@@ -81,8 +97,10 @@
                 <div class="col-md-6">
                     <div class="restaurent-schdule">
                         <div class="card">
-                            <div class="card-header text-light-white fw-700 fs-16">Nyitvatartás<span
-                                    class="opening">Nyitva</span></div>
+                            <div class="card-header text-light-white fw-700 fs-16">Nyitvatartás
+                                <span *ngIf="restaurant.isrestaurantopenfororders" class="opening">Nyitva</span>
+                                <span *ngIf="!restaurant.isrestaurantopenfororders" class="opening">Zárva</span>
+                            </div>
                             <div class="card-body">
                                 <div class="schedule-box">
                                     <div class="day text-light-black">Hétfő</div>
