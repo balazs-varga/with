@@ -1,3 +1,7 @@
+<ng-container *ngIf="isLoading">
+    <app-loading-spinner></app-loading-spinner>
+</ng-container>
+
 <div class="page-banner p-relative smoothscroll">
     <img src="{{restaurant.banner}}" class="img-fluid full-width" alt="banner">
 </div>
@@ -263,10 +267,11 @@
                         <div class="card res-categories">
                             <ng-container *ngIf="restaurant.categories && restaurant.categories.length > 0">
                                 <div class="card-header padding-15 fw-700 categories-header">Kategóriák</div>
-                                <ng-container *ngFor="let category of restaurant.categories">
+                                <ng-container *ngFor="let category of restaurant.categories; let i = index">
                                     <nav
                                         class="nav flex-column pink lighten-3 py-4 mb-r font-weight-bold z-depth-1 categories-nav">
-                                        <a class="nav-link active white-text" href="#">{{category.category}}</a>
+                                        <a class="nav-link active white-text" pageScroll
+                                            href="#category-{{i}}">{{category.category}}</a>
                                         <!-- <a class="nav-link white-text" href="#">{{category.category}}</a> -->
                                     </nav>
                                 </ng-container>
@@ -817,365 +822,92 @@
                             </div>
                         </ng-container>
 
-
-
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="section-header-left">
-                                    <h3 class="text-light-black header-title">
-                                        <a class="card-link text-light-black no-margin" data-toggle="collapse"
-                                            href="#collapseOne">Legkedveltebb termékek</a>
-                                    </h3>
-                                </div>
-                            </div>
-                            <div id="collapseOne" class="collapse show">
-                                <div class="card-body no-padding">
-                                    <div class="row">
-
-                                        <div class="col-lg-12">
-                                            <div class="with-product" data-toggle="modal"
-                                                data-target="#restaurent-popup">
-                                                <div class="row with-nomargin">
-                                                    <div class="col-lg-3 col-md-12 with-nopadding">
-                                                        <div class="with-product-img"
-                                                            style="background-image: url('http://admin.with.hu/images/menus/with.hu_ff240a9fb1573ad1f0e43971941a25e7.jpg');">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-9 col-md-12 with-product-info">
-                                                        <div class="with-product-info-top">
-                                                            <h6 class="with-product-title">Étel neve <span
-                                                                    class="with-product-tag-menu">Menü</span> <span
-                                                                    class="with-product-price">1.990Ft</span></h6>
-                                                            <div class="with-product-description-box">
-                                                                <p class="with-product-description">Étel
-                                                                    leírása<br />második sor ...</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="with-product-icons">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/allergicfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/fatfree.png">
-
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                    class="fas fa-cart-plus"></i></a>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <div class="with-product" data-toggle="modal"
-                                                data-target="#restaurent-popup">
-                                                <div class="row with-nomargin">
-                                                    <div class="col-lg-3 col-md-12 with-nopadding">
-                                                        <div class="with-product-img"
-                                                            style="background-image: url('http://admin.with.hu/images/drinks/with.hu_68b29a21670cf3888974e30145ba0adf.jpg');">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-9 col-md-12 with-product-info">
-                                                        <div class="with-product-info-top">
-                                                            <h6 class="with-product-title">Étel neve <span
-                                                                    class="with-product-price">690Ft</span></h6>
-                                                            <div class="with-product-description-box">
-                                                                <p class="with-product-description">Étel
-                                                                    leírása<br />második sor ...</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="with-product-icons">
-
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                    class="fas fa-cart-plus"></i></a>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <div class="with-product" data-toggle="modal"
-                                                data-target="#restaurent-popup">
-                                                <div class="row with-nomargin">
-                                                    <div class="col-lg-3 col-md-12 with-nopadding">
-                                                        <div class="with-product-img"
-                                                            style="background-image: url('http://admin.with.hu/images/meals/with.hu_28adb3c7888bf58a16ed1e45feaffbc6.jpg');">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-9 col-md-12 with-product-info">
-                                                        <div class="with-product-info-top">
-                                                            <h6 class="with-product-title">Étel neve <span
-                                                                    class="with-product-price">1.390Ft</span></h6>
-                                                            <div class="with-product-description-box">
-                                                                <p class="with-product-description"></p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="with-product-icons">
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                    class="fas fa-cart-plus"></i></a>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <div class="with-product with-product-sale" data-toggle="modal"
-                                                data-target="#restaurent-popup">
-                                                <div class="row with-nomargin">
-                                                    <div class="col-lg-3 col-md-12 with-nopadding">
-                                                        <div class="with-product-img"
-                                                            style="background-image: url('http://admin.with.hu/images/meals/with.hu_9c8a1c510ec0524700cc0968ec2a08b9.jpg');">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-9 col-md-12 with-product-info">
-                                                        <div class="with-product-info-top">
-                                                            <h6 class="with-product-title">Étel neve <span
-                                                                    class="with-product-tag-sale">Akció</span> <span
-                                                                    class="with-product-price"><span
-                                                                        class="with-product-old-price">1.190Ft</span>
-                                                                    990Ft</span></h6>
-                                                            <div class="with-product-description-box">
-                                                                <p class="with-product-description">Étel
-                                                                    leírása<br />második sor ...</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="with-product-icons">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/glutenfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/sugarfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/allergicfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/fatfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/lactosefree.png">
-
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                    class="fas fa-cart-plus"></i></a>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <div class="with-product with-product-sale" data-toggle="modal"
-                                                data-target="#restaurent-popup">
-                                                <div class="row with-nomargin">
-                                                    <div class="col-lg-3 col-md-12 with-nopadding">
-                                                        <div class="with-product-img">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-9 col-md-12 with-product-info">
-                                                        <div class="with-product-info-top">
-                                                            <h6 class="with-product-title">Étel neve <span
-                                                                    class="with-product-tag-menu">Menü</span> <span
-                                                                    class="with-product-tag-sale">Akció</span> <span
-                                                                    class="with-product-price"><span
-                                                                        class="with-product-old-price">1.990Ft</span>
-                                                                    1.690Ft</span></h6>
-                                                            <div class="with-product-description-box">
-                                                                <p class="with-product-description">Étel
-                                                                    leírása<br />második sor ...</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="with-product-icons">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/vegan.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/vegetarian.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/glutenfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/sugarfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/allergicfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/fatfree.png">
-                                                            <img class="with-product-icon"
-                                                                src="assets/img/icons/lactosefree.png">
-
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                            <a href="javascript:void(0)"
-                                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                    class="fas fa-cart-plus"></i></a>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <a href="javascript:void(0)"
-                                                class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn">További
-                                                termékek megjelenítése</a>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <ng-container *ngIf="restaurant.categories && restaurant.categories.length > 0">
-                            <ng-container *ngFor="let category of restaurant.categories">
-                                <div class="card">
+                        <ng-container *ngIf="this.restaurant.categories.length > 0">
+                            <ng-container
+                                *ngFor="let category of productsByCategory | keyvalue: keyAscOrder; let i = index">
+                                <div id="category-{{i}}" class="card">
                                     <div class="card-header">
                                         <div class="section-header-left">
                                             <h3 class="text-light-black header-title">
                                                 <a class="card-link text-light-black no-margin" data-toggle="collapse"
-                                                    href="#categoryname">{{category.category}}</a>
+                                                    href="#category-products-{{i}}">{{category.key.category}}</a>
                                             </h3>
                                         </div>
                                     </div>
-                                    <div id="categoryname" class="collapse">
+                                    <div id="category-products-{{i}}" class="collapse show">
                                         <div class="card-body no-padding">
                                             <div class="row">
-
-                                                <div class="col-lg-12">
-                                                    <div class="with-product" data-toggle="modal"
-                                                        data-target="#restaurent-popup">
-                                                        <div class="row with-nomargin">
-                                                            <div class="col-lg-3 col-md-12 with-nopadding">
-                                                                <div class="with-product-img"
-                                                                    style="background-image: url('http://admin.with.hu/images/menus/with.hu_ff240a9fb1573ad1f0e43971941a25e7.jpg');">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-9 col-md-12 with-product-info">
-                                                                <div class="with-product-info-top">
-                                                                    <h6 class="with-product-title">Étel neve <span
-                                                                            class="with-product-tag-menu">Menü</span>
-                                                                        <span class="with-product-price">1.990Ft</span>
-                                                                    </h6>
-                                                                    <div class="with-product-description-box">
-                                                                        <p class="with-product-description">Étel
-                                                                            leírása<br />második sor ...</p>
+                                                <ng-container *ngFor="let product of category.value; let j = index">
+                                                    <div class="col-lg-12">
+                                                        <div (click)="openModal(product)" class="with-product"
+                                                            data-toggle="modal" data-target="#restaurent-popup">
+                                                            <div class="row with-nomargin">
+                                                                <div class="col-lg-3 col-md-12 with-nopadding">
+                                                                    <div class="with-product-img"
+                                                                        style="background-image: url({{product.image}})">
                                                                     </div>
                                                                 </div>
-                                                                <div class="with-product-icons">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/allergicfree.png">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/fatfree.png">
+                                                                <div class="col-lg-9 col-md-12 with-product-info">
+                                                                    <div class="with-product-info-top">
+                                                                        <h6 class="with-product-title">{{product.name}}
+                                                                            <span *ngIf="product.type === 'menu'"
+                                                                                class="with-product-tag-menu">Menü</span>
+                                                                            <ng-container *ngIf="product.is_sale">
+                                                                                <span
+                                                                                    class="with-product-tag-sale">Akció</span>
+                                                                                <span class="with-product-price"><span
+                                                                                        class="with-product-old-price">{{product.old_price}}Ft</span>
+                                                                                    {{product.price
+                                                                                    | number:'1.0-0'}}Ft</span>
+                                                                            </ng-container>
+                                                                            <ng-container *ngIf="!product.is_sale">
+                                                                                <span
+                                                                                    class="with-product-price">{{product.price
+                                                                                    | number:'1.0-0'}}Ft</span>
+                                                                            </ng-container>
+                                                                        </h6>
+                                                                        <div class="with-product-description-box">
+                                                                            <p class="with-product-description">
+                                                                                {{product.description}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="with-product-icons">
+                                                                        <img *ngIf="product.is_allergenicfree"
+                                                                            class="with-product-icon"
+                                                                            src="assets/img/icons/allergicfree.png">
+                                                                        <img *ngIf="product.is_fatfree"
+                                                                            class="with-product-icon"
+                                                                            src="assets/img/icons/fatfree.png">
+                                                                        <img *ngIf="product.is_vegan"
+                                                                            class="with-product-icon"
+                                                                            src="assets/img/icons/vegan.png">
+                                                                        <img *ngIf="product.is_vegetarian"
+                                                                            class="with-product-icon"
+                                                                            src="assets/img/icons/vegetarian.png">
+                                                                        <img *ngIf="product.is_glutenfree"
+                                                                            class="with-product-icon"
+                                                                            src="assets/img/icons/glutenfree.png">
+                                                                        <img *ngIf="product.is_sugarfree"
+                                                                            class="with-product-icon"
+                                                                            src="assets/img/icons/sugarfree.png">
+                                                                        <img *ngIf="product.is_lactosefree"
+                                                                            class="with-product-icon"
+                                                                            src="assets/img/icons/lactosefree.png">
+                                                                        <img *ngIf="product.is_alcoholfree"
+                                                                            class="with-product-icon"
+                                                                            src="assets/img/icons/alcoholfree.png">
 
-                                                                    <a href="javascript:void(0)"
-                                                                        class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                                    <a href="javascript:void(0)"
-                                                                        class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                            class="fas fa-cart-plus"></i></a>
+                                                                        <a href="javascript:void(0)"
+                                                                            class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
+                                                                        <a href="javascript:void(0)"
+                                                                            class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
+                                                                                class="fas fa-cart-plus"></i></a>
+                                                                    </div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="with-product" data-toggle="modal"
-                                                        data-target="#restaurent-popup">
-                                                        <div class="row with-nomargin">
-                                                            <div class="col-lg-3 col-md-12 with-nopadding">
-                                                                <div class="with-product-img"
-                                                                    style="background-image: url('http://admin.with.hu/images/drinks/with.hu_68b29a21670cf3888974e30145ba0adf.jpg');">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-9 col-md-12 with-product-info">
-                                                                <div class="with-product-info-top">
-                                                                    <h6 class="with-product-title">Étel neve <span
-                                                                            class="with-product-price">690Ft</span></h6>
-                                                                    <div class="with-product-description-box">
-                                                                        <p class="with-product-description">Étel
-                                                                            leírása<br />második sor ...</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="with-product-icons">
-
-                                                                    <a href="javascript:void(0)"
-                                                                        class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                                    <a href="javascript:void(0)"
-                                                                        class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                            class="fas fa-cart-plus"></i></a>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="with-product with-product-sale" data-toggle="modal"
-                                                        data-target="#restaurent-popup">
-                                                        <div class="row with-nomargin">
-                                                            <div class="col-lg-3 col-md-12 with-nopadding">
-                                                                <div class="with-product-img" style="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-9 col-md-12 with-product-info">
-                                                                <div class="with-product-info-top">
-                                                                    <h6 class="with-product-title">Étel neve <span
-                                                                            class="with-product-tag-menu">Menü</span>
-                                                                        <span class="with-product-tag-sale">Akció</span>
-                                                                        <span class="with-product-price"><span
-                                                                                class="with-product-old-price">1.990Ft</span>
-                                                                            1.690Ft</span></h6>
-                                                                    <div class="with-product-description-box">
-                                                                        <p class="with-product-description">Étel
-                                                                            leírása<br />második sor ...</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="with-product-icons">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/vegan.png">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/vegetarian.png">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/glutenfree.png">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/sugarfree.png">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/allergicfree.png">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/fatfree.png">
-                                                                    <img class="with-product-icon"
-                                                                        src="assets/img/icons/lactosefree.png">
-
-                                                                    <a href="javascript:void(0)"
-                                                                        class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                                    <a href="javascript:void(0)"
-                                                                        class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                            class="fas fa-cart-plus"></i></a>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <a href="javascript:void(0)"
-                                                        class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn">További
-                                                        termékek megjelenítése</a>
-                                                </div>
-
+                                                </ng-container>
                                             </div>
                                         </div>
                                     </div>
@@ -1326,43 +1058,57 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <img src="http://admin.with.hu/images/menus/with.hu_ff240a9fb1573ad1f0e43971941a25e7.jpg"
-                    class="img-fluid full-width" alt="#">
+                <img src="{{selectedProduct?.image}}" class="img-fluid full-width" alt="product-image">
             </div>
             <div class="modal-body">
                 <div class="name padding-10">
-                    <h3 class="text-light-black fw-700 mb-2">Étel neve <span class="with-product-tag-sale">Akció</span>
+                    <h3 class="text-light-black fw-700 mb-2">{{selectedProduct?.name}}
+                        <span *ngIf="selectedProduct?.is_sale" class="with-product-tag-sale">Akció</span>
                     </h3>
-                    <h5 class="text-light-black fw-600 no-margin"><span class="with-product-old-price">1.190Ft</span>
-                        890Ft</h5>
+                    <ng-container *ngIf="selectedProduct?.is_sale">
+                        <h5 class="text-light-black fw-600 no-margin"><span
+                                class="with-product-old-price">{{selectedProduct.old_price}}Ft</span>
+                            {{selectedProduct?.price | number:'1.0-0'}}Ft</h5>
+                    </ng-container>
+                    <ng-container *ngIf="!selectedProduct?.is_sale">
+                        <h5 class="text-light-black fw-600 no-margin">
+                            {{selectedProduct?.price | number:'1.0-0'}}Ft</h5>
+                    </ng-container>
                 </div>
                 <div class="padding-10 no-top-bottom-padding">
-                    <p class="text-light-black with-product-margin"><span class="with-product-tag-menu">Menü</span>
-                        Ehhez az ételhez előfordulhat, hogy köretet és italt is választani kell.</p>
-                    <p class="text-light-black with-product-margin"><b>Leírás: </b>Lorem Ipsum is simply dummy text of
-                        the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text
-                        ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-                        type specimen book. It has survived not only five centuries</p>
-                    <p class="text-light-black with-product-margin"><b>Kalória tartalom: </b>körülbelül 600-800 Kalória
+                    <p *ngIf="selectedProduct?.type === 'menu'" class="text-light-black with-product-margin">
+                        <span class="with-product-tag-menu">Menü</span>
+                        Ehhez az ételhez előfordulhat, hogy köretet és italt is választani kell.
+                    </p>
+                    <p class="text-light-black with-product-margin"><b>Leírás: </b>{{selectedProduct?.description}}</p>
+                    <p *ngIf="selectedProduct?.calorie" class="text-light-black with-product-margin"><b>Kalória
+                            tartalom: </b>körülbelül {{selectedProduct?.calorie}} Kalória
                     </p>
                     <div class="with-product-icons-detail">
-                        <div class="with-product-icon-detail"><img class="with-product-icon"
-                                src="assets/img/icons/vegan.png"> Vegán termék</div>
-                        <div class="with-product-icon-detail"><img class="with-product-icon"
-                                src="assets/img/icons/vegetarian.png"> Vegetáriánius termék</div>
-                        <div class="with-product-icon-detail"><img class="with-product-icon"
-                                src="assets/img/icons/glutenfree.png"> Glutén mentes termék</div>
-                        <div class="with-product-icon-detail"><img class="with-product-icon"
-                                src="assets/img/icons/sugarfree.png"> Cukor mentes termék</div>
-                        <div class="with-product-icon-detail"><img class="with-product-icon"
-                                src="assets/img/icons/allergicfree.png"> Ez a termék nem tartalmaz allergén anyagokat
+                        <div *ngIf="selectedProduct?.is_vegan" class="with-product-icon-detail"><img
+                                class="with-product-icon" src="assets/img/icons/vegan.png"> Vegán termék</div>
+                        <div *ngIf="selectedProduct?.is_vegetarian" class="with-product-icon-detail"><img
+                                class="with-product-icon" src="assets/img/icons/vegetarian.png"> Vegetáriánius termék
                         </div>
-                        <div class="with-product-icon-detail"><img class="with-product-icon"
-                                src="assets/img/icons/fatfree.png"> Ez a termék nem tartalmaz hozzá adott zsírt</div>
-                        <div class="with-product-icon-detail"><img class="with-product-icon"
-                                src="assets/img/icons/lactosefree.png"> Laktóz mentes termék</div>
-                        <div class="with-product-icon-detail"><img class="with-product-icon"
-                                src="assets/img/icons/alcoholfree.png"> Alkohol mentes termék</div>
+                        <div *ngIf="selectedProduct?.is_glutenfree" class="with-product-icon-detail"><img
+                                class="with-product-icon" src="assets/img/icons/glutenfree.png"> Glutén mentes termék
+                        </div>
+                        <div *ngIf="selectedProduct?.is_sugarfree" class="with-product-icon-detail"><img
+                                class="with-product-icon" src="assets/img/icons/sugarfree.png"> Cukor mentes termék
+                        </div>
+                        <div *ngIf="selectedProduct?.is_allergenicfree" class="with-product-icon-detail"><img
+                                class="with-product-icon" src="assets/img/icons/allergicfree.png"> Ez a termék nem
+                            tartalmaz allergén anyagokat
+                        </div>
+                        <div *ngIf="selectedProduct?.is_fatfree" class="with-product-icon-detail"><img
+                                class="with-product-icon" src="assets/img/icons/fatfree.png"> Ez a termék nem tartalmaz
+                            hozzá adott zsírt</div>
+                        <div *ngIf="selectedProduct?.is_lactosefree" class="with-product-icon-detail"><img
+                                class="with-product-icon" src="assets/img/icons/lactosefree.png"> Laktóz mentes termék
+                        </div>
+                        <div *ngIf="selectedProduct?.is_alcoholfree" class="with-product-icon-detail"><img
+                                class="with-product-icon" src="assets/img/icons/alcoholfree.png"> Alkohol mentes termék
+                        </div>
                     </div>
                 </div>
                 <div class="u-line">
@@ -1395,43 +1141,28 @@
                         </div>
                         <div id="additionalOne" class="collapse">
                             <div class="card-body">
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="radio" name="example100"
-                                        id="example100" value="2">
-                                    <img src="http://admin.with.hu/images/sides/with.hu_158df6c8ec17dc91982c1d4e7111d2e9.jpg"
-                                        alt="Köret neve és mérete">
-                                    <label class="form-check-label" for="example100">
-                                        Köret neve
-                                    </label>
-                                    <label class="price extra-input-price" for="example100">1.299ft</label>
-                                </div>
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="radio" name="example300"
-                                        id="example300" value="2">
-                                    <img src="http://admin.with.hu/images/sides/with.hu_158df6c8ec17dc91982c1d4e7111d2e9.jpg"
-                                        alt="Köret neve és mérete">
-                                    <label class="form-check-label" for="example300">
-                                        Köret neve
-                                    </label>
-                                    <label class="price extra-input-price" for="example300">1.299ft</label>
-                                </div>
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="radio" name="example200"
-                                        id="example200" value="2">
-                                    <img src="http://admin.with.hu/images/drinks/with.hu_66677b7331dc06bb5797736f85392a2e.jpg"
-                                        alt="Köret neve és mérete">
-                                    <label class="form-check-label" for="example200">
-                                        Rizs
-                                    </label>
-                                    <label class="price extra-input-price" for="example200">Ingyenes</label>
-                                </div>
+                                <ng-container *ngIf="selectedProduct?.sides.length > 0; else noSides">
+                                    <ng-container *ngFor="let side of selectedProduct?.sides; let i = index">
+                                        <div class="form-check with-check">
+                                            <input class="form-check-input extra-input" type="radio" name="side-{{i}}"
+                                                id="side-{{i}}" value="2">
+                                            <img src="{{side.image}}" alt="{{side.name}}">
+                                            <label class="form-check-label" for="side-{{i}}">
+                                                {{side.name}}
+                                            </label>
+                                            <label *ngIf="!side.price == '0'" class="price extra-input-price"
+                                                for="side-{{i}}">{{side.price}}Ft</label>
+                                            <label *ngIf="side.price == '0'" class="price extra-input-price"
+                                                for="side-{{i}}">Ingyenes</label>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #noSides>
+                                    <p>Nincs kiválasztható köret</p>
+                                </ng-template>
                             </div>
                         </div>
                     </div>
-
 
                     <div class="card">
                         <div class="card-header">
@@ -1445,40 +1176,25 @@
                         </div>
                         <div id="additionalTwo" class="collapse">
                             <div class="card-body">
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="radio" name="example1"
-                                        id="example1" value="2">
-                                    <img src="http://admin.with.hu/images/sides/with.hu_158df6c8ec17dc91982c1d4e7111d2e9.jpg"
-                                        alt="Ital neve és mérete">
-                                    <label class="form-check-label" for="example1">
-                                        Ital neve és mérete
-                                    </label>
-                                    <label class="price extra-input-price" for="example1">1.299ft</label>
-                                </div>
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="radio" name="example3"
-                                        id="example3" value="2">
-                                    <img src="http://admin.with.hu/images/sides/with.hu_158df6c8ec17dc91982c1d4e7111d2e9.jpg"
-                                        alt="Ital neve és mérete">
-                                    <label class="form-check-label" for="example3">
-                                        Ital neve és mérete
-                                    </label>
-                                    <label class="price extra-input-price" for="example3">1.299ft</label>
-                                </div>
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="radio" name="example2"
-                                        id="example2" value="2">
-                                    <img src="http://admin.with.hu/images/drinks/with.hu_66677b7331dc06bb5797736f85392a2e.jpg"
-                                        alt="Ital neve és mérete">
-                                    <label class="form-check-label" for="example2">
-                                        CocaCola 0,25l
-                                    </label>
-                                    <label class="price extra-input-price" for="example2">Ingyenes</label>
-                                </div>
-
+                                <ng-container *ngIf="selectedProduct?.drinks.length > 0; else noDrinks">
+                                    <ng-container *ngFor="let drink of selectedProduct?.drinks; let i = index">
+                                        <div class="form-check with-check">
+                                            <input class="form-check-input extra-input" type="radio" name="drink-{{i}}"
+                                                id="drink-{{i}}" value="2">
+                                            <img src="{{drink.image}}" alt="{{drink.image}}">
+                                            <label class="form-check-label" for="drink-{{i}}">
+                                                {{drink.name}}
+                                            </label>
+                                            <label *ngIf="!drink.price == '0'" class="price extra-input-price"
+                                                for="drink-{{i}}">{{drink.price}}Ft</label>
+                                            <label *ngIf="drink.price == '0'" class="price extra-input-price"
+                                                for="drink-{{i}}">Ingyenes</label>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #noDrinks>
+                                    <p>Nincs kiválasztható ital</p>
+                                </ng-template>
                             </div>
                         </div>
                     </div>
@@ -1489,52 +1205,36 @@
                             <h5 class="no-margin">
                                 <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
                                     href="#additionalThree">
-                                    <span>Válasszon extrát <span
-                                            class="text-light-white fw-500 fs-12 padding-tb-10">Maximum X extra
+                                    <span>Válasszon extrát <span *ngIf="selectedProduct?.extralimit"
+                                            class="text-light-white fw-500 fs-12 padding-tb-10">Maximum
+                                            {{selectedProduct?.extralimit}} extra
                                             választható.</span></span>
                                 </a>
                             </h5>
                         </div>
                         <div id="additionalThree" class="collapse">
                             <div class="card-body">
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="checkbox" name="example10"
-                                        id="example10" value="2">
-                                    <img src="http://admin.with.hu/images/sides/with.hu_158df6c8ec17dc91982c1d4e7111d2e9.jpg"
-                                        alt="Extra neve">
-                                    <label class="form-check-label" for="example10">
-                                        Extra neve
-                                    </label>
-                                    <label class="price extra-input-price" for="example10">1.299ft</label>
-                                </div>
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="checkbox" name="example30"
-                                        id="example30" value="2">
-                                    <img src="http://admin.with.hu/images/sides/with.hu_158df6c8ec17dc91982c1d4e7111d2e9.jpg"
-                                        alt="Extra neve">
-                                    <label class="form-check-label" for="example30">
-                                        Extra neve
-                                    </label>
-                                    <label class="price extra-input-price" for="example30">1.299ft</label>
-                                </div>
-
-                                <div class="form-check with-check">
-                                    <input class="form-check-input extra-input" type="checkbox" name="example20"
-                                        id="example20" value="2">
-                                    <img src="http://admin.with.hu/images/drinks/with.hu_66677b7331dc06bb5797736f85392a2e.jpg"
-                                        alt="Extra neve">
-                                    <label class="form-check-label" for="example20">
-                                        Extra neve
-                                    </label>
-                                    <label class="price extra-input-price" for="example20">Ingyenes</label>
-                                </div>
-
+                                <ng-container *ngIf="selectedProduct?.extras.length > 0; else noExtra">
+                                    <ng-container *ngFor="let extra of selectedProduct?.extras; let i = index">
+                                        <div class="form-check with-check">
+                                            <input class="form-check-input extra-input" type="checkbox"
+                                                name="extra-{{i}}" id="extra-{{i}}" value="2">
+                                            <label class="form-check-label" for="extra-{{i}}">
+                                                {{extra.name}}
+                                            </label>
+                                            <label *ngIf="!extra.price == '0'" class="price extra-input-price"
+                                                for="extra-{{i}}">{{extra.price}}Ft</label>
+                                            <label *ngIf="extra.price == '0'" class="price extra-input-price"
+                                                for="extra-{{i}}">Ingyenes</label>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #noExtra>
+                                    <p>Nincs kiválasztható extra</p>
+                                </ng-template>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- sub product -->
             </div>
