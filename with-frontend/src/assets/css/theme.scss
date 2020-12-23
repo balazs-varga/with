@@ -2755,7 +2755,7 @@ footer .footer-links .appimg {
 }
 .sidebar .cart-detail-box>.card .card-body .cat-product-box .cat-product .cat-name {
     font-size: 10px;
-    white-space: nowrap;
+    white-space: inherit;
     text-overflow: ellipsis;
     overflow: hidden;
 }

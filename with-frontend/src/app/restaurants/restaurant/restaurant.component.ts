@@ -1,10 +1,11 @@
 import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
+import { LocationService } from 'src/app/shared/location.service';
 
 @Component({
   selector: 'app-restaurant',
@@ -24,7 +25,8 @@ export class RestaurantComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private sanitizer: DomSanitizer,
     private http: HttpClient,
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    public locationService: LocationService
   ) { }
 
   ngOnInit(): void {
