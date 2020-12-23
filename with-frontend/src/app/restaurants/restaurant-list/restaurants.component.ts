@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LocationService } from 'src/app/shared/location.service';
 import { RestaurantsCommunicationService } from '../restaurants.communication.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
 
   constructor(
     private restaurantsCommunicationService: RestaurantsCommunicationService,
-    private router: Router
+    private router: Router,
+    public locationService: LocationService
   ) {
     this.restaurants = this.restaurantsCommunicationService.restaurants;
     if (!this.restaurants) {
@@ -26,5 +28,6 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.restaurantsCommunicationService.restaurants = [];
+    this.locationService.changeIsLocationSelectorOpen(false);
   }
 }

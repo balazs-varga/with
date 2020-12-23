@@ -1,6 +1,6 @@
 import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/auth.service';
@@ -12,7 +12,7 @@ import { LocationService } from 'src/app/shared/location.service';
   templateUrl: './restaurant.component.html',
   styleUrls: ['./restaurant.component.scss']
 })
-export class RestaurantComponent implements OnInit {
+export class RestaurantComponent implements OnInit, OnDestroy {
 
   isPizzaCreatorShow = false;
   restaurant = null;
@@ -31,6 +31,10 @@ export class RestaurantComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToRouteParams();
+  }
+
+  ngOnDestroy(): void {
+    this.locationService.changeIsLocationSelectorOpen(false);
   }
 
   toggleShowPizzaCreator(): void {
