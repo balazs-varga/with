@@ -246,11 +246,19 @@
                                     Ft</span>
                             </div>
                         </div>
-                        <div class="change-address"> <a href="checkout.html" class="fw-500">Módosítás</a>
+                        <div class="change-address"> <a class="fw-500">Módosítás</a>
                         </div>
                     </div>
-                    <p class="text-light-white no-margin"><i class="fas fa-map-marker-alt"></i> Házhozszállítás ezen
-                        belül: <a href="checkout.html" class="fw-500">2000 Szentendre</a></p>
+                    <p class="text-light-white no-margin addresses"><i class="fas fa-map-marker-alt"></i>
+                        Házhozszállítás ezen
+                        belül:
+                        <ng-container *ngFor="let zip of restaurant?.zipcodes; let last = last">
+                            <a class="fw-500">{{zip?.zipcode}} {{zip?.city}}</a>
+                            <ng-container *ngIf="!last">
+                                <span class="mr-2">,</span>
+                            </ng-container>
+                        </ng-container>
+                    </p>
                 </div>
             </div>
         </div>
