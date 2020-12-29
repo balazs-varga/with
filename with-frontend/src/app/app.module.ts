@@ -24,7 +24,7 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'with-frontend' }),
-    RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'}),
+    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', relativeLinkResolution: 'legacy' }),
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
