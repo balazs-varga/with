@@ -1251,7 +1251,10 @@
                 <!-- sub product -->
             </div>
             <div class="modal-footer padding-10">
-                <button class="btn-second with-btn btn-submit">Kosárba : 1.910Ft</button>
+                <button class="btn-second with-btn btn-submit" [disabled]="!isLoggedIn()">Kosárba : 1.910Ft</button>
+                <ng-container *ngIf="!isLoggedIn()">
+                    <p class="with-alert ">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
+                </ng-container>
             </div>
         </div>
     </div>
