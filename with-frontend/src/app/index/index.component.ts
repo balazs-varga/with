@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../auth/auth.service';
 import { RestaurantsCommunicationService } from 'src/app/restaurants/restaurants.communication.service';
@@ -49,18 +48,9 @@ export class IndexComponent implements OnInit {
     return this.authService.isAllAuthInfoAvailable();
   }
 
-  searchByZip(): Subscription {
-    this.isLoading = true;
+  searchByZip() {
     this.currentPositionErrorMessage = '';
-    return this.http.get<any>(`${environment.apiUrl}/restaurants/near/zip/` + this.searchForm.get('search').value).subscribe(
-      (resp) => {
-        this.isLoading = false;
-        this.restaurantsCommunicationService.restaurants = resp;
-        this.router.navigateByUrl('/restaurants');
-      }, (error) => {
-        this.isLoading = false;
-      }
-    );
+    this.router.navigateByUrl('/restaurants?zip=' + this.searchForm.get('search').value);
   }
 
   searchByLocation(): void {
@@ -69,7 +59,7 @@ export class IndexComponent implements OnInit {
         (resp) => {
           this.restaurantsCommunicationService.restaurants = resp;
           this.isLoading = false;
-          this.router.navigateByUrl('/restaurants');
+          this.router.navigate(['/restaurants']);
         }, (error) => {
           this.isLoading = false;
         }

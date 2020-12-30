@@ -1,101 +1,107 @@
-<section class="ex-collection section-padding bg-light-theme">
-    <div class="container">
-        <ng-container *ngIf="restaurants.length > 0;else noContent">
-            <div class="row">
-                <ng-container *ngFor="let restaurant of restaurants; index as i">
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                        <a routerLink="/restaurants/{{restaurant.lowercasename}}">
-                            <div class="product-box mb-xl-20">
-                                <div class="product-img"
-                                    style="background-image: url({{restaurant.logo}}), url(assets/img/restaurants/255x150/shop-40.jpg);">
-                                </div>
-                                <div class="product-caption">
-                                    <div class="title-box">
-                                        <h6 class="product-title">{{restaurant.name}}</h6>
-                                        <div class="tags">
-                                            <ng-container *ngIf="restaurant.isopen">
-                                                <span class="text-custom-white rectangle-tag bg-with">
-                                                    Nyitva
-                                                </span>
-                                            </ng-container>
-                                            <ng-container *ngIf="!restaurant.isopen">
-                                                <span class="text-custom-white rectangle-tag bg-with-closed">
-                                                    Zárva
-                                                </span>
-                                            </ng-container>
-                                        </div>
-                                    </div>
-                                    <p class="text-light-white">{{restaurant.description}}</p>
-                                    <div class="product-details">
-                                        <div class="price-time">
-                                            <span class="text-light-black time">{{restaurant.deliveryoptions}}</span>
-                                            <span class="text-light-white price">{{restaurant.deliverytime}}</span>
-                                        </div>
-                                        <div class="rating">
-                                            <span class="text-light-white text-right text-with">
-                                                <i class="fas fa-shopping-basket text-with"></i>
-                                                {{restaurant.minorddrvalue}}
-                                            </span>
-                                            <span class="text-light-white text-right text-with">
-                                                <i class="fas fa-truck text-with"></i> {{restaurant.deliveryprice}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="product-footer">
-                                        <span class="text-custom-white square-tag">
-                                            <img src="assets/img/svg/004-leaf.svg" alt="tag">
-                                        </span>
-                                        <span class="text-custom-white square-tag">
-                                            <img src="assets/img/svg/006-chili.svg" alt="tag">
-                                        </span>
-                                        <span class="text-custom-white square-tag">
-                                            <img src="assets/img/svg/005-chef.svg" alt="tag">
-                                        </span>
-                                        <span class="text-custom-white square-tag">
-                                            <img src="assets/img/svg/008-protein.svg" alt="tag">
-                                        </span>
-                                        <span class="text-custom-white square-tag">
-                                            <img src="assets/img/svg/009-lemon.svg" alt="tag">
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </ng-container>
-            </div>
-        </ng-container>
-    </div>
-</section>
-<!-- Explore collection -->
+<ng-container *ngIf="isLoading;else loadSuccess">
+    <app-loading-spinner></app-loading-spinner>
+</ng-container>
 
-<ng-template #noContent>
-    <p class="text-center mt-5">Nem találtunk éttermet a megadott irányítószám vagy jelenlegi pozíciód alapján.</p>
-    <p class="text-center">Amennyiben az irányítószámot módosítani szeretnéd a kereséshez, <a class="cursor-pointer"
-            (click)="locationService.changeIsLocationSelectorOpen(true)">itt tudod a legegyszerűbben megtenni</a>.</p>
-</ng-template>
-
-<!--advertise  -->
-<div class="restaurent-ad section-padding" style="padding-top: 0px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="ad-img p-relative">
-                    <img src="assets/img/about/blog/1110x350/hbanner-2.jpg" class="img-fluid full-width"
-                        alt="restaurant.html">
-                    <div class="overlay">
-                        <div class="content-box transform-center">
-                            <p class="text-custom-white with-logo">With<span style="color: #fff;">Partner</span></p>
-                            <h3 class="text-custom-white mb-1">Már most többszáz étteremmel!</h3>
-                            <h5 class="text-custom-white">Csatlakozz éttermeddel a With-hez és spórolj időt, munkát és
-                                pénzt.</h5>
-                            <a href="restaurant.html" class="btn-first white-btn">Partner leszek!</a>
+<ng-template #loadSuccess>
+    <section class="ex-collection section-padding bg-light-theme">
+        <div class="container">
+            <ng-container *ngIf="restaurants.length > 0;else noContent">
+                <div class="row">
+                    <ng-container *ngFor="let restaurant of restaurants; index as i">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                            <a routerLink="/restaurants/{{restaurant.lowercasename}}">
+                                <div class="product-box mb-xl-20">
+                                    <div class="product-img"
+                                        style="background-image: url({{restaurant.logo}}), url(assets/img/restaurants/255x150/shop-40.jpg);">
+                                    </div>
+                                    <div class="product-caption">
+                                        <div class="title-box">
+                                            <h6 class="product-title">{{restaurant.name}}</h6>
+                                            <div class="tags">
+                                                <ng-container *ngIf="restaurant.isopen">
+                                                    <span class="text-custom-white rectangle-tag bg-with">
+                                                        Nyitva
+                                                    </span>
+                                                </ng-container>
+                                                <ng-container *ngIf="!restaurant.isopen">
+                                                    <span class="text-custom-white rectangle-tag bg-with-closed">
+                                                        Zárva
+                                                    </span>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <p class="text-light-white">{{restaurant.description}}</p>
+                                        <div class="product-details">
+                                            <div class="price-time">
+                                                <span class="text-light-black time">{{restaurant.deliveryoptions}}</span>
+                                                <span class="text-light-white price">{{restaurant.deliverytime}}</span>
+                                            </div>
+                                            <div class="rating">
+                                                <span class="text-light-white text-right text-with">
+                                                    <i class="fas fa-shopping-basket text-with"></i>
+                                                    {{restaurant.minorddrvalue}}
+                                                </span>
+                                                <span class="text-light-white text-right text-with">
+                                                    <i class="fas fa-truck text-with"></i> {{restaurant.deliveryprice}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="product-footer">
+                                            <span class="text-custom-white square-tag">
+                                                <img src="assets/img/svg/004-leaf.svg" alt="tag">
+                                            </span>
+                                            <span class="text-custom-white square-tag">
+                                                <img src="assets/img/svg/006-chili.svg" alt="tag">
+                                            </span>
+                                            <span class="text-custom-white square-tag">
+                                                <img src="assets/img/svg/005-chef.svg" alt="tag">
+                                            </span>
+                                            <span class="text-custom-white square-tag">
+                                                <img src="assets/img/svg/008-protein.svg" alt="tag">
+                                            </span>
+                                            <span class="text-custom-white square-tag">
+                                                <img src="assets/img/svg/009-lemon.svg" alt="tag">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </section>
+    <!-- Explore collection -->
+    
+    <ng-template #noContent>
+        <p class="text-center mt-5">Nem találtunk éttermet a megadott irányítószám vagy jelenlegi pozíciód alapján.</p>
+        <p class="text-center">Amennyiben az irányítószámot módosítani szeretnéd a kereséshez, <a class="cursor-pointer"
+                (click)="locationService.changeIsLocationSelectorOpen(true)">itt tudod a legegyszerűbben megtenni</a>.</p>
+    </ng-template>
+    
+    <!--advertise  -->
+    <div class="restaurent-ad section-padding" style="padding-top: 0px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ad-img p-relative">
+                        <img src="assets/img/about/blog/1110x350/hbanner-2.jpg" class="img-fluid full-width"
+                            alt="restaurant.html">
+                        <div class="overlay">
+                            <div class="content-box transform-center">
+                                <p class="text-custom-white with-logo">With<span style="color: #fff;">Partner</span></p>
+                                <h3 class="text-custom-white mb-1">Már most többszáz étteremmel!</h3>
+                                <h5 class="text-custom-white">Csatlakozz éttermeddel a With-hez és spórolj időt, munkát és
+                                    pénzt.</h5>
+                                <a href="restaurant.html" class="btn-first white-btn">Partner leszek!</a>
+                            </div>
+                        </div>
+                        <div class="overlay overlay-bg"></div>
                     </div>
-                    <div class="overlay overlay-bg"></div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!--advertise  -->
+    <!--advertise  -->
+</ng-template>

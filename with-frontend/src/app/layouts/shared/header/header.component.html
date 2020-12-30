@@ -20,10 +20,20 @@
                                         <span class="address">2000, Szentendre</span>
                                     </a>
                                     <ng-container *ngIf="isLocationPopupShow">
-                                        <div class="location-picker">
-                                            <input type="text" class="form-control"
-                                                placeholder="Új irányítószám megadása">
-                                        </div>
+                                        <form [formGroup]="locationForm">
+                                            <div class="location-picker">
+                                                <input type="number" class="form-control" formControlName="location"
+                                                    min="1000" max="9999"
+                                                    [class.is-invalid]="locationForm.controls.location.invalid && locationForm.controls.location.touched"
+                                                    placeholder="Új irányítószám megadása">
+                                            </div>
+                                            <div *ngIf="(locationForm.controls.location.invalid && locationForm.controls.location.touched) || locationForm.controls.location.dirty"
+                                                class="text-right">
+                                                <small
+                                                    *ngIf="locationForm.controls.search.location?.min || locationForm.controls.location.errors?.max"
+                                                    class="text-danger">Kérjük adj meg egy valós irányítószámot</small>
+                                            </div>
+                                        </form>
                                     </ng-container>
                                 </div>
                                 <!-- location picker -->
