@@ -275,11 +275,12 @@
                         <div class="card res-categories">
                             <ng-container *ngIf="restaurant.categories && restaurant.categories.length > 0">
                                 <div class="card-header padding-15 fw-700 categories-header">Kategóriák</div>
-                                <ng-container *ngFor="let category of restaurant.categories; let i = index">
-                                    <nav
-                                        class="nav flex-column pink lighten-3 py-4 mb-r font-weight-bold z-depth-1 categories-nav">
-                                        <a class="nav-link active white-text" pageScroll
-                                            href="#category-{{i}}">{{category.category}}</a>
+                                <ng-container
+                                    *ngFor="let category of productsByCategory | keyvalue: keyAscOrder; let i = index">
+                                    <nav *ngIf="category.value.length > 0"
+                                        class="nav flex-column pink lighten-3 py-4 mb-r font-weight-bold z-depth-1 categories-nav cursor-pointer">
+                                        <a class="nav-link white-text"
+                                            (click)="internalRoute('category-products', i)">{{category.key.category}}</a>
                                         <!-- <a class="nav-link white-text" href="#">{{category.category}}</a> -->
                                     </nav>
                                 </ng-container>
@@ -290,7 +291,7 @@
                     <div class="col-12">
                         <div class="card res-categories pizza-creator">
                             <nav
-                                class="nav flex-column pink lighten-3 py-4 mb-r font-weight-bold z-depth-1 categories-nav">
+                                class="nav flex-column pink lighten-3 py-4 mb-r font-weight-bold z-depth-1 categories-nav cursor-pointer">
                                 <a class="nav-link active white-text" (click)="toggleShowPizzaCreator()">Pizza Tervező
                                     <i class="fas fa-angle-right"></i></a>
                             </nav>
@@ -302,7 +303,8 @@
                 <div class="with-alert">
                     <h4>Az ön által megadott irányítószámon belül ez az étterem sajnos nem szállít házhoz.</h4>
                     <p>A jelenleg beállított irányítószáma: <b>2000</b> Amennyiben ezen belül szeretne rendelni, <a
-                            routerLink="/">keressen másik éttermet</a>, egyéb esetben <a class="cursor-pointer" (click)="locationService.changeIsLocationSelectorOpen(true)">adjon meg másik
+                            routerLink="/">keressen másik éttermet</a>, egyéb esetben <a class="cursor-pointer"
+                            (click)="locationService.changeIsLocationSelectorOpen(true)">adjon meg másik
                             irányítószámot</a>.</p>
                 </div>
 
@@ -830,19 +832,19 @@
                             </div>
                         </ng-container>
 
-                        <ng-container *ngIf="this.restaurant.categories.length > 0">
+                        <ng-container *ngIf="this.restaurant.categories?.length > 0">
                             <ng-container
                                 *ngFor="let category of productsByCategory | keyvalue: keyAscOrder; let i = index">
-                                <div id="category-{{i}}" class="card">
-                                    <div class="card-header">
+                                <div *ngIf="category.value.length > 0" id="category-{{i}}" class="card">
+                                    <div id="category-products-{{i}}" class="card-header">
                                         <div class="section-header-left">
                                             <h3 class="text-light-black header-title">
                                                 <a class="card-link text-light-black no-margin" data-toggle="collapse"
-                                                    href="#category-products-{{i}}">{{category.key.category}}</a>
+                                                    href="#category-products-{{i}}-list">{{category.key.category}}</a>
                                             </h3>
                                         </div>
                                     </div>
-                                    <div id="category-products-{{i}}" class="collapse show">
+                                    <div id="category-products-{{i}}-list" class="collapse show">
                                         <div class="card-body no-padding">
                                             <div class="row">
                                                 <ng-container *ngFor="let product of category.value; let j = index">
@@ -1024,7 +1026,8 @@
                                     <div class="cat-product">
                                         <div class="cat-name">
                                             <a href="#">
-                                                <p class="text-with cart-text mr-2"><span class="text-dark-white">1</span>
+                                                <p class="text-with cart-text mr-2"><span
+                                                        class="text-dark-white">1</span>
                                                     Étel neve (Menü esetén étel, köret, ital neve)</p> <span
                                                     class="text-light-white cart-text-extras">Extrák felsorolva</span>
                                             </a>
@@ -1044,7 +1047,8 @@
                                             összesen:</span>
                                         <span class="text-dark-white fw-700">4.760Ft</span>
                                     </div>
-                                    <div class="empty-bag padding-15 fw-700 cursor-pointer"> <a href="#">Kosár ürítése</a>
+                                    <div class="empty-bag padding-15 fw-700 cursor-pointer"> <a href="#">Kosár
+                                            ürítése</a>
                                     </div>
                                 </div>
                             </div>

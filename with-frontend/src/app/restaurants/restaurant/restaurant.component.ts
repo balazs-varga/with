@@ -1,8 +1,8 @@
 import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { LocationService } from 'src/app/shared/location.service';
@@ -20,17 +20,27 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   isLoading = false;
   productsByCategory = new Map();
   selectedProduct = null;
+  sectionScroll = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private sanitizer: DomSanitizer,
     private http: HttpClient,
     public authService: AuthenticationService,
-    public locationService: LocationService
+    public locationService: LocationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.subscribeToRouteParams();
+
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      this.doScroll();
+      this.sectionScroll = null;
+    });
   }
 
   ngOnDestroy(): void {
@@ -53,8 +63,34 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     this.selectedProduct = product;
   }
 
-  keyAscOrder = (a: KeyValue<any,any>, b: KeyValue<any,any>): number => {
+  keyAscOrder = (a: KeyValue<any, any>, b: KeyValue<any, any>): number => {
     return a.key.id < b.key.id ? -1 : (b.key.id < a.key.id ? 1 : 0);
+  }
+
+  getCurrentPage() {
+    var currentUrl = this.router.url;
+    currentUrl = currentUrl.substring(1);
+    currentUrl = currentUrl.split('#')[0]
+    return currentUrl;
+  }
+
+  internalRoute(dst, index) {
+    this.sectionScroll = dst + '-' + index;
+    this.router.navigate([this.getCurrentPage()], { fragment: this.sectionScroll });
+  }
+
+  doScroll() {
+    if (!this.sectionScroll) {
+      return;
+    }
+    try {
+      var elements = document.getElementById(this.sectionScroll);
+
+      elements.scrollIntoView();
+    }
+    finally {
+      this.sectionScroll = null;
+    }
   }
 
   private subscribeToRouteParams(): void {
@@ -63,7 +99,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     if (this.restaurant.mapembed) {
       this.mapEmbed = this.transform(this.restaurant.mapembed);
     }
-    if (this.restaurant.categories.length > 0) {
+    if (this.restaurant.categories?.length > 0) {
       this.getAllProducts(this.restaurant.categories);
     }
     this.isLoading = false;
