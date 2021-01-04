@@ -48,7 +48,7 @@ export class IndexComponent implements OnInit {
     return this.authService.isAllAuthInfoAvailable();
   }
 
-  searchByZip() {
+  searchByZip(): void {
     this.currentPositionErrorMessage = '';
     this.router.navigateByUrl('/restaurants?zip=' + this.searchForm.get('search').value);
   }

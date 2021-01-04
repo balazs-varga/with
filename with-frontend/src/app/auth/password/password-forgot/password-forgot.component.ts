@@ -14,6 +14,7 @@ export class PasswordForgotComponent implements OnInit {
   forgotPasswordForm: FormGroup;
   forgotPasswordErrorMessage = '';
   successMessage = '';
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -25,17 +26,19 @@ export class PasswordForgotComponent implements OnInit {
   }
 
   requestNewPassword(): Subscription {
-    this.forgotPasswordErrorMessage = '';
-    this.successMessage = '';
+    this.isLoading = true;
+    this.resetMessages();
     return this.http.post<any>(`${environment.apiUrl}/forgot`, this.forgotPasswordForm.getRawValue()).subscribe(
       (response) => {
         if (response.success) {
           this.successMessage = 'A jelszóváltoztatáshoz szükséges linket sikeresen elküldtük a megadott email címre';
         }
+        this.isLoading = false;
       }, (error) => {
         if (error.status === 401) {
           this.forgotPasswordErrorMessage = 'Nem létezik regisztrált felhasználó a megadott email címmmel';
         }
+        this.isLoading = false;
       }
     );
   }
@@ -44,5 +47,16 @@ export class PasswordForgotComponent implements OnInit {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]]
     });
+
+    this.forgotPasswordForm.get('email').valueChanges.subscribe(
+      () => {
+        this.resetMessages();
+      }
+    );
+  }
+
+  private resetMessages(): void {
+    this.forgotPasswordErrorMessage = '';
+    this.successMessage = '';
   }
 }
