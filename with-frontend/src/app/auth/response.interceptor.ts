@@ -46,7 +46,7 @@ export class HttpClientResponseInterceptor implements HttpInterceptor {
                         }));
                     } else if (!this.authService.isLoggedIn) {
                         this.authService.redirectUrl = this.currentUrl;
-                        this.router.navigate(['/login']);
+                        //this.router.navigate(['/login']);
                         break;
                     } else {
                         this.authService.logout().subscribe(() => {
