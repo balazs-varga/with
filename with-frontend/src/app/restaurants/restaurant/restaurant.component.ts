@@ -21,6 +21,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   productsByCategory = new Map();
   selectedProduct = null;
   sectionScroll = null;
+  pizzaDesigner = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -67,24 +68,24 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     return a.key.id < b.key.id ? -1 : (b.key.id < a.key.id ? 1 : 0);
   }
 
-  getCurrentPage() {
-    var currentUrl = this.router.url;
+  getCurrentPage(): string {
+    let currentUrl = this.router.url;
     currentUrl = currentUrl.substring(1);
     currentUrl = currentUrl.split('#')[0]
     return currentUrl;
   }
 
-  internalRoute(dst, index) {
+  internalRoute(dst, index): void {
     this.sectionScroll = dst + '-' + index;
     this.router.navigate([this.getCurrentPage()], { fragment: this.sectionScroll });
   }
 
-  doScroll() {
+  doScroll(): void {
     if (!this.sectionScroll) {
       return;
     }
     try {
-      var elements = document.getElementById(this.sectionScroll);
+      const elements = document.getElementById(this.sectionScroll);
 
       elements.scrollIntoView();
     }
@@ -102,7 +103,15 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     if (this.restaurant.categories?.length > 0) {
       this.getAllProducts(this.restaurant.categories);
     }
+    this.getPizzaDesignerDetails(this.restaurant);
     this.isLoading = false;
+  }
+
+  private getPizzaDesignerDetails(restaurant): void {
+    this.http.get<any>(`${environment.apiUrl}/restaurant/` +
+      restaurant.restaurantid + `/products/pizzadesigner`).subscribe((res) => {
+        this.pizzaDesigner = res;
+      });
   }
 
   private getAllProducts(categories): void {
@@ -112,9 +121,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   }
 
   private getProductsByCategoryId(category): void {
-    this.http.get<any>(`${environment.apiUrl}/restaurant/` + this.restaurant.restaurantid + `/products/category/` + category.id).subscribe((res) => {
-      this.productsByCategory.set(category, res);
-    });
+    this.http.get<any>(`${environment.apiUrl}/restaurant/` +
+      this.restaurant.restaurantid + `/products/category/` + category.id).subscribe((res) => {
+        this.productsByCategory.set(category, res);
+      });
   }
 
   private transform(url): SafeResourceUrl {

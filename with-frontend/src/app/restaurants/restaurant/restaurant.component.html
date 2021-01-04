@@ -288,15 +288,17 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
-                        <div class="card res-categories pizza-creator">
-                            <nav
-                                class="nav flex-column pink lighten-3 py-4 mb-r font-weight-bold z-depth-1 categories-nav cursor-pointer">
-                                <a class="nav-link active white-text" (click)="toggleShowPizzaCreator()">Pizza Tervező
-                                    <i class="fas fa-angle-right"></i></a>
-                            </nav>
+                    <ng-container *ngIf="pizzaDesigner?.available">
+                        <div class="col-12">
+                            <div class="card res-categories pizza-creator">
+                                <nav
+                                    class="nav flex-column pink lighten-3 py-4 mb-r font-weight-bold z-depth-1 categories-nav cursor-pointer">
+                                    <a class="nav-link active white-text" (click)="toggleShowPizzaCreator()">Pizza Tervező
+                                        <i class="fas fa-angle-right"></i></a>
+                                </nav>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6 smoothscroll" id="menu">
