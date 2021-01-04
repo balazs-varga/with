@@ -1157,7 +1157,7 @@
                                     <ng-container *ngFor="let side of selectedProduct?.sides; let i = index">
                                         <div class="form-check with-check">
                                             <input class="form-check-input extra-input" type="radio" name="side-{{i}}"
-                                                id="side-{{i}}" value="2">
+                                                id="side-{{i}}">
                                             <img src="{{side.image}}" alt="{{side.name}}">
                                             <label class="form-check-label" for="side-{{i}}">
                                                 {{side.name}}
@@ -1192,7 +1192,7 @@
                                     <ng-container *ngFor="let drink of selectedProduct?.drinks; let i = index">
                                         <div class="form-check with-check">
                                             <input class="form-check-input extra-input" type="radio" name="drink-{{i}}"
-                                                id="drink-{{i}}" value="2">
+                                                id="drink-{{i}}">
                                             <img src="{{drink.image}}" alt="{{drink.image}}">
                                             <label class="form-check-label" for="drink-{{i}}">
                                                 {{drink.name}}
