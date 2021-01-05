@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../auth/auth.service';
-import { RestaurantsCommunicationService } from 'src/app/restaurants/restaurants.communication.service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../shared/localStorage.service';
 
 @Component({
   selector: 'app-index',
@@ -21,7 +21,7 @@ export class IndexComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private authService: AuthenticationService,
-    private restaurantsCommunicationService: RestaurantsCommunicationService,
+    private localStorageService: LocalStorageService,
     private router: Router
   ) { }
 
@@ -55,11 +55,14 @@ export class IndexComponent implements OnInit {
 
   searchByLocation(): void {
     this.getLocation().then((pos) => {
-      return this.http.get<any>(`${environment.apiUrl}/restaurants/near/geo/${pos.lat}/${pos.lng}`).subscribe(
+      return this.http.get<any>(`${environment.apiUrl}/location/geo/${pos.lat}/${pos.lng}`).subscribe(
         (resp) => {
-          this.restaurantsCommunicationService.restaurants = resp;
           this.isLoading = false;
-          this.router.navigate(['/restaurants']);
+          if (resp[0]?.city && resp[0]?.zipcode) {
+            this.localStorageService.setCity(resp[0].city);
+            this.localStorageService.setZip(resp[0].zipcode);
+            this.router.navigateByUrl('/restaurants?zip=' + resp[0].zipcode);
+          }
         }, (error) => {
           this.isLoading = false;
         }
