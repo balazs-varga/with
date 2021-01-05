@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/auth.service';
+import { LocalStorageService } from 'src/app/shared/localStorage.service';
 import { LocationService } from 'src/app/shared/location.service';
 
 @Component({
@@ -15,16 +16,24 @@ export class HeaderComponent implements OnInit {
   nameForAvatar = 'VB';
   loggedInUserName = 'Balázs';
   isLocationPopupShow = false;
+  zip = null;
+  city = null;
 
   constructor(
     public authService: AuthenticationService,
     private router: Router,
     private fb: FormBuilder,
-    public locationService: LocationService
+    public locationService: LocationService,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
+
     this.locationService.isLocationSelectorOpen$.subscribe(res => this.isLocationPopupShow = res);
+    this.localStorageService.watchStorage().subscribe((data: string) => {
+      this.zip = this.localStorageService.getZip;
+      this.city = this.localStorageService.getCity;
+    });
     this.createLocationChangeForm();
   }
 

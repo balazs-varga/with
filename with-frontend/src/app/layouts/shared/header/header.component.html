@@ -17,9 +17,9 @@
                                 <div class="col-lg-6 col-md-5">
                                     <a class="delivery-add p-relative" (click)="toggleLocationPopup()"> <span
                                             class="icon"><i class="fas fa-map-marker-alt"></i></span>
-                                        <span class="address">2000, Szentendre</span>
+                                        <span *ngIf="zip && city" class="address">{{zip}}, {{city}}</span>
                                     </a>
-                                    <ng-container *ngIf="isLocationPopupShow">
+                                    <ng-container *ngIf="isLocationPopupShow && zip && city">
                                         <form [formGroup]="locationForm">
                                             <div class="location-picker">
                                                 <input type="number" class="form-control" formControlName="location"
