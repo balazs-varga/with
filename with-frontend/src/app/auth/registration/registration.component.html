@@ -93,7 +93,7 @@
                                                         *ngIf="registrationForm.controls.c_password.errors?.maxlength"
                                                         class="text-danger">Túl hosszú jelszó</small>
                                                     <small
-                                                        *ngIf="registrationForm.controls.c_password.errors?.mustMatch"
+                                                        *ngIf="!registrationForm.controls.c_password.errors?.minlength && !registrationForm.controls.c_password.errors?.maxlength && registrationForm.errors?.mustMatch"
                                                         class="text-danger">A jelszavak nem egyeznek</small>
                                                 </div>
                                             </div>
@@ -127,7 +127,8 @@
                                                         class="text-danger">Kötelező mező</small>
                                                     <small
                                                         *ngIf="registrationForm.controls.phone.errors?.invalidPhoneFormat"
-                                                        class="text-danger">Nem megfelelő telefonszám formátum (06301234567)</small>
+                                                        class="text-danger">Nem megfelelő telefonszám formátum
+                                                        (06301234567)</small>
                                                 </div>
                                             </div>
                                         </div>
