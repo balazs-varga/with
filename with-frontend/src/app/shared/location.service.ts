@@ -7,8 +7,8 @@ export class LocationService {
     private isLocationSelectorOpen = new BehaviorSubject(false);
     isLocationSelectorOpen$ = this.isLocationSelectorOpen.asObservable();
 
-    changeIsLocationSelectorOpen(isOpen: boolean) {
+    changeIsLocationSelectorOpen(isOpen: boolean): void {
         window.scroll(0, 0);
-        this.isLocationSelectorOpen.next(isOpen)
+        this.isLocationSelectorOpen.next(isOpen);
     }
 }
