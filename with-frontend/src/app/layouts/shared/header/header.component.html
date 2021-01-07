@@ -15,23 +15,27 @@
                             <div class="row">
                                 <!-- location picker -->
                                 <div class="col-lg-6 col-md-5">
-                                    <a class="delivery-add p-relative" (click)="toggleLocationPopup()"> <span
-                                            class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                                    <a *ngIf="!isLoginPage()" class="delivery-add p-relative"
+                                        (click)="toggleLocationPopup()"> <span class="icon"><i
+                                                class="fas fa-map-marker-alt"></i></span>
                                         <span *ngIf="zip && city" class="address">{{zip}}, {{city}}</span>
+                                        <span *ngIf="!zip || !city" class="address">Helyszín</span>
                                     </a>
-                                    <ng-container *ngIf="isLocationPopupShow && zip && city">
-                                        <form [formGroup]="locationForm">
+                                    <ng-container *ngIf="isLocationPopupShow">
+                                        <form [formGroup]="locationForm" *ngIf="locationForm"
+                                            (keydown)="submitByEnterButton($event)">
                                             <div class="location-picker">
                                                 <input type="number" class="form-control" formControlName="location"
                                                     min="1000" max="9999"
                                                     [class.is-invalid]="locationForm.controls.location.invalid && locationForm.controls.location.touched"
                                                     placeholder="Új irányítószám megadása">
-                                            </div>
-                                            <div *ngIf="(locationForm.controls.location.invalid && locationForm.controls.location.touched) || locationForm.controls.location.dirty"
-                                                class="text-right">
-                                                <small
-                                                    *ngIf="locationForm.controls.search.location?.min || locationForm.controls.location.errors?.max"
-                                                    class="text-danger">Kérjük adj meg egy valós irányítószámot</small>
+                                                <div *ngIf="(locationForm.controls.location.invalid && locationForm.controls.location.touched) || locationForm.controls.location.dirty"
+                                                    class="text-right">
+                                                    <small
+                                                        *ngIf="locationForm.controls.location?.min || locationForm.controls.location.errors?.max"
+                                                        class="text-danger">Kérjük adj meg egy valós
+                                                        irányítószámot</small>
+                                                </div>
                                             </div>
                                         </form>
                                     </ng-container>

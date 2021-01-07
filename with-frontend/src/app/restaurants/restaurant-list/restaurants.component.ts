@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/localStorage.service';
 import { LocationService } from 'src/app/shared/location.service';
@@ -11,29 +11,43 @@ import { environment } from 'src/environments/environment';
   templateUrl: './restaurants.component.html',
   styleUrls: ['./restaurants.component.scss']
 })
-export class RestaurantsComponent implements OnDestroy {
+export class RestaurantsComponent implements OnInit, OnDestroy {
 
   restaurants = [];
   isLoading = false;
   zip = '';
 
+  localstorageSubscription: Subscription;
+
   constructor(
     private http: HttpClient,
     public locationService: LocationService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService: LocalStorageService
-  ) {
+    private localStorageService: LocalStorageService,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.zip = params.zip;
+
+      if (this.zip) {
+        this.getZipAndCityName(this.zip);
+        this.getRestaurantsByZip(this.zip);
+      }
+
+      if (!this.zip) {
+        this.router.navigateByUrl('/');
+      }
     });
 
-    if (this.zip) {
-      this.getZipAndCityName(this.zip);
-      this.getRestaurantsByZip(this.zip);
-    }
+    this.localstorageSubscription = this.localStorageService.watchStorage().subscribe(() => {
+      this.router.navigateByUrl('/restaurants?zip=' + this.localStorageService.getZip);
+    });
   }
 
   ngOnDestroy(): void {
+    this.localstorageSubscription.unsubscribe();
     this.locationService.changeIsLocationSelectorOpen(false);
   }
 

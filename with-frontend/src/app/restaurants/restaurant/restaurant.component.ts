@@ -71,7 +71,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   getCurrentPage(): string {
     let currentUrl = this.router.url;
     currentUrl = currentUrl.substring(1);
-    currentUrl = currentUrl.split('#')[0]
+    currentUrl = currentUrl.split('#')[0];
     return currentUrl;
   }
 
