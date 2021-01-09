@@ -55,10 +55,10 @@
                     <div class="restaurent-menu">
                         <ul class="nav nav-pills">
                             <li class="nav-item"> <a class="nav-link text-light-white fw-700" data-toggle="collapse"
-                                    data-target="#aboutcollapse" href="javascript:void(0)">Információ</a>
+                                    data-target="#aboutcollapse">Információ</a>
                             </li>
                             <li class="nav-item"> <a class="nav-link text-light-white fw-700" data-toggle="collapse"
-                                    data-target="#mapgallerycollapse" href="javascript:void(0)">Térkép & Galéria</a>
+                                    data-target="#mapgallerycollapse">Térkép & Galéria</a>
                             </li>
                         </ul>
                     </div>
@@ -326,7 +326,8 @@
                 <div class="row">
                     <div class="col-lg-12 restaurent-meal-head mb-md-40">
                         <ng-container *ngIf="isPizzaCreatorShow">
-                            <div class="card" id="pizzadesigner" data-toggle="modal" [attr.data-target]="zip ? '' : '#missing-zip'">
+                            <div class="card" id="pizzadesigner" data-toggle="modal"
+                                [attr.data-target]="zip ? '' : '#missing-zip'">
                                 <div class="card-header">
                                     <div class="section-header-left">
                                         <h3 class="text-light-black header-title">
@@ -853,14 +854,15 @@
                                                 <ng-container *ngFor="let product of category.value; let j = index">
                                                     <div class="col-lg-12">
                                                         <div (click)="openModal(product)" class="with-product"
-                                                            data-toggle="modal" [attr.data-target]="zip ? '#restaurent-popup' : '#missing-zip'">
+                                                            data-toggle="modal"
+                                                            [attr.data-target]="zip ? '#restaurent-popup' : '#missing-zip'">
                                                             <div class="row with-nomargin h-100">
                                                                 <div class="col-lg-3 col-md-12 with-nopadding">
                                                                     <div class="with-product-img"
                                                                         style="background-image: url({{product.image}})">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-9 col-md-12 with-product-info">
+                                                                <div class="col-lg-9 col-md-12 with-product-info h-100">
                                                                     <div class="with-product-info-top">
                                                                         <h6 class="with-product-title">{{product.name}}
                                                                             <span *ngIf="product.type === 'menu'"
@@ -1274,7 +1276,9 @@
                 <p>Az irányítószámának megadásához kattintson az alábbi gombra.</p>
             </div>
             <div class="modal-footer padding-10">
-                <button class="btn-second with-btn btn-submit" (click)="locationService.changeIsLocationSelectorOpen(true)" data-dismiss="modal">Irányítószám megadása</button>
+                <button class="btn-second with-btn btn-submit"
+                    (click)="locationService.changeIsLocationSelectorOpen(true)" data-dismiss="modal">Irányítószám
+                    megadása</button>
             </div>
         </div>
     </div>
