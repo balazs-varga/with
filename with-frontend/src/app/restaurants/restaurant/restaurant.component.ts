@@ -6,6 +6,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { LocationService } from 'src/app/shared/location.service';
+import { LocalStorageService } from 'src/app/shared/localStorage.service';
 
 @Component({
   selector: 'app-restaurant',
@@ -22,6 +23,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   selectedProduct = null;
   sectionScroll = null;
   pizzaDesigner = null;
+  zip = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,11 +31,14 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     public authService: AuthenticationService,
     public locationService: LocationService,
+    private localStorageService: LocalStorageService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.subscribeToRouteParams();
+    this.getZipAndCityFromLocalStorage();
+    this.isRestaurantDeliversToSelectedCity();
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
@@ -41,6 +46,11 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       }
       this.doScroll();
       this.sectionScroll = null;
+    });
+
+    this.localStorageService.watchStorage().subscribe((data: string) => {
+      this.getZipAndCityFromLocalStorage();
+      this.isRestaurantDeliversToSelectedCity();
     });
   }
 
@@ -94,6 +104,17 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     }
   }
 
+  isRestaurantDeliversToSelectedCity(): boolean {
+    if (this.restaurant.zipcodes) {
+      return this.restaurant.zipcodes.some(e => e.zipcode === this.zip);
+    }
+    return false;
+  }
+
+  selectModal() {
+    return '#restaurent-popup';
+  }
+
   private subscribeToRouteParams(): void {
     this.isLoading = true;
     this.restaurant = this.activatedRoute.snapshot.data.restaurant;
@@ -105,6 +126,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     }
     this.getPizzaDesignerDetails(this.restaurant);
     this.isLoading = false;
+  }
+
+  private getZipAndCityFromLocalStorage(): void {
+    this.zip = this.localStorageService.getZip;
   }
 
   private getPizzaDesignerDetails(restaurant): void {

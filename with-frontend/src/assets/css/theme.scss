@@ -2492,12 +2492,21 @@ footer .footer-links .appimg {
     object-fit: cover;
     object-position: center;
 }
+.missing-zip .close {
+    text-align: right;
+    color: black;
+    opacity: 1;
+    padding: 0;
+    font-size: 35px;
+    font-weight: 200;
+    padding: 10px;
+}
 .restaurent-popup .close {
     margin: 0;
     display: block;
     width: 100%;
-    text-align: left;
-    color: #ff0018;
+    text-align: right;
+    color: black;
     opacity: 1;
     padding: 0;
     font-size: 35px;
