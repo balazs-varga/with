@@ -111,10 +111,6 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  selectModal() {
-    return '#restaurent-popup';
-  }
-
   private subscribeToRouteParams(): void {
     this.isLoading = true;
     this.restaurant = this.activatedRoute.snapshot.data.restaurant;
