@@ -1077,190 +1077,202 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <img src="{{selectedProduct?.image}}" class="img-fluid full-width" alt="product-image">
             </div>
-            <div class="modal-body">
-                <div class="name padding-10">
-                    <h3 class="text-light-black fw-700 mb-2">{{selectedProduct?.name}}
-                        <span *ngIf="selectedProduct?.is_sale" class="with-product-tag-sale">Akció</span>
-                    </h3>
-                    <ng-container *ngIf="selectedProduct?.is_sale">
-                        <h5 class="text-light-black fw-600 no-margin"><span
-                                class="with-product-old-price">{{selectedProduct.old_price}}Ft</span>
-                            {{selectedProduct?.price | number:'1.0-0'}}Ft</h5>
+            <form *ngIf="selectedProductForm" [formGroup]="selectedProductForm">
+                <div class="modal-body">
+                    <div class="name padding-10">
+                        <h3 class="text-light-black fw-700 mb-2">{{selectedProduct?.name}}
+                            <span *ngIf="selectedProduct?.is_sale" class="with-product-tag-sale">Akció</span>
+                        </h3>
+                        <ng-container *ngIf="selectedProduct?.is_sale">
+                            <h5 class="text-light-black fw-600 no-margin"><span
+                                    class="with-product-old-price">{{selectedProduct.old_price}}Ft</span>
+                                {{selectedProduct?.price | number:'1.0-0'}}Ft</h5>
+                        </ng-container>
+                        <ng-container *ngIf="!selectedProduct?.is_sale">
+                            <h5 class="text-light-black fw-600 no-margin">
+                                {{selectedProduct?.price | number:'1.0-0'}}Ft</h5>
+                        </ng-container>
+                    </div>
+                    <div class="padding-10 no-top-bottom-padding">
+                        <p *ngIf="selectedProduct?.type === 'menu'" class="text-light-black with-product-margin">
+                            <span class="with-product-tag-menu">Menü</span>
+                            Ehhez az ételhez előfordulhat, hogy köretet és italt is választani kell.
+                        </p>
+                        <p class="text-light-black with-product-margin"><b>Leírás: </b>{{selectedProduct?.description}}
+                        </p>
+                        <p *ngIf="selectedProduct?.calorie" class="text-light-black with-product-margin"><b>Kalória
+                                tartalom: </b>körülbelül {{selectedProduct?.calorie}} Kalória
+                        </p>
+                        <div class="with-product-icons-detail">
+                            <div *ngIf="selectedProduct?.is_vegan" class="with-product-icon-detail"><img
+                                    class="with-product-icon" src="assets/img/icons/vegan.png"> Vegán termék</div>
+                            <div *ngIf="selectedProduct?.is_vegetarian" class="with-product-icon-detail"><img
+                                    class="with-product-icon" src="assets/img/icons/vegetarian.png"> Vegetáriánius
+                                termék
+                            </div>
+                            <div *ngIf="selectedProduct?.is_glutenfree" class="with-product-icon-detail"><img
+                                    class="with-product-icon" src="assets/img/icons/glutenfree.png"> Glutén mentes
+                                termék
+                            </div>
+                            <div *ngIf="selectedProduct?.is_sugarfree" class="with-product-icon-detail"><img
+                                    class="with-product-icon" src="assets/img/icons/sugarfree.png"> Cukor mentes termék
+                            </div>
+                            <div *ngIf="selectedProduct?.is_allergenicfree" class="with-product-icon-detail"><img
+                                    class="with-product-icon" src="assets/img/icons/allergicfree.png"> Ez a termék nem
+                                tartalmaz allergén anyagokat
+                            </div>
+                            <div *ngIf="selectedProduct?.is_fatfree" class="with-product-icon-detail"><img
+                                    class="with-product-icon" src="assets/img/icons/fatfree.png"> Ez a termék nem
+                                tartalmaz
+                                hozzá adott zsírt</div>
+                            <div *ngIf="selectedProduct?.is_lactosefree" class="with-product-icon-detail"><img
+                                    class="with-product-icon" src="assets/img/icons/lactosefree.png"> Laktóz mentes
+                                termék
+                            </div>
+                            <div *ngIf="selectedProduct?.is_alcoholfree" class="with-product-icon-detail"><img
+                                    class="with-product-icon" src="assets/img/icons/alcoholfree.png"> Alkohol mentes
+                                termék
+                            </div>
+                        </div>
+                    </div>
+                    <div class="u-line">
+                        <div class="product-quantity padding-10"> <span
+                                class="text-light-black fw-700 fs-16">Mennyiség</span>
+                            <div class="input-group quantity">
+                                <div class="input-group-append">
+                                    <button class="minus-btn" type="button" name="button" (click)="decreaseAmount()"> <i
+                                            class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input id="amount" type="text" class="text-center" name="amount"
+                                    formControlName="amount" [readonly]="true">
+                                <div class="input-group-prepend">
+                                    <button class="plus-btn" type="button" name="button" (click)="increaseAmount()"><i
+                                            class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- sub product -->
+                    <div class="additional-product">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="no-margin">
+                                    <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
+                                        href="#additionalOne">
+                                        <span>Válasszon köretet <span *ngIf="isSelectedProductMenu()"
+                                                class="text-light-white fw-500 fs-12 padding-tb-10">Kötelező</span></span>
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="additionalOne" class="collapse">
+                                <div class="card-body">
+                                    <ng-container *ngIf="selectedProduct?.sides.length > 0; else noSides">
+                                        <ng-container *ngFor="let side of selectedProduct?.sides; let i = index">
+                                            <div class="form-check with-check">
+                                                <input class="form-check-input extra-input" type="radio"
+                                                    name="selectedSide" id="side-{{i}}" value="{{side.id}}" formControlName="selectedSide">
+                                                <img src="{{side.image}}" alt="{{side.name}}">
+                                                <label class="form-check-label" for="selectedSide">
+                                                    {{side.name}}
+                                                </label>
+                                                <label *ngIf="!side.price == '0'" class="price extra-input-price"
+                                                    for="side-{{i}}">{{side.price}}Ft</label>
+                                                <label *ngIf="side.price == '0'" class="price extra-input-price"
+                                                    for="side-{{i}}">Ingyenes</label>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #noSides>
+                                        <p>Nincs kiválasztható köret</p>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="no-margin">
+                                    <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
+                                        href="#additionalTwo">
+                                        <span>Válasszon italt<span *ngIf="isSelectedProductMenu()"
+                                                class="text-light-white fw-500 fs-12 padding-tb-10">Kötelező</span></span>
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="additionalTwo" class="collapse">
+                                <div class="card-body">
+                                    <ng-container *ngIf="selectedProduct?.drinks.length > 0; else noDrinks">
+                                        <ng-container *ngFor="let drink of selectedProduct?.drinks; let i = index">
+                                            <div class="form-check with-check">
+                                                <input class="form-check-input extra-input" type="radio"
+                                                    name="selectedDrink" id="drink-{{i}}" value="{{drink.id}}" formControlName="selectedDrink">
+                                                <img src="{{drink.image}}" alt="{{drink.image}}">
+                                                <label class="form-check-label" for="selectedDrink">
+                                                    {{drink.name}}
+                                                </label>
+                                                <label *ngIf="!drink.price == '0'" class="price extra-input-price"
+                                                    for="drink-{{i}}">{{drink.price}}Ft</label>
+                                                <label *ngIf="drink.price == '0'" class="price extra-input-price"
+                                                    for="drink-{{i}}">Ingyenes</label>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #noDrinks>
+                                        <p>Nincs kiválasztható ital</p>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="no-margin">
+                                    <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
+                                        href="#additionalThree">
+                                        <span>Válasszon extrát <span *ngIf="selectedProduct?.extralimit"
+                                                class="text-light-white fw-500 fs-12 padding-tb-10">Maximum
+                                                {{selectedProduct?.extralimit}} extra
+                                                választható.</span></span>
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="additionalThree" class="collapse">
+                                <div class="card-body">
+                                    <ng-container *ngIf="selectedProduct?.extras.length > 0; else noExtra">
+                                        <ng-container *ngFor="let extra of selectedProduct?.extras; let i = index">
+                                            <div class="form-check with-check">
+                                                <input class="form-check-input extra-input" type="checkbox" (change)="extraCheckBoxChange(extra.id, $event.target.checked)"
+                                                    name="extra-{{i}}" id="extra-{{i}}" value="{{extra.id}}">
+                                                <label class="form-check-label" for="extra-{{i}}">
+                                                    {{extra.name}}
+                                                </label>
+                                                <label *ngIf="!extra.price == '0'" class="price extra-input-price"
+                                                    for="extra-{{i}}">{{extra.price}}Ft</label>
+                                                <label *ngIf="extra.price == '0'" class="price extra-input-price"
+                                                    for="extra-{{i}}">Ingyenes</label>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #noExtra>
+                                        <p>Nincs kiválasztható extra</p>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- sub product -->
+                </div>
+                <div class="modal-footer padding-10">
+                    <button class="btn-second with-btn btn-submit"
+                        [disabled]="!isLoggedIn() || !this.selectedProductForm.valid">Kosárba: 1.910Ft</button>
+                    <ng-container *ngIf="!isLoggedIn()">
+                        <p class="with-alert ">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
                     </ng-container>
-                    <ng-container *ngIf="!selectedProduct?.is_sale">
-                        <h5 class="text-light-black fw-600 no-margin">
-                            {{selectedProduct?.price | number:'1.0-0'}}Ft</h5>
-                    </ng-container>
                 </div>
-                <div class="padding-10 no-top-bottom-padding">
-                    <p *ngIf="selectedProduct?.type === 'menu'" class="text-light-black with-product-margin">
-                        <span class="with-product-tag-menu">Menü</span>
-                        Ehhez az ételhez előfordulhat, hogy köretet és italt is választani kell.
-                    </p>
-                    <p class="text-light-black with-product-margin"><b>Leírás: </b>{{selectedProduct?.description}}</p>
-                    <p *ngIf="selectedProduct?.calorie" class="text-light-black with-product-margin"><b>Kalória
-                            tartalom: </b>körülbelül {{selectedProduct?.calorie}} Kalória
-                    </p>
-                    <div class="with-product-icons-detail">
-                        <div *ngIf="selectedProduct?.is_vegan" class="with-product-icon-detail"><img
-                                class="with-product-icon" src="assets/img/icons/vegan.png"> Vegán termék</div>
-                        <div *ngIf="selectedProduct?.is_vegetarian" class="with-product-icon-detail"><img
-                                class="with-product-icon" src="assets/img/icons/vegetarian.png"> Vegetáriánius termék
-                        </div>
-                        <div *ngIf="selectedProduct?.is_glutenfree" class="with-product-icon-detail"><img
-                                class="with-product-icon" src="assets/img/icons/glutenfree.png"> Glutén mentes termék
-                        </div>
-                        <div *ngIf="selectedProduct?.is_sugarfree" class="with-product-icon-detail"><img
-                                class="with-product-icon" src="assets/img/icons/sugarfree.png"> Cukor mentes termék
-                        </div>
-                        <div *ngIf="selectedProduct?.is_allergenicfree" class="with-product-icon-detail"><img
-                                class="with-product-icon" src="assets/img/icons/allergicfree.png"> Ez a termék nem
-                            tartalmaz allergén anyagokat
-                        </div>
-                        <div *ngIf="selectedProduct?.is_fatfree" class="with-product-icon-detail"><img
-                                class="with-product-icon" src="assets/img/icons/fatfree.png"> Ez a termék nem tartalmaz
-                            hozzá adott zsírt</div>
-                        <div *ngIf="selectedProduct?.is_lactosefree" class="with-product-icon-detail"><img
-                                class="with-product-icon" src="assets/img/icons/lactosefree.png"> Laktóz mentes termék
-                        </div>
-                        <div *ngIf="selectedProduct?.is_alcoholfree" class="with-product-icon-detail"><img
-                                class="with-product-icon" src="assets/img/icons/alcoholfree.png"> Alkohol mentes termék
-                        </div>
-                    </div>
-                </div>
-                <div class="u-line">
-                    <div class="product-quantity padding-10"> <span
-                            class="text-light-black fw-700 fs-16">Mennyiség</span>
-                        <div class="input-group quantity">
-                            <div class="input-group-append">
-                                <button class="minus-btn" type="button" name="button"> <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                            <input type="text" class="text-center" name="name" value="1">
-                            <div class="input-group-prepend">
-                                <button class="plus-btn" type="button" name="button"><i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- sub product -->
-                <div class="additional-product">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="no-margin">
-                                <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
-                                    href="#additionalOne">
-                                    <span>Válasszon köretet <span
-                                            class="text-light-white fw-500 fs-12 padding-tb-10">Kötelező</span></span>
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="additionalOne" class="collapse">
-                            <div class="card-body">
-                                <ng-container *ngIf="selectedProduct?.sides.length > 0; else noSides">
-                                    <ng-container *ngFor="let side of selectedProduct?.sides; let i = index">
-                                        <div class="form-check with-check">
-                                            <input class="form-check-input extra-input" type="radio" name="side-{{i}}"
-                                                id="side-{{i}}">
-                                            <img src="{{side.image}}" alt="{{side.name}}">
-                                            <label class="form-check-label" for="side-{{i}}">
-                                                {{side.name}}
-                                            </label>
-                                            <label *ngIf="!side.price == '0'" class="price extra-input-price"
-                                                for="side-{{i}}">{{side.price}}Ft</label>
-                                            <label *ngIf="side.price == '0'" class="price extra-input-price"
-                                                for="side-{{i}}">Ingyenes</label>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                                <ng-template #noSides>
-                                    <p>Nincs kiválasztható köret</p>
-                                </ng-template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="no-margin">
-                                <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
-                                    href="#additionalTwo">
-                                    <span>Válasszon italt<span
-                                            class="text-light-white fw-500 fs-12 padding-tb-10">Kötelező</span></span>
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="additionalTwo" class="collapse">
-                            <div class="card-body">
-                                <ng-container *ngIf="selectedProduct?.drinks.length > 0; else noDrinks">
-                                    <ng-container *ngFor="let drink of selectedProduct?.drinks; let i = index">
-                                        <div class="form-check with-check">
-                                            <input class="form-check-input extra-input" type="radio" name="drink-{{i}}"
-                                                id="drink-{{i}}">
-                                            <img src="{{drink.image}}" alt="{{drink.image}}">
-                                            <label class="form-check-label" for="drink-{{i}}">
-                                                {{drink.name}}
-                                            </label>
-                                            <label *ngIf="!drink.price == '0'" class="price extra-input-price"
-                                                for="drink-{{i}}">{{drink.price}}Ft</label>
-                                            <label *ngIf="drink.price == '0'" class="price extra-input-price"
-                                                for="drink-{{i}}">Ingyenes</label>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                                <ng-template #noDrinks>
-                                    <p>Nincs kiválasztható ital</p>
-                                </ng-template>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="no-margin">
-                                <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
-                                    href="#additionalThree">
-                                    <span>Válasszon extrát <span *ngIf="selectedProduct?.extralimit"
-                                            class="text-light-white fw-500 fs-12 padding-tb-10">Maximum
-                                            {{selectedProduct?.extralimit}} extra
-                                            választható.</span></span>
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="additionalThree" class="collapse">
-                            <div class="card-body">
-                                <ng-container *ngIf="selectedProduct?.extras.length > 0; else noExtra">
-                                    <ng-container *ngFor="let extra of selectedProduct?.extras; let i = index">
-                                        <div class="form-check with-check">
-                                            <input class="form-check-input extra-input" type="checkbox"
-                                                name="extra-{{i}}" id="extra-{{i}}" value="2">
-                                            <label class="form-check-label" for="extra-{{i}}">
-                                                {{extra.name}}
-                                            </label>
-                                            <label *ngIf="!extra.price == '0'" class="price extra-input-price"
-                                                for="extra-{{i}}">{{extra.price}}Ft</label>
-                                            <label *ngIf="extra.price == '0'" class="price extra-input-price"
-                                                for="extra-{{i}}">Ingyenes</label>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                                <ng-template #noExtra>
-                                    <p>Nincs kiválasztható extra</p>
-                                </ng-template>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- sub product -->
-            </div>
-            <div class="modal-footer padding-10">
-                <button class="btn-second with-btn btn-submit" [disabled]="!isLoggedIn()">Kosárba : 1.910Ft</button>
-                <ng-container *ngIf="!isLoggedIn()">
-                    <p class="with-alert ">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
-                </ng-container>
-            </div>
+            </form>
         </div>
     </div>
 </div>

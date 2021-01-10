@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { LocationService } from 'src/app/shared/location.service';
 import { LocalStorageService } from 'src/app/shared/localStorage.service';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-restaurant',
@@ -15,6 +16,7 @@ import { LocalStorageService } from 'src/app/shared/localStorage.service';
 })
 export class RestaurantComponent implements OnInit, OnDestroy {
 
+  selectedProductForm: FormGroup;
   isPizzaCreatorShow = false;
   restaurant = null;
   mapEmbed = null;
@@ -72,6 +74,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
 
   openModal(product): void {
     this.selectedProduct = product;
+    this.createSelectedProductForm(product);
   }
 
   keyAscOrder = (a: KeyValue<any, any>, b: KeyValue<any, any>): number => {
@@ -109,6 +112,37 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       return this.restaurant.zipcodes.some(e => e.zipcode === this.zip);
     }
     return false;
+  }
+
+  decreaseAmount(): void {
+    if (this.selectedProductForm.get('amount').value !== 1) {
+      this.selectedProductForm.get('amount').setValue(this.selectedProductForm.get('amount').value - 1);
+    }
+  }
+
+  increaseAmount(): void {
+    if (this.selectedProductForm.get('amount').value < 20) {
+      this.selectedProductForm.get('amount').setValue(this.selectedProductForm.get('amount').value + 1);
+    }
+  }
+
+  isSelectedProductMenu(): boolean {
+    return this.selectedProduct && this.selectedProduct.type === 'menu';
+  }
+
+  extraCheckBoxChange(extraId, isChecked): void {
+    const selectedExtraList = this.selectedProductForm.get('selectedExtras').value;
+    if (isChecked) {
+      selectedExtraList.push(extraId);
+    } else {
+      if (selectedExtraList.some(e => e === extraId)) {
+        const index = selectedExtraList.indexOf(extraId, 0);
+        if (index > -1) {
+          selectedExtraList.splice(index, 1);
+        }
+      }
+    }
+    this.selectedProductForm.get('selectedExtras').setValue(selectedExtraList);
   }
 
   private subscribeToRouteParams(): void {
@@ -150,5 +184,28 @@ export class RestaurantComponent implements OnInit, OnDestroy {
 
   private transform(url): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  private createSelectedProductForm(product): void {
+    this.selectedProductForm = new FormGroup({
+      selectedProductId: new FormControl(product.id),
+      selectedSide: new FormControl(''),
+      selectedDrink: new FormControl(''),
+      selectedExtras: new FormControl([], this.selectedExtraLengthValidator(product.extralimit)),
+      amount: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(20)])
+    });
+
+    if (product.type === 'menu') {
+      this.selectedProductForm.get('selectedSide').setValidators(Validators.required);
+      this.selectedProductForm.get('selectedDrink').setValidators(Validators.required);
+      this.selectedProductForm.get('selectedSide').updateValueAndValidity();
+      this.selectedProductForm.get('selectedDrink').updateValueAndValidity();
+    }
+  }
+
+  private selectedExtraLengthValidator(extralimit): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null =>
+      control.value.length > extralimit
+        ? { wrongColor: control.value } : null;
   }
 }
