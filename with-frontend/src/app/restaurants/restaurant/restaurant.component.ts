@@ -17,6 +17,7 @@ import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from
 export class RestaurantComponent implements OnInit, OnDestroy {
 
   selectedProductForm: FormGroup;
+  pizzaForm: FormGroup;
   isPizzaCreatorShow = false;
   restaurant = null;
   mapEmbed = null;
@@ -126,6 +127,18 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     }
   }
 
+  decreasePizzaQuantity(): void {
+    if (this.pizzaForm.get('quantity').value !== 1) {
+      this.pizzaForm.get('quantity').setValue(this.pizzaForm.get('quantity').value - 1);
+    }
+  }
+
+  increasePizzaQuantity(): void {
+    if (this.pizzaForm.get('quantity').value < 20) {
+      this.pizzaForm.get('quantity').setValue(this.pizzaForm.get('quantity').value + 1);
+    }
+  }
+
   isSelectedProductMenu(): boolean {
     return this.selectedProduct && this.selectedProduct.type === 'menu';
   }
@@ -146,7 +159,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   }
 
   addSelectedProductToCart() {
-    
+
   }
 
   private subscribeToRouteParams(): void {
@@ -158,7 +171,12 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     if (this.restaurant.categories?.length > 0) {
       this.getAllProducts(this.restaurant.categories);
     }
-    this.getPizzaDesignerDetails(this.restaurant);
+    this.getPizzaDesignerDetails(this.restaurant).then(() => {
+      if (this.pizzaDesigner?.available) {
+        this.createPizzaForm();
+        this.subscribeToPizzaSizeChange();
+      }
+    });
     this.isLoading = false;
   }
 
@@ -166,11 +184,17 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     this.zip = this.localStorageService.getZip;
   }
 
-  private getPizzaDesignerDetails(restaurant): void {
-    this.http.get<any>(`${environment.apiUrl}/restaurant/` +
-      restaurant.restaurantid + `/products/pizzadesigner`).subscribe((res) => {
-        this.pizzaDesigner = res;
-      });
+  private getPizzaDesignerDetails(restaurant): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.http.get<any>(`${environment.apiUrl}/restaurant/` +
+        restaurant.restaurantid + `/products/pizzadesigner`).subscribe((res) => {
+          this.pizzaDesigner = res;
+          resolve();
+        },
+          err => {
+            reject();
+          });
+    });
   }
 
   private getAllProducts(categories): void {
@@ -195,7 +219,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       selectedProductId: new FormControl(product.id),
       selectedSide: new FormControl(null),
       selectedDrink: new FormControl(null),
-      selectedExtras: new FormControl([], this.selectedExtraLengthValidator(product.extralimit)),
+      selectedExtras: new FormControl([], this.arrayLengthValidator(product.extralimit)),
       quantity: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(20)])
     });
 
@@ -207,9 +231,138 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     }
   }
 
-  private selectedExtraLengthValidator(extralimit): ValidatorFn {
+  private createPizzaForm(): void {
+    this.pizzaForm = new FormGroup({
+      pizzadesigner_size_id: new FormControl(null, Validators.required),
+      pizzadesigner_dough_id: new FormControl(null, Validators.required),
+      pizzadesigner_base_id: new FormControl(null, Validators.required),
+      //toppings: new FormControl([]),
+      sauces: new FormControl([]),
+      quantity: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(20)])
+    });
+  }
+
+  private subscribeToPizzaSizeChange(): void {
+    this.pizzaForm.get('pizzadesigner_size_id').valueChanges.subscribe((sizeId) => {
+      this.pizzaForm.patchValue({
+        pizzadesigner_dough_id: null,
+        pizzadesigner_base_id: null,
+        sauces: [],
+        quantity: 1
+      });
+
+      this.pizzaForm.removeControl('toppings');
+      const selectedPizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +sizeId)[0];
+      if (selectedPizzaSize?.maxtoppings) {
+        this.pizzaForm.addControl('toppings', new FormControl([], this.arrayLengthValidator(selectedPizzaSize?.maxtoppings)));
+      } else {
+        this.pizzaForm.addControl('toppings', new FormControl([]));
+      }
+      this.pizzaForm.get('toppings').updateValueAndValidity();
+    });
+  }
+
+  private arrayLengthValidator(limit): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null =>
-      control.value.length > extralimit
-        ? { wrongColor: control.value } : null;
+      control.value.length > limit
+        ? { tooMuch: limit } : null;
+  }
+
+  addPizzaToCart() {
+    console.log(this.pizzaForm)
+  }
+
+  pizzaToppingCheckBoxChange(toppingId, isChecked): void {
+    const selectedPizzaToppingList = this.pizzaForm.get('toppings').value;
+    if (isChecked) {
+      selectedPizzaToppingList.push(toppingId);
+    } else {
+      if (selectedPizzaToppingList.some(e => e === toppingId)) {
+        const index = selectedPizzaToppingList.indexOf(toppingId, 0);
+        if (index > -1) {
+          selectedPizzaToppingList.splice(index, 1);
+        }
+      }
+    }
+    this.pizzaForm.get('toppings').setValue(selectedPizzaToppingList);
+  }
+
+  pizzaSaucesCheckBoxChange(sauceId, isChecked): void {
+    const selectedPizzaToppingList = this.pizzaForm.get('sauces').value;
+    if (isChecked) {
+      selectedPizzaToppingList.push(sauceId);
+    } else {
+      if (selectedPizzaToppingList.some(e => e === sauceId)) {
+        const index = selectedPizzaToppingList.indexOf(sauceId, 0);
+        if (index > -1) {
+          selectedPizzaToppingList.splice(index, 1);
+        }
+      }
+    }
+    this.pizzaForm.get('sauces').setValue(selectedPizzaToppingList);
+  }
+
+  getDoughsOfSelectedPizzaSize(): [] {
+    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
+      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
+      return pizzaSize[0].doughs;
+    }
+    return [];
+  }
+
+  getBasesOfSelectedPizzaSize(): [] {
+    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
+      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
+      return pizzaSize[0].bases;
+    }
+    return [];
+  }
+
+  getMeatsOfSelectedPizzaSize(): [] {
+    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
+      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
+      return pizzaSize[0].toppings.meats;
+    }
+    return [];
+  }
+
+  getCheesesOfSelectedPizzaSize(): [] {
+    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
+      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
+      return pizzaSize[0].toppings.cheeses;
+    }
+    return [];
+  }
+
+  getVegetablesOfSelectedPizzaSize(): [] {
+    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
+      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
+      return pizzaSize[0].toppings.vegetables;
+    }
+    return [];
+  }
+
+  getFruitsOfSelectedPizzaSize(): [] {
+    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
+      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
+      return pizzaSize[0].toppings.fruits;
+    }
+    return [];
+  }
+
+  getOthersOfSelectedPizzaSize(): [] {
+    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
+      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
+      return pizzaSize[0].toppings.others;
+    }
+    return [];
+  }
+
+  getSaucesOfSelectedPizzaSize(): [] {
+    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
+      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
+      return pizzaSize[0].sauces;
+    }
+    return [];
   }
 }

@@ -7,8 +7,36 @@
 }
 
 button:disabled,
-button[disabled]{
+button[disabled] {
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
+}
+
+.with-check .form-check-label {
+  max-width: 155px;
+}
+
+.pizza-input-price {
+  margin-right: 10px !important;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.form-check {
+  display: flex;
+}
+
+.with-check .form-check-input {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.background-grey {
+  background-color: #ececec;
+}
+
+.font-12 {
+  font-size: 12px;
 }

@@ -337,9 +337,8 @@
                                     </div>
                                 </div>
                                 <div id="pizzacreator" class="collapse show">
-                                    <div class="card-body pizzadesigner">
+                                    <div class="card-body pizzadesigner" *ngIf="pizzaForm" [formGroup]="pizzaForm">
                                         <div class="row with-nomargin">
-
                                             <div class="col-xl-5  col-lg-12 col-md-12 with-nopadding">
                                                 <div class="pizza-preview">
                                                     <div class="pizza-base">
@@ -371,27 +370,21 @@
                                                         <div id="size" class="collapse show pizza-x"
                                                             data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="size" id="topping1"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping1">
-                                                                        32cm
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping1">1.299ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="size" id="topping2"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping2">
-                                                                        45cm
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping2">1.799ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let size of pizzaDesigner?.sizes; let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="radio" name="pizzadesigner_size_id"
+                                                                            id="size-{{i}}" value="{{size.id}}"
+                                                                            formControlName="pizzadesigner_size_id">
+                                                                        <label class="form-check-label"
+                                                                            for="pizzadesigner_size_id">
+                                                                            {{size.size}} cm
+                                                                        </label>
+                                                                        <label class="price pizza-input-price"
+                                                                            for="pizzadesigner_size_id">{{size.price}}ft</label>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -407,52 +400,31 @@
                                                                 </a>
                                                             </h5>
                                                         </div>
-                                                        <div id="dough" class="collapse pizza-x"
-                                                            data-parent="#pizza-accordion">
+                                                        <div *ngIf="pizzaForm.value.pizzadesigner_size_id" id="dough"
+                                                            class="collapse pizza-x" data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="dough" id="topping11"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping11">
-                                                                        Vékony
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping1">0ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="dough" id="topping12"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping12">
-                                                                        Normál
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping12">0ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="dough" id="topping13"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping13">
-                                                                        Vastag
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping13">100ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="dough" id="topping14"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping14">
-                                                                        Sajttal töltött
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping14">229ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let dough of getDoughsOfSelectedPizzaSize(); let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="radio" name="pizzadesigner_dough_id"
+                                                                            id="dough-{{i}}" value="{{dough.id}}"
+                                                                            formControlName="pizzadesigner_dough_id">
+                                                                        <label class="form-check-label"
+                                                                            for="pizzadesigner_dough_id">
+                                                                            {{dough.name}}
+                                                                        </label>
+                                                                        <label
+                                                                            *ngIf="dough.price === '0';else doughPrice"
+                                                                            class="price pizza-input-price"
+                                                                            for="pizzadesigner_dough_id">Ingyenes</label>
+                                                                        <ng-template #doughPrice>
+                                                                            <label class="price pizza-input-price"
+                                                                                for="pizzadesigner_dough_id">{{dough.price}}
+                                                                                ft</label>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -468,56 +440,33 @@
                                                                 </a>
                                                             </h5>
                                                         </div>
-                                                        <div id="base" class="collapse pizza-x"
-                                                            data-parent="#pizza-accordion">
+                                                        <div *ngIf="pizzaForm.value.pizzadesigner_size_id" id="base"
+                                                            class="collapse pizza-x" data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="base" id="topping21"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping21">
-                                                                        Paradicsomos
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping21">0ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="base" id="topping22"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping22">
-                                                                        BBQ
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping22">99ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="base" id="topping23"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping23">
-                                                                        Csípős paradicsomos
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping23">99ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="radio" name="base" id="topping24"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping24">
-                                                                        Tejfölös
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping24">99ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let base of getBasesOfSelectedPizzaSize(); let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="radio" name="pizzadesigner_base_id"
+                                                                            id="base-{{i}}" value="{{base.id}}"
+                                                                            formControlName="pizzadesigner_base_id">
+                                                                        <label class="form-check-label"
+                                                                            for="pizzadesigner_base_id">
+                                                                            {{base.name}}
+                                                                        </label>
+                                                                        <label *ngIf="base.price === '0';else basePrice"
+                                                                            class="price pizza-input-price"
+                                                                            for="pizzadesigner_base_id">Ingyenes</label>
+                                                                        <ng-template #basePrice>
+                                                                            <label class="price pizza-input-price"
+                                                                                for="pizzadesigner_base_id">{{base.price}}
+                                                                                ft</label>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
-
 
                                                     <div class="card">
                                                         <div class="card-header">
@@ -530,52 +479,31 @@
                                                                 </a>
                                                             </h5>
                                                         </div>
-                                                        <div id="meat" class="collapse pizza-x"
-                                                            data-parent="#pizza-accordion">
+                                                        <div *ngIf="pizzaForm.value.pizzadesigner_size_id" id="meat"
+                                                            class="collapse pizza-x" data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="meat" id="topping31"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping31">
-                                                                        Sonka
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping31">0ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="meat2" id="topping32"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping32">
-                                                                        Szalámi
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping32">99ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="meat3" id="topping33"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping33">
-                                                                        Bacon
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping33">99ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="meat4" id="topping34"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping34">
-                                                                        Csirkemell
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping34">299ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let meat of getMeatsOfSelectedPizzaSize(); let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="checkbox" name="meat-{{i}}"
+                                                                            id="meat-{{i}}"
+                                                                            (change)="pizzaToppingCheckBoxChange(meat.id, $event.target.checked)"
+                                                                            value="{{meat.id}}">
+                                                                        <label class="form-check-label"
+                                                                            for="meat-{{i}}">
+                                                                            {{meat.name}}
+                                                                        </label>
+                                                                        <label *ngIf="meat.price === '0';else meatPrice"
+                                                                            class="price pizza-input-price"
+                                                                            for="meat-{{i}}">Ingyenes</label>
+                                                                        <ng-template #meatPrice>
+                                                                            <label class="price pizza-input-price"
+                                                                                for="meat-{{i}}">{{meat.price}}
+                                                                                ft</label>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -591,52 +519,31 @@
                                                                 </a>
                                                             </h5>
                                                         </div>
-                                                        <div id="cheese" class="collapse pizza-x"
-                                                            data-parent="#pizza-accordion">
+                                                        <div *ngIf="pizzaForm.value.pizzadesigner_size_id" id="cheese"
+                                                            class="collapse pizza-x" data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="cheese1" id="topping41"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping41">
-                                                                        Trapista
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping41">0ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="cheese2" id="topping52"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping52">
-                                                                        Cheddar
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping52">99ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="cheese3" id="topping63"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping63">
-                                                                        Kék-sajt
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping63">99ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="cheese4" id="topping73"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping73">
-                                                                        Mozzarella
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping73">99ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let cheese of getCheesesOfSelectedPizzaSize(); let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="checkbox" name="cheese-{{i}}"
+                                                                            (change)="pizzaToppingCheckBoxChange(cheese.id, $event.target.checked)"
+                                                                            id="cheese-{{i}}" value="{{cheese.id}}">
+                                                                        <label class="form-check-label"
+                                                                            for="cheese-{{i}}">
+                                                                            {{cheese.name}}
+                                                                        </label>
+                                                                        <label
+                                                                            *ngIf="cheese.price === '0';else cheesePrice"
+                                                                            class="price pizza-input-price"
+                                                                            for="cheese-{{i}}">Ingyenes</label>
+                                                                        <ng-template #cheesePrice>
+                                                                            <label class="price pizza-input-price"
+                                                                                for="cheese-{{i}}">{{cheese.price}}
+                                                                                ft</label>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -652,52 +559,33 @@
                                                                 </a>
                                                             </h5>
                                                         </div>
-                                                        <div id="vegetable" class="collapse pizza-x"
+                                                        <div *ngIf="pizzaForm.value.pizzadesigner_size_id"
+                                                            id="vegetable" class="collapse pizza-x"
                                                             data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="veg" id="topping81"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping81">
-                                                                        Lilahagyma
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping81">59ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="veg2" id="topping82"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping82">
-                                                                        Csípős paprika
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping82">59ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="veg3" id="topping83"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping63">
-                                                                        Paradicsom
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping83">99ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="veg4" id="topping84"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping84">
-                                                                        Rukkola
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping83">99ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let vegetable of getVegetablesOfSelectedPizzaSize(); let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="checkbox" name="vegetable-{{i}}"
+                                                                            id="vegetable-{{i}}"
+                                                                            (change)="pizzaToppingCheckBoxChange(vegetable.id, $event.target.checked)"
+                                                                            value="{{vegetable.id}}">
+                                                                        <label class="form-check-label"
+                                                                            for="vegetable-{{i}}">
+                                                                            {{vegetable.name}}
+                                                                        </label>
+                                                                        <label
+                                                                            *ngIf="vegetable.price === '0';else vegetablePrice"
+                                                                            class="price pizza-input-price"
+                                                                            for="vegetable-{{i}}">Ingyenes</label>
+                                                                        <ng-template #vegetablePrice>
+                                                                            <label class="price pizza-input-price"
+                                                                                for="vegetable-{{i}}">{{vegetable.price}}
+                                                                                ft</label>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -713,30 +601,32 @@
                                                                 </a>
                                                             </h5>
                                                         </div>
-                                                        <div id="fruit" class="collapse pizza-x"
-                                                            data-parent="#pizza-accordion">
+                                                        <div *ngIf="pizzaForm.value.pizzadesigner_size_id" id="fruit"
+                                                            class="collapse pizza-x" data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="fruit3" id="topping91"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping91">
-                                                                        Ananász
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping91">189ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="fruit2" id="topping92"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping92">
-                                                                        Citrom
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping92">129ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let fruit of getFruitsOfSelectedPizzaSize(); let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="checkbox" name="fruit-{{i}}"
+                                                                            id="fruit-{{i}}"
+                                                                            (change)="pizzaToppingCheckBoxChange(fruit.id, $event.target.checked)"
+                                                                            value="{{fruit.id}}">
+                                                                        <label class="form-check-label"
+                                                                            for="fruit-{{i}}">
+                                                                            {{fruit.name}}
+                                                                        </label>
+                                                                        <label
+                                                                            *ngIf="fruit.price === '0';else fruitPrice"
+                                                                            class="price pizza-input-price"
+                                                                            for="fruit-{{i}}">Ingyenes</label>
+                                                                        <ng-template #fruitPrice>
+                                                                            <label class="price pizza-input-price"
+                                                                                for="fruit-{{i}}">{{fruit.price}}
+                                                                                ft</label>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -752,30 +642,31 @@
                                                                 </a>
                                                             </h5>
                                                         </div>
-                                                        <div id="other" class="collapse pizza-x"
-                                                            data-parent="#pizza-accordion">
+                                                        <div *ngIf="pizzaForm.value.pizzadesigner_size_id" id="other"
+                                                            class="collapse pizza-x" data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="other1" id="topping101"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping101">
-                                                                        Gomba
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping101">80ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="other2" id="topping102"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping102">
-                                                                        Tojás
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping102">90ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let other of getOthersOfSelectedPizzaSize(); let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="checkbox" name="other-{{i}}"
+                                                                            (change)="pizzaToppingCheckBoxChange(other.id, $event.target.checked)"
+                                                                            id="other-{{i}}" value="{{other.id}}">
+                                                                        <label class="form-check-label"
+                                                                            for="other-{{i}}">
+                                                                            {{other.name}}
+                                                                        </label>
+                                                                        <label
+                                                                            *ngIf="other.price === '0';else otherPrice"
+                                                                            class="price pizza-input-price"
+                                                                            for="other-{{i}}">Ingyenes</label>
+                                                                        <ng-template #otherPrice>
+                                                                            <label class="price pizza-input-price"
+                                                                                for="other-{{i}}">{{other.price}}
+                                                                                ft</label>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -791,44 +682,74 @@
                                                                 </a>
                                                             </h5>
                                                         </div>
-                                                        <div id="sauces" class="collapse pizza-x"
-                                                            data-parent="#pizza-accordion">
+                                                        <div *ngIf="pizzaForm.value.pizzadesigner_size_id" id="sauces"
+                                                            class="collapse pizza-x" data-parent="#pizza-accordion">
                                                             <div class="card-body card-body-pizza">
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="sauce1" id="topping111"
-                                                                        value="2">
-                                                                    <label class="form-check-label" for="topping111">
-                                                                        Ketchup
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping111">45ft</label>
-                                                                </div>
-
-                                                                <div class="form-check with-check">
-                                                                    <input class="form-check-input pizza-input"
-                                                                        type="checkbox" name="sauce2" id="topping112"
-                                                                        value="1">
-                                                                    <label class="form-check-label" for="topping112">
-                                                                        Majonéz
-                                                                    </label>
-                                                                    <label class="price pizza-input-price"
-                                                                        for="topping112">45ft</label>
-                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let sauce of getSaucesOfSelectedPizzaSize(); let i = index">
+                                                                    <div class="form-check with-check">
+                                                                        <input class="form-check-input pizza-input"
+                                                                            type="checkbox" name="sauce-{{i}}"
+                                                                            id="sauce-{{i}}"
+                                                                            (change)="pizzaSaucesCheckBoxChange(sauce.id, $event.target.checked)"
+                                                                            value="{{sauce.id}}">
+                                                                        <label class="form-check-label"
+                                                                            for="sauce-{{i}}">
+                                                                            {{sauce.name}}
+                                                                        </label>
+                                                                        <label
+                                                                            *ngIf="sauce.price === '0';else saucePrice"
+                                                                            class="price pizza-input-price"
+                                                                            for="sauce-{{i}}">Ingyenes</label>
+                                                                        <ng-template #saucePrice>
+                                                                            <label class="price pizza-input-price"
+                                                                                for="sauce-{{i}}">{{sauce.price}}
+                                                                                ft</label>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
 
-                                            <div class="col-6 with-nopadding">
-                                                <h5 class="pizza-price">1299Ft</h5>
-                                            </div>
+                                            <div class="w-100">
+                                                <div class="product-quantity padding-10 pl-0">
+                                                    <span class="text-light-black fw-700 fs-16">Mennyiség</span>
+                                                    <div class="input-group quantity">
+                                                        <div class="input-group-append">
+                                                            <button class="minus-btn" type="button" name="button"
+                                                                (click)="decreasePizzaQuantity()">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </div>
+                                                        <input id="quantity" type="text" class="text-center background-grey"
+                                                            name="quantity" formControlName="quantity"
+                                                            [readonly]="true">
+                                                        <div class="input-group-prepend">
+                                                            <button class="plus-btn" type="button" name="button"
+                                                                (click)="increasePizzaQuantity()"><i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                            <div class="col-6 with-nopadding">
-                                                <a href="javascript:void(0)"
-                                                    class="btn-first green-btn text-custom-white fw-500 with-btn pizza-cart">Kosárba</a>
+                                                <div class="row">
+                                                    <div class="col-6 with-nopadding">
+                                                        <h5 class="pizza-price">1299Ft</h5>
+                                                    </div>
+
+                                                    <div class="col-6 with-nopadding">
+                                                        <button class="btn-second with-btn btn-submit pizza-cart" (click)="addPizzaToCart()"
+                                                        [disabled]="!isLoggedIn() || !this.pizzaForm.valid" data-dismiss="modal">Kosárba</button>
+                                                    </div>
+                                                </div>
+                                                <small *ngIf="pizzaForm.controls.toppings?.errors?.tooMuch"
+                                                        class="row text-danger justify-content-end mr-1 mt-2 font-12">A maximálisan kiválasztható feltét {{pizzaForm.controls.toppings?.errors?.tooMuch}} db!</small>
+                                                <ng-container *ngIf="!isLoggedIn()">
+                                                    <p class="with-alert mt-4">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
+                                                </ng-container>
                                             </div>
                                         </div>
                                     </div>
@@ -1140,8 +1061,8 @@
                                 class="text-light-black fw-700 fs-16">Mennyiség</span>
                             <div class="input-group quantity">
                                 <div class="input-group-append">
-                                    <button class="minus-btn" type="button" name="button" (click)="decreaseQuantity()"> <i
-                                            class="fas fa-minus"></i>
+                                    <button class="minus-btn" type="button" name="button" (click)="decreaseQuantity()">
+                                        <i class="fas fa-minus"></i>
                                     </button>
                                 </div>
                                 <input id="quantity" type="text" class="text-center" name="quantity"
@@ -1170,9 +1091,10 @@
                                 <div class="card-body">
                                     <ng-container *ngIf="selectedProduct?.sides.length > 0; else noSides">
                                         <ng-container *ngFor="let side of selectedProduct?.sides; let i = index">
-                                            <div class="form-check with-check">
+                                            <div class="form-check with-check d-block">
                                                 <input class="form-check-input extra-input" type="radio"
-                                                    name="selectedSide" id="side-{{i}}" value="{{side.id}}" formControlName="selectedSide">
+                                                    name="selectedSide" id="side-{{i}}" value="{{side.id}}"
+                                                    formControlName="selectedSide">
                                                 <img src="{{side.image}}" alt="{{side.name}}">
                                                 <label class="form-check-label" for="selectedSide">
                                                     {{side.name}}
@@ -1205,9 +1127,10 @@
                                 <div class="card-body">
                                     <ng-container *ngIf="selectedProduct?.drinks.length > 0; else noDrinks">
                                         <ng-container *ngFor="let drink of selectedProduct?.drinks; let i = index">
-                                            <div class="form-check with-check">
+                                            <div class="form-check with-check d-block">
                                                 <input class="form-check-input extra-input" type="radio"
-                                                    name="selectedDrink" id="drink-{{i}}" value="{{drink.id}}" formControlName="selectedDrink">
+                                                    name="selectedDrink" id="drink-{{i}}" value="{{drink.id}}"
+                                                    formControlName="selectedDrink">
                                                 <img src="{{drink.image}}" alt="{{drink.image}}">
                                                 <label class="form-check-label" for="selectedDrink">
                                                     {{drink.name}}
@@ -1243,8 +1166,9 @@
                                 <div class="card-body">
                                     <ng-container *ngIf="selectedProduct?.extras.length > 0; else noExtra">
                                         <ng-container *ngFor="let extra of selectedProduct?.extras; let i = index">
-                                            <div class="form-check with-check">
-                                                <input class="form-check-input extra-input" type="checkbox" (change)="extraCheckBoxChange(extra.id, $event.target.checked)"
+                                            <div class="form-check with-check d-block">
+                                                <input class="form-check-input extra-input" type="checkbox"
+                                                    (change)="extraCheckBoxChange(extra.id, $event.target.checked)"
                                                     name="extra-{{i}}" id="extra-{{i}}" value="{{extra.id}}">
                                                 <label class="form-check-label" for="extra-{{i}}">
                                                     {{extra.name}}
@@ -1267,7 +1191,8 @@
                 </div>
                 <div class="modal-footer padding-10">
                     <button class="btn-second with-btn btn-submit" (click)="addSelectedProductToCart()"
-                        [disabled]="!isLoggedIn() || !this.selectedProductForm.valid" data-dismiss="modal">Kosárba: 1.910Ft</button>
+                        [disabled]="!isLoggedIn() || !this.selectedProductForm.valid" data-dismiss="modal">Kosárba:
+                        1.910Ft</button>
                     <ng-container *ngIf="!isLoggedIn()">
                         <p class="with-alert ">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
                     </ng-container>
