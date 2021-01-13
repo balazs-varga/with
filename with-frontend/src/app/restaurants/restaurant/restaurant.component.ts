@@ -114,15 +114,15 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  decreaseAmount(): void {
-    if (this.selectedProductForm.get('amount').value !== 1) {
-      this.selectedProductForm.get('amount').setValue(this.selectedProductForm.get('amount').value - 1);
+  decreaseQuantity(): void {
+    if (this.selectedProductForm.get('quantity').value !== 1) {
+      this.selectedProductForm.get('quantity').setValue(this.selectedProductForm.get('quantity').value - 1);
     }
   }
 
-  increaseAmount(): void {
-    if (this.selectedProductForm.get('amount').value < 20) {
-      this.selectedProductForm.get('amount').setValue(this.selectedProductForm.get('amount').value + 1);
+  increaseQuantity(): void {
+    if (this.selectedProductForm.get('quantity').value < 20) {
+      this.selectedProductForm.get('quantity').setValue(this.selectedProductForm.get('quantity').value + 1);
     }
   }
 
@@ -143,6 +143,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       }
     }
     this.selectedProductForm.get('selectedExtras').setValue(selectedExtraList);
+  }
+
+  addSelectedProductToCart() {
+    
   }
 
   private subscribeToRouteParams(): void {
@@ -189,10 +193,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   private createSelectedProductForm(product): void {
     this.selectedProductForm = new FormGroup({
       selectedProductId: new FormControl(product.id),
-      selectedSide: new FormControl(''),
-      selectedDrink: new FormControl(''),
+      selectedSide: new FormControl(null),
+      selectedDrink: new FormControl(null),
       selectedExtras: new FormControl([], this.selectedExtraLengthValidator(product.extralimit)),
-      amount: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(20)])
+      quantity: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(20)])
     });
 
     if (product.type === 'menu') {

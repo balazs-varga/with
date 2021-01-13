@@ -1140,14 +1140,14 @@
                                 class="text-light-black fw-700 fs-16">Mennyiség</span>
                             <div class="input-group quantity">
                                 <div class="input-group-append">
-                                    <button class="minus-btn" type="button" name="button" (click)="decreaseAmount()"> <i
+                                    <button class="minus-btn" type="button" name="button" (click)="decreaseQuantity()"> <i
                                             class="fas fa-minus"></i>
                                     </button>
                                 </div>
-                                <input id="amount" type="text" class="text-center" name="amount"
-                                    formControlName="amount" [readonly]="true">
+                                <input id="quantity" type="text" class="text-center" name="quantity"
+                                    formControlName="quantity" [readonly]="true">
                                 <div class="input-group-prepend">
-                                    <button class="plus-btn" type="button" name="button" (click)="increaseAmount()"><i
+                                    <button class="plus-btn" type="button" name="button" (click)="increaseQuantity()"><i
                                             class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -1266,8 +1266,8 @@
                     <!-- sub product -->
                 </div>
                 <div class="modal-footer padding-10">
-                    <button class="btn-second with-btn btn-submit"
-                        [disabled]="!isLoggedIn() || !this.selectedProductForm.valid">Kosárba: 1.910Ft</button>
+                    <button class="btn-second with-btn btn-submit" (click)="addSelectedProductToCart()"
+                        [disabled]="!isLoggedIn() || !this.selectedProductForm.valid" data-dismiss="modal">Kosárba: 1.910Ft</button>
                     <ng-container *ngIf="!isLoggedIn()">
                         <p class="with-alert ">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
                     </ng-container>
