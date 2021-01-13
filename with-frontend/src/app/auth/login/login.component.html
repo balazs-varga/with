@@ -49,9 +49,9 @@
                                                 class="text-right">
                                                 <small *ngIf="loginForm.controls.password.errors?.required"
                                                     class="text-danger">Kötelező mező</small>
-                                                <small *ngIf="loginForm.controls.password.errors?.pattern"
-                                                    class="text-danger">A jelszó nem egyezik a
-                                                    jelszókövetelményekkel</small>
+                                                <small *ngIf="loginForm.controls.password.errors?.invalidPasswordFormat"
+                                                    class="text-danger">Minimum nyolc karakter, egy betű, egy szám
+                                                </small>
                                             </div>
                                         </div>
                                         <div class="col-12 text-center">

@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { passwordValidator } from 'src/app/shared/validation/input-field.validator';
 import { passwordMatchValidator } from 'src/app/shared/validation/must-match.validator';
 import { environment } from 'src/environments/environment';
 
@@ -80,8 +81,8 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
 
   private createPasswordResetForm(): void {
     this.passwordResetForm = new FormGroup({
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]),
-      c_password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]),
+      password: new FormControl('', [Validators.required, passwordValidator, Validators.minLength(8), Validators.maxLength(25)]),
+      c_password: new FormControl('', [Validators.required, passwordValidator, Validators.minLength(8), Validators.maxLength(25)]),
     }, passwordMatchValidator);
 
     this.passwordResetForm.get('password').valueChanges.subscribe(

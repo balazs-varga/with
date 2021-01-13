@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { passwordValidator, phoneValidator } from 'src/app/shared/validation/input-field.validator';
 import { passwordMatchValidator } from 'src/app/shared/validation/must-match.validator';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../auth.service';
@@ -53,24 +54,16 @@ export class RegistrationComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  private phoneValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const phoneRegex = /^((?:\+?3|0)6)(?:-|\()?(\d{1,2})(?:-|\))?(\d{3})-?(\d{3,4})$/;
-    if (control.value && !phoneRegex.test(control.value)) {
-      return { invalidPhoneFormat: true };
-    }
-    return null;
-  }
-
   private createRegistrationForm(): void {
     this.registrationForm = new FormGroup({
       firstname: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
-      lastname: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
+      lastname: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]),
-      c_password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]),
-      phone: new FormControl('', [Validators.required, this.phoneValidator]),
+      password: new FormControl('', [Validators.required, passwordValidator, Validators.minLength(8), Validators.maxLength(25)]),
+      c_password: new FormControl('', [Validators.required, passwordValidator, Validators.minLength(8), Validators.maxLength(25)]),
+      phone: new FormControl('', [Validators.required, phoneValidator]),
       country: new FormControl('Hungary', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]),
-      city: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]),
+      city: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
       zipcode: new FormControl('', [Validators.required, Validators.min(1000), Validators.max(9999)]),
       address: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
     },

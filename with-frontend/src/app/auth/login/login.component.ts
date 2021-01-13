@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { passwordValidator } from 'src/app/shared/validation/input-field.validator';
 import { AuthenticationService } from '../auth.service';
 
 @Component({
@@ -52,11 +53,10 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  // use password regex
   private createLoginForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, passwordValidator, Validators.minLength(8), Validators.maxLength(25)]]
     });
   }
 }

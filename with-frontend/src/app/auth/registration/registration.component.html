@@ -67,10 +67,10 @@
                                                     class="text-right">
                                                     <small *ngIf="registrationForm.controls.password.errors?.required"
                                                         class="text-danger">Kötelező mező</small>
-                                                    <small *ngIf="registrationForm.controls.password.errors?.minlength"
-                                                        class="text-danger">Túl rövid jelszó</small>
-                                                    <small *ngIf="registrationForm.controls.password.errors?.maxlength"
-                                                        class="text-danger">Túl hosszú jelszó</small>
+                                                    <small
+                                                        *ngIf="registrationForm.controls.password.errors?.invalidPasswordFormat"
+                                                        class="text-danger">Minimum nyolc karakter, egy betű, egy szám
+                                                    </small>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,11 +87,9 @@
                                                     <small *ngIf="registrationForm.controls.c_password.errors?.required"
                                                         class="text-danger">Kötelező mező</small>
                                                     <small
-                                                        *ngIf="registrationForm.controls.c_password.errors?.minlength"
-                                                        class="text-danger">Túl rövid jelszó</small>
-                                                    <small
-                                                        *ngIf="registrationForm.controls.c_password.errors?.maxlength"
-                                                        class="text-danger">Túl hosszú jelszó</small>
+                                                        *ngIf="registrationForm.controls.c_password.errors?.invalidPasswordFormat"
+                                                        class="text-danger">Minimum nyolc karakter, egy betű, egy szám
+                                                    </small>
                                                     <small
                                                         *ngIf="!registrationForm.controls.c_password.errors?.minlength && !registrationForm.controls.c_password.errors?.maxlength && registrationForm.errors?.mustMatch"
                                                         class="text-danger">A jelszavak nem egyeznek</small>
