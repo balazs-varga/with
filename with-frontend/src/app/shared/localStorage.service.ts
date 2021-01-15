@@ -17,6 +17,10 @@ export class LocalStorageService {
     return localStorage.getItem(this.city);
   }
 
+  getRestaurandOrderData(restaurantId): string {
+    return localStorage.getItem(restaurantId);
+  }
+
   watchStorage(): Observable<any> {
     return this.storageSub.asObservable();
   }
@@ -33,6 +37,10 @@ export class LocalStorageService {
 
   isZipAndCityStorageAvailable(): boolean {
     return localStorage.getItem(this.zip) != null && localStorage.getItem(this.city) != null;
+  }
+
+  isRestaurandOrderDataAvailable(restaurantId): boolean {
+    return localStorage.getItem(restaurantId) != null;
   }
 
   clearZipAndCityStorage(): void {

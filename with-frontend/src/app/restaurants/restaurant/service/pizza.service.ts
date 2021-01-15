@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CartService } from 'src/app/shared/cart.service';
+import { PizzaLocalStorage } from '../DTO/pizza/PizzaLocalStorage.model';
+import { SauceLocalStorage } from '../DTO/pizza/SauceLocalStorage.model';
+import { ToppingLocalStorage } from '../DTO/pizza/ToppingLocalStorage.model';
+import { RestaurantLocalStorage } from '../DTO/RestaurantLocalStorage.model';
 
 @Injectable({
   providedIn: 'root'
@@ -166,8 +170,66 @@ export class PizzaService {
     }
   }
 
-  addToCart(pizzaForm: FormGroup, pizzaDesigner, restaurantId): void {
-    console.log(pizzaForm.getRawValue());
+  addToCart(pizzaForm: FormGroup, pizzaDesigner, restaurantId): Promise<void> {
+    return new Promise((resolve) => {
+      let pizzaDTO = new PizzaLocalStorage();
+      pizzaDTO = pizzaForm.getRawValue();
+
+      const dough = this.getDoughsOfSelectedPizzaSize(pizzaForm, pizzaDesigner).find(e => +e.id === +pizzaDTO.pizzadesigner_dough_id);
+      pizzaDTO.doughName = dough.name;
+
+      const base = this.getBasesOfSelectedPizzaSize(pizzaForm, pizzaDesigner).find(e => +e.id === +pizzaDTO.pizzadesigner_base_id);
+      pizzaDTO.baseName = base.name;
+
+      const size = pizzaDesigner.sizes.find(e => +e.id === +pizzaDTO.pizzadesigner_size_id);
+      pizzaDTO.sizeName = size.size + ' cm';
+
+      if (pizzaForm.get('sauces').value.length > 0) {
+        pizzaDTO.sauces = [];
+        const sauces = this.getSaucesOfSelectedPizzaSize(pizzaForm, pizzaDesigner);
+
+        pizzaForm.value.sauces.forEach(sauceId => {
+          const sauce = sauces.find(e => +e.id === +sauceId);
+          pizzaDTO.sauces.push(new SauceLocalStorage(sauceId, sauce.name));
+        });
+      }
+
+      if (pizzaForm.get('toppings').value.length > 0) {
+        pizzaDTO.toppings = [];
+        const meatsOfSize = this.getMeatsOfSelectedPizzaSize(pizzaForm, pizzaDesigner);
+        const cheesesOfSize = this.getCheesesOfSelectedPizzaSize(pizzaForm, pizzaDesigner);
+        const vegetablesOfSize = this.getVegetablesOfSelectedPizzaSize(pizzaForm, pizzaDesigner);
+        const fruitsOfSize = this.getFruitsOfSelectedPizzaSize(pizzaForm, pizzaDesigner);
+        const othersOfSize = this.getOthersOfSelectedPizzaSize(pizzaForm, pizzaDesigner);
+
+        pizzaForm.value.toppings.forEach(toppingId => {
+          if (meatsOfSize.some(e => +e.id === +toppingId)) {
+            const meat = meatsOfSize.find(e => +e.id === +toppingId);
+            pizzaDTO.toppings.push(new ToppingLocalStorage(meat.id, meat.name));
+          } else if (cheesesOfSize.some(e => +e.id === +toppingId)) {
+            const cheese = cheesesOfSize.find(e => +e.id === +toppingId);
+            pizzaDTO.toppings.push(new ToppingLocalStorage(cheese.id, cheese.name));
+          } else if (vegetablesOfSize.some(e => +e.id === +toppingId)) {
+            const vegetable = vegetablesOfSize.find(e => +e.id === +toppingId);
+            pizzaDTO.toppings.push(new ToppingLocalStorage(vegetable.id, vegetable.name));
+          } else if (fruitsOfSize.some(e => +e.id === +toppingId)) {
+            const fruit = fruitsOfSize.find(e => +e.id === +toppingId);
+            pizzaDTO.toppings.push(new ToppingLocalStorage(fruit.id, fruit.name));
+          } else if (othersOfSize.some(e => +e.id === +toppingId)) {
+            const other = othersOfSize.find(e => +e.id === +toppingId);
+            pizzaDTO.toppings.push(new ToppingLocalStorage(other.id, other.name));
+          }
+        });
+      }
+
+      const restaurantDTO = new RestaurantLocalStorage();
+      restaurantDTO.restaurant_id = restaurantId;
+      restaurantDTO.pizza.push(pizzaDTO);
+
+      this.cartService.addPizzaToCart(restaurantId, restaurantDTO, pizzaDTO);
+
+      resolve();
+    });
   }
 
   private addPriceToElementPrice(pizzaForm: FormGroup, price): void {

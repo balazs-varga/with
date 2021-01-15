@@ -164,7 +164,11 @@ export class RestaurantComponent implements OnInit, OnDestroy {
 
   addPizzaToCart(): void {
     if (this.pizzaForm.valid) {
-      this.pizzaService.addToCart(this.pizzaForm, this.pizzaDesigner, this.restaurant.restaurantid);
+      this.pizzaService.addToCart(this.pizzaForm, this.pizzaDesigner, this.restaurant.restaurantid)
+        .then(() => {
+          this.pizzaService.resetPizzaForm(this.pizzaForm);
+          this.isPizzaCreatorShow = false;
+        });
     }
   }
 
