@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment';
 import { LocationService } from 'src/app/shared/location.service';
 import { LocalStorageService } from 'src/app/shared/localStorage.service';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { filter } from 'rxjs/operators';
+import { PizzaService } from './service/pizza.service';
 
 @Component({
   selector: 'app-restaurant',
@@ -27,6 +29,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   sectionScroll = null;
   pizzaDesigner = null;
   zip = null;
+  pauseForm = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,7 +38,8 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     public authService: AuthenticationService,
     public locationService: LocationService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private pizzaService: PizzaService
   ) { }
 
   ngOnInit(): void {
@@ -128,15 +132,11 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   }
 
   decreasePizzaQuantity(): void {
-    if (this.pizzaForm.get('quantity').value !== 1) {
-      this.pizzaForm.get('quantity').setValue(this.pizzaForm.get('quantity').value - 1);
-    }
+    this.pizzaService.decreasePizzaQuantity(this.pizzaForm);
   }
 
   increasePizzaQuantity(): void {
-    if (this.pizzaForm.get('quantity').value < 20) {
-      this.pizzaForm.get('quantity').setValue(this.pizzaForm.get('quantity').value + 1);
-    }
+    this.pizzaService.increasePizzaQuantity(this.pizzaForm);
   }
 
   isSelectedProductMenu(): boolean {
@@ -162,6 +162,74 @@ export class RestaurantComponent implements OnInit, OnDestroy {
 
   }
 
+  addPizzaToCart(): void {
+    if (this.pizzaForm.valid) {
+      this.pizzaService.addToCart(this.pizzaForm, this.pizzaDesigner, this.restaurant.restaurantid);
+    }
+  }
+
+  pizzaToppingCheckBoxChange(toppingId, isChecked): void {
+    const selectedPizzaToppingList = this.pizzaForm.get('toppings').value;
+    if (isChecked) {
+      selectedPizzaToppingList.push(toppingId);
+    } else {
+      if (selectedPizzaToppingList.some(e => e === toppingId)) {
+        const index = selectedPizzaToppingList.indexOf(toppingId, 0);
+        if (index > -1) {
+          selectedPizzaToppingList.splice(index, 1);
+        }
+      }
+    }
+    this.pizzaForm.get('toppings').setValue(selectedPizzaToppingList);
+  }
+
+  pizzaSaucesCheckBoxChange(sauceId, isChecked): void {
+    const selectedPizzaToppingList = this.pizzaForm.get('sauces').value;
+    if (isChecked) {
+      selectedPizzaToppingList.push(sauceId);
+    } else {
+      if (selectedPizzaToppingList.some(e => e === sauceId)) {
+        const index = selectedPizzaToppingList.indexOf(sauceId, 0);
+        if (index > -1) {
+          selectedPizzaToppingList.splice(index, 1);
+        }
+      }
+    }
+    this.pizzaForm.get('sauces').setValue(selectedPizzaToppingList);
+  }
+
+  getDoughsOfSelectedPizzaSize(): any[] {
+    return this.pizzaService.getDoughsOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
+  }
+
+  getBasesOfSelectedPizzaSize(): any[] {
+    return this.pizzaService.getBasesOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
+  }
+
+  getMeatsOfSelectedPizzaSize(): any[] {
+    return this.pizzaService.getMeatsOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
+  }
+
+  getCheesesOfSelectedPizzaSize(): any[] {
+    return this.pizzaService.getCheesesOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
+  }
+
+  getVegetablesOfSelectedPizzaSize(): any[] {
+    return this.pizzaService.getVegetablesOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
+  }
+
+  getFruitsOfSelectedPizzaSize(): any[] {
+    return this.pizzaService.getFruitsOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
+  }
+
+  getOthersOfSelectedPizzaSize(): any[] {
+    return this.pizzaService.getOthersOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
+  }
+
+  getSaucesOfSelectedPizzaSize(): any[] {
+    return this.pizzaService.getSaucesOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
+  }
+
   private subscribeToRouteParams(): void {
     this.isLoading = true;
     this.restaurant = this.activatedRoute.snapshot.data.restaurant;
@@ -173,7 +241,8 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     }
     this.getPizzaDesignerDetails(this.restaurant).then(() => {
       if (this.pizzaDesigner?.available) {
-        this.createPizzaForm();
+        this.pizzaForm = this.pizzaService.createPizzaForm();
+        this.subscribeToPizzaValueChanges();
         this.subscribeToPizzaSizeChange();
       }
     });
@@ -231,26 +300,19 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createPizzaForm(): void {
-    this.pizzaForm = new FormGroup({
-      pizzadesigner_size_id: new FormControl(null, Validators.required),
-      pizzadesigner_dough_id: new FormControl(null, Validators.required),
-      pizzadesigner_base_id: new FormControl(null, Validators.required),
-      //toppings: new FormControl([]),
-      sauces: new FormControl([]),
-      quantity: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(20)])
-    });
+  private subscribeToPizzaValueChanges(): void {
+    this.pizzaForm.valueChanges.pipe(filter(_ => !this.pauseForm))
+      .subscribe(
+        () => {
+          this.pizzaService.calculatePizzaPrice(this.pizzaForm, this.pizzaDesigner);
+        }
+      );
   }
 
   private subscribeToPizzaSizeChange(): void {
     this.pizzaForm.get('pizzadesigner_size_id').valueChanges.subscribe((sizeId) => {
-      this.pizzaForm.patchValue({
-        pizzadesigner_dough_id: null,
-        pizzadesigner_base_id: null,
-        sauces: [],
-        quantity: 1
-      });
-
+      this.pizzaService.resetPizzaForm(this.pizzaForm);
+      this.pauseForm = true;
       this.pizzaForm.removeControl('toppings');
       const selectedPizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +sizeId)[0];
       if (selectedPizzaSize?.maxtoppings) {
@@ -258,7 +320,8 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       } else {
         this.pizzaForm.addControl('toppings', new FormControl([]));
       }
-      this.pizzaForm.get('toppings').updateValueAndValidity();
+      this.pauseForm = false;
+      this.pizzaForm.get('toppings').updateValueAndValidity({ emitEvent: false });
     });
   }
 
@@ -266,103 +329,5 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     return (control: AbstractControl): { [key: string]: any } | null =>
       control.value.length > limit
         ? { tooMuch: limit } : null;
-  }
-
-  addPizzaToCart() {
-    console.log(this.pizzaForm)
-  }
-
-  pizzaToppingCheckBoxChange(toppingId, isChecked): void {
-    const selectedPizzaToppingList = this.pizzaForm.get('toppings').value;
-    if (isChecked) {
-      selectedPizzaToppingList.push(toppingId);
-    } else {
-      if (selectedPizzaToppingList.some(e => e === toppingId)) {
-        const index = selectedPizzaToppingList.indexOf(toppingId, 0);
-        if (index > -1) {
-          selectedPizzaToppingList.splice(index, 1);
-        }
-      }
-    }
-    this.pizzaForm.get('toppings').setValue(selectedPizzaToppingList);
-  }
-
-  pizzaSaucesCheckBoxChange(sauceId, isChecked): void {
-    const selectedPizzaToppingList = this.pizzaForm.get('sauces').value;
-    if (isChecked) {
-      selectedPizzaToppingList.push(sauceId);
-    } else {
-      if (selectedPizzaToppingList.some(e => e === sauceId)) {
-        const index = selectedPizzaToppingList.indexOf(sauceId, 0);
-        if (index > -1) {
-          selectedPizzaToppingList.splice(index, 1);
-        }
-      }
-    }
-    this.pizzaForm.get('sauces').setValue(selectedPizzaToppingList);
-  }
-
-  getDoughsOfSelectedPizzaSize(): [] {
-    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
-      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
-      return pizzaSize[0].doughs;
-    }
-    return [];
-  }
-
-  getBasesOfSelectedPizzaSize(): [] {
-    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
-      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
-      return pizzaSize[0].bases;
-    }
-    return [];
-  }
-
-  getMeatsOfSelectedPizzaSize(): [] {
-    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
-      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
-      return pizzaSize[0].toppings.meats;
-    }
-    return [];
-  }
-
-  getCheesesOfSelectedPizzaSize(): [] {
-    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
-      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
-      return pizzaSize[0].toppings.cheeses;
-    }
-    return [];
-  }
-
-  getVegetablesOfSelectedPizzaSize(): [] {
-    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
-      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
-      return pizzaSize[0].toppings.vegetables;
-    }
-    return [];
-  }
-
-  getFruitsOfSelectedPizzaSize(): [] {
-    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
-      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
-      return pizzaSize[0].toppings.fruits;
-    }
-    return [];
-  }
-
-  getOthersOfSelectedPizzaSize(): [] {
-    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
-      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
-      return pizzaSize[0].toppings.others;
-    }
-    return [];
-  }
-
-  getSaucesOfSelectedPizzaSize(): [] {
-    if (this.pizzaForm.get('pizzadesigner_size_id').value) {
-      const pizzaSize = this.pizzaDesigner.sizes.filter(e => e.id === +this.pizzaForm.get('pizzadesigner_size_id').value);
-      return pizzaSize[0].sauces;
-    }
-    return [];
   }
 }
