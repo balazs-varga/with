@@ -9,8 +9,8 @@ export class PizzaLocalStorage {
     baseName: string;
     doughName: string;
     quantity: number;
-    toppings: ToppingLocalStorage[];
-    sauces: SauceLocalStorage[];
+    toppings: ToppingLocalStorage[] = [];
+    sauces: SauceLocalStorage[] = [];
     totalPrice: number;
     oneItemPrice: number;
 }
