@@ -1,13 +1,13 @@
 import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { LocationService } from 'src/app/shared/location.service';
 import { LocalStorageService } from 'src/app/shared/localStorage.service';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { PizzaService } from './service/pizza.service';
 import { MealService } from './service/meal.sevice';
@@ -31,6 +31,8 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   pizzaDesigner = null;
   zip = null;
   pauseForm = false;
+
+  @ViewChild('productModalClose') productModalClose;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -162,7 +164,11 @@ export class RestaurantComponent implements OnInit, OnDestroy {
 
   addSelectedProductToCart(): void {
     if (this.selectedProductForm.valid) {
-
+      this.mealService.addToCart(this.selectedProductForm, this.selectedProduct, this.restaurant.restaurantid)
+      .then(() => {
+        this.selectedProduct = null;
+        this.productModalClose.nativeElement.click();
+      });
     }
   }
 
