@@ -382,7 +382,7 @@
                                                                             {{size.size}} cm
                                                                         </label>
                                                                         <label class="price pizza-input-price"
-                                                                            for="pizzadesigner_size_id">{{size.price}}ft</label>
+                                                                            for="pizzadesigner_size_id">{{size.price}} ft</label>
                                                                     </div>
                                                                 </ng-container>
                                                             </div>
@@ -798,14 +798,14 @@
                                                                                 <span
                                                                                     class="with-product-tag-sale">Akció</span>
                                                                                 <span class="with-product-price"><span
-                                                                                        class="with-product-old-price">{{product.old_price}}Ft</span>
+                                                                                        class="with-product-old-price">{{product.old_price}} Ft</span>
                                                                                     {{product.price
-                                                                                    | number:'1.0-0'}}Ft</span>
+                                                                                    | number:'1.0-0'}} Ft</span>
                                                                             </ng-container>
                                                                             <ng-container *ngIf="!product.is_sale">
                                                                                 <span
                                                                                     class="with-product-price">{{product.price
-                                                                                    | number:'1.0-0'}}Ft</span>
+                                                                                    | number:'1.0-0'}} Ft</span>
                                                                             </ng-container>
                                                                         </h6>
                                                                         <div class="with-product-description-box">
@@ -1019,12 +1019,12 @@
                         </h3>
                         <ng-container *ngIf="selectedProduct?.is_sale">
                             <h5 class="text-light-black fw-600 no-margin"><span
-                                    class="with-product-old-price">{{selectedProduct.old_price}}Ft</span>
-                                {{selectedProduct?.price | number:'1.0-0'}}Ft</h5>
+                                    class="with-product-old-price">{{selectedProduct.old_price}} Ft</span>
+                                {{selectedProduct?.price | number:'1.0-0'}} Ft</h5>
                         </ng-container>
                         <ng-container *ngIf="!selectedProduct?.is_sale">
                             <h5 class="text-light-black fw-600 no-margin">
-                                {{selectedProduct?.price | number:'1.0-0'}}Ft</h5>
+                                {{selectedProduct?.price | number:'1.0-0'}} Ft</h5>
                         </ng-container>
                     </div>
                     <div class="padding-10 no-top-bottom-padding">
@@ -1114,7 +1114,7 @@
                                                     {{side.name}}
                                                 </label>
                                                 <label *ngIf="side.price !== '0'" class="price extra-input-price"
-                                                    for="side-{{i}}">{{side.price}}Ft</label>
+                                                    for="side-{{i}}">{{side.price}} Ft</label>
                                                 <label *ngIf="side.price === '0'" class="price extra-input-price"
                                                     for="side-{{i}}">Ingyenes</label>
                                             </div>
@@ -1150,7 +1150,7 @@
                                                     {{drink.name}}
                                                 </label>
                                                 <label *ngIf="drink.price !== '0'" class="price extra-input-price"
-                                                    for="drink-{{i}}">{{drink.price}}Ft</label>
+                                                    for="drink-{{i}}">{{drink.price}} Ft</label>
                                                 <label *ngIf="drink.price === '0'" class="price extra-input-price"
                                                     for="drink-{{i}}">Ingyenes</label>
                                             </div>
@@ -1187,7 +1187,7 @@
                                                     {{extra.name}}
                                                 </label>
                                                 <label *ngIf="extra.price !== '0'" class="price extra-input-price"
-                                                    for="extra-{{i}}">{{extra.price}}Ft</label>
+                                                    for="extra-{{i}}">{{extra.price}} Ft</label>
                                                 <label *ngIf="extra.price === '0'" class="price extra-input-price"
                                                     for="extra-{{i}}">Ingyenes</label>
                                             </div>
