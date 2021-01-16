@@ -1,5 +1,9 @@
 .main-padding {
   padding: 25px 100px;
+
+  @media (max-width: 1400px) {
+    padding: 25px 25px;
+  }
 }
 
 .with-logo {

@@ -2476,7 +2476,6 @@ footer .footer-links .appimg {
     opacity: 1;
 }
 .restaurent-popup .modal-content {
-    min-height: 85vh;
     background: #fbfbfc;
     overflow-y: auto;
 }
@@ -2521,7 +2520,6 @@ footer .footer-links .appimg {
 }
 .restaurent-popup .modal-body {
     padding: 0;
-    height: 550px;
     overflow: auto;
 }
 .product-quantity {
@@ -3866,6 +3864,10 @@ footer .footer-links .appimg {
 .section-2,
 .main-banner {
     height: 100vh;
+
+    @media (max-width: 767px) {
+        height: unset;
+    }
 }
 .main-banner .main-img {
     width: 100%;
@@ -3893,6 +3895,12 @@ footer .footer-links .appimg {
     height: 100%;
     display: flex;
     align-items: center;
+
+    @media (max-width: 767px) {
+        form {
+            width: 100%;
+        }
+    }
 }
 .inner-wrapper .main-page .login-box .input-group-prepend {
     height: 47px;
