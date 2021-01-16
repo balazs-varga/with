@@ -1,7 +1,6 @@
 import { ExtraLocalStorage } from './ExtraLocalStorage.model';
 
 export class MealLocalStorage {
-
     meal_id: number;
     mealName: string;
     side_id: number;
