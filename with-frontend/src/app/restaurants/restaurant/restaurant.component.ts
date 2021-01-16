@@ -11,6 +11,10 @@ import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/f
 import { filter } from 'rxjs/operators';
 import { PizzaService } from './service/pizza.service';
 import { MealService } from './service/meal.sevice';
+import { Subscription } from 'rxjs';
+import { RestaurantLocalStorage } from './DTO/RestaurantLocalStorage.model';
+import { CartService } from 'src/app/shared/cart.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-restaurant',
@@ -31,6 +35,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   pizzaDesigner = null;
   zip = null;
   pauseForm = false;
+  order = {} as RestaurantLocalStorage;
+
+  localstorageLocationSubscription: Subscription;
+  localstorageOrderDataSubscription: Subscription;
 
   @ViewChild('productModalClose') productModalClose;
 
@@ -43,7 +51,8 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private router: Router,
     private pizzaService: PizzaService,
-    private mealService: MealService
+    private mealService: MealService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -59,13 +68,19 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       this.sectionScroll = null;
     });
 
-    this.localStorageService.watchStorage().subscribe((data: string) => {
+    this.localstorageLocationSubscription = this.localStorageService.watchLocationStorage().subscribe(() => {
       this.getZipAndCityFromLocalStorage();
       this.isRestaurantDeliversToSelectedCity();
+    });
+
+    this.localstorageOrderDataSubscription = this.localStorageService.watchOrderDataStorage().subscribe((restaurantId: number) => {
+      this.getOrderDataOf(restaurantId);
     });
   }
 
   ngOnDestroy(): void {
+    this.localstorageLocationSubscription.unsubscribe();
+    this.localstorageOrderDataSubscription.unsubscribe();
     this.locationService.changeIsLocationSelectorOpen(false);
   }
 
@@ -260,6 +275,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
         this.subscribeToPizzaSizeChange();
       }
     });
+    this.getOrderDataOf(this.restaurant.restaurantid);
     this.isLoading = false;
   }
 
@@ -343,5 +359,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     return (control: AbstractControl): { [key: string]: any } | null =>
       control.value.length > limit
         ? { tooMuch: limit } : null;
+  }
+
+  private getOrderDataOf(restaurantId: number): void {
+    this.order = this.cartService.getExistingRestaurantOrderData(restaurantId);
+    console.log(this.order)
   }
 }

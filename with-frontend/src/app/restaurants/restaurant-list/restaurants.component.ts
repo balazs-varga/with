@@ -17,7 +17,7 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
   isLoading = false;
   zip = '';
 
-  localstorageSubscription: Subscription;
+  localstorageLocationSubscription: Subscription;
 
   constructor(
     private http: HttpClient,
@@ -41,13 +41,13 @@ export class RestaurantsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.localstorageSubscription = this.localStorageService.watchStorage().subscribe(() => {
+    this.localstorageLocationSubscription = this.localStorageService.watchLocationStorage().subscribe((e) => {
       this.router.navigateByUrl('/restaurants?zip=' + this.localStorageService.getZip);
     });
   }
 
   ngOnDestroy(): void {
-    this.localstorageSubscription.unsubscribe();
+    this.localstorageLocationSubscription.unsubscribe();
     this.locationService.changeIsLocationSelectorOpen(false);
   }
 

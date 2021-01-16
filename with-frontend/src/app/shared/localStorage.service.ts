@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { RestaurantLocalStorage } from '../restaurants/restaurant/DTO/RestaurantLocalStorage.model';
 
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
@@ -7,7 +8,8 @@ export class LocalStorageService {
   readonly zip = 'zip';
   readonly city = 'city';
 
-  private storageSub = new Subject<string>();
+  private storageCityAndZipSub = new Subject<string>();
+  private storageOrderDataSub = new Subject<number>();
 
   get getZip(): string {
     return localStorage.getItem(this.zip);
@@ -17,22 +19,31 @@ export class LocalStorageService {
     return localStorage.getItem(this.city);
   }
 
+  watchLocationStorage(): Observable<any> {
+    return this.storageCityAndZipSub.asObservable();
+  }
+
+  watchOrderDataStorage(): Observable<any> {
+    return this.storageOrderDataSub.asObservable();
+  }
+
   getRestaurandOrderData(restaurantId): string {
     return localStorage.getItem(restaurantId);
   }
 
-  watchStorage(): Observable<any> {
-    return this.storageSub.asObservable();
+  setRestaurantOrderData(restaurantId, restaurantOrder: RestaurantLocalStorage): void {
+    localStorage.setItem(restaurantId, JSON.stringify(restaurantOrder));
+    this.storageOrderDataSub.next(restaurantId);
   }
 
   setZip(zip): void {
     localStorage.setItem(this.zip, zip);
-    this.storageSub.next('changed');
+    this.storageCityAndZipSub.next('changed');
   }
 
   setCity(city): void {
     localStorage.setItem(this.city, city);
-    this.storageSub.next('changed');
+    this.storageCityAndZipSub.next('changed');
   }
 
   isZipAndCityStorageAvailable(): boolean {
@@ -46,6 +57,11 @@ export class LocalStorageService {
   clearZipAndCityStorage(): void {
     localStorage.removeItem(this.zip);
     localStorage.removeItem(this.city);
-    this.storageSub.next('changed');
+    this.storageCityAndZipSub.next('changed');
+  }
+
+  clearRestaurantOrderStorage(restaurantId): void {
+    localStorage.removeItem(restaurantId);
+    this.storageOrderDataSub.next(restaurantId);
   }
 }

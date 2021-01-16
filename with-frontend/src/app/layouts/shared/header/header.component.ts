@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.getZipAndCityFromLocalStorage();
     this.locationService.isLocationSelectorOpen$.subscribe(res => this.isLocationPopupShow = res);
-    this.localStorageService.watchStorage().subscribe((data: string) => {
+    this.localStorageService.watchLocationStorage().subscribe((data: string) => {
       this.getZipAndCityFromLocalStorage();
     });
     this.createLocationChangeForm();

@@ -16,59 +16,55 @@ export class CartService {
 
     addPizzaToCart(restaurantId, restaurantDTO: RestaurantLocalStorage, pizzaDTO: PizzaLocalStorage): void {
         if (!this.localStorageService.isRestaurandOrderDataAvailable(restaurantId)) {
-            this.storeNewRestaurandOrderData(restaurantId, restaurantDTO);
+            this.localStorageService.setRestaurantOrderData(restaurantId, restaurantDTO);
         } else {
             const existingRestaurantOrder = this.getExistingRestaurantOrderData(restaurantId);
             existingRestaurantOrder.pizza.push(pizzaDTO);
-            localStorage.setItem(restaurantId, JSON.stringify(existingRestaurantOrder));
+            this.localStorageService.setRestaurantOrderData(restaurantId, existingRestaurantOrder);
         }
     }
 
     addDrinkToCart(restaurantId, restaurantDTO: RestaurantLocalStorage, drinkDTO: DrinkLocalStorage): void {
         if (!this.localStorageService.isRestaurandOrderDataAvailable(restaurantId)) {
-            this.storeNewRestaurandOrderData(restaurantId, restaurantDTO);
+            this.localStorageService.setRestaurantOrderData(restaurantId, restaurantDTO);
         } else {
             const existingRestaurantOrder = this.getExistingRestaurantOrderData(restaurantId);
             existingRestaurantOrder.drink.push(drinkDTO);
-            localStorage.setItem(restaurantId, JSON.stringify(existingRestaurantOrder));
+            this.localStorageService.setRestaurantOrderData(restaurantId, existingRestaurantOrder);
         }
     }
 
     addSideToCart(restaurantId, restaurantDTO: RestaurantLocalStorage, sideDTO: SideLocalStorage): void {
         if (!this.localStorageService.isRestaurandOrderDataAvailable(restaurantId)) {
-            this.storeNewRestaurandOrderData(restaurantId, restaurantDTO);
+            this.localStorageService.setRestaurantOrderData(restaurantId, restaurantDTO);
         } else {
             const existingRestaurantOrder = this.getExistingRestaurantOrderData(restaurantId);
             existingRestaurantOrder.side.push(sideDTO);
-            localStorage.setItem(restaurantId, JSON.stringify(existingRestaurantOrder));
+            this.localStorageService.setRestaurantOrderData(restaurantId, existingRestaurantOrder);
         }
     }
 
     addMealToCart(restaurantId, restaurantDTO: RestaurantLocalStorage, mealDTO: MealLocalStorage): void {
         if (!this.localStorageService.isRestaurandOrderDataAvailable(restaurantId)) {
-            this.storeNewRestaurandOrderData(restaurantId, restaurantDTO);
+            this.localStorageService.setRestaurantOrderData(restaurantId, restaurantDTO);
         } else {
             const existingRestaurantOrder = this.getExistingRestaurantOrderData(restaurantId);
             existingRestaurantOrder.meal.push(mealDTO);
-            localStorage.setItem(restaurantId, JSON.stringify(existingRestaurantOrder));
+            this.localStorageService.setRestaurantOrderData(restaurantId, existingRestaurantOrder);
         }
     }
 
     addMenuToCart(restaurantId, restaurantDTO: RestaurantLocalStorage, menuDTO: MenuLocalStorage): void {
         if (!this.localStorageService.isRestaurandOrderDataAvailable(restaurantId)) {
-            this.storeNewRestaurandOrderData(restaurantId, restaurantDTO);
+            this.localStorageService.setRestaurantOrderData(restaurantId, restaurantDTO);
         } else {
             const existingRestaurantOrder = this.getExistingRestaurantOrderData(restaurantId);
             existingRestaurantOrder.menu.push(menuDTO);
-            localStorage.setItem(restaurantId, JSON.stringify(existingRestaurantOrder));
+            this.localStorageService.setRestaurantOrderData(restaurantId, existingRestaurantOrder);
         }
     }
 
-    private storeNewRestaurandOrderData(restaurantId, restaurantDTO: RestaurantLocalStorage): void {
-        localStorage.setItem(restaurantId, JSON.stringify(restaurantDTO));
-    }
-
-    private getExistingRestaurantOrderData(restaurantId): RestaurantLocalStorage {
+    getExistingRestaurantOrderData(restaurantId): RestaurantLocalStorage {
         let existingRestaurantOrder = new RestaurantLocalStorage();
         existingRestaurantOrder = JSON.parse(this.localStorageService.getRestaurandOrderData(restaurantId));
         return existingRestaurantOrder;
