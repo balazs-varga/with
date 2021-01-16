@@ -23,7 +23,7 @@ export class PizzaService {
       sauces: new FormControl([]),
       quantity: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(20)]),
       oneItemPrice: new FormControl(0),
-      totalPrice: new FormControl(0)
+      totalPrice: new FormControl(0, Validators.required)
     });
   }
 
