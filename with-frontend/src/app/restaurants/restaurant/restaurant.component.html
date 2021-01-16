@@ -724,12 +724,13 @@
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
                                                         </div>
-                                                        <input id="quantity" type="text" class="text-center background-grey"
-                                                            name="quantity" formControlName="quantity"
-                                                            [readonly]="true">
+                                                        <input id="quantity" type="text"
+                                                            class="text-center background-grey" name="quantity"
+                                                            formControlName="quantity" [readonly]="true">
                                                         <div class="input-group-prepend">
                                                             <button class="plus-btn" type="button" name="button"
-                                                                (click)="increasePizzaQuantity()"><i class="fas fa-plus"></i>
+                                                                (click)="increasePizzaQuantity()"><i
+                                                                    class="fas fa-plus"></i>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -741,14 +742,19 @@
                                                     </div>
 
                                                     <div class="col-6 with-nopadding">
-                                                        <button class="btn-second with-btn btn-submit pizza-cart" (click)="addPizzaToCart()"
-                                                        [disabled]="!isLoggedIn() || !this.pizzaForm.valid" data-dismiss="modal">Kosárba</button>
+                                                        <button class="btn-second with-btn btn-submit pizza-cart"
+                                                            (click)="addPizzaToCart()"
+                                                            [disabled]="!isLoggedIn() || !this.pizzaForm.valid"
+                                                            data-dismiss="modal">Kosárba</button>
                                                     </div>
                                                 </div>
                                                 <small *ngIf="pizzaForm.controls.toppings?.errors?.tooMuch"
-                                                        class="row text-danger justify-content-end mr-1 mt-2 font-12">A maximálisan kiválasztható feltét {{pizzaForm.controls.toppings?.errors?.tooMuch}} db!</small>
+                                                    class="row text-danger justify-content-end mr-1 mt-2 font-12">A
+                                                    maximálisan kiválasztható feltét
+                                                    {{pizzaForm.controls.toppings?.errors?.tooMuch}} db!</small>
                                                 <ng-container *ngIf="!isLoggedIn()">
-                                                    <p class="with-alert mt-4">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
+                                                    <p class="with-alert mt-4">A rendelés összeállításához és leadásához
+                                                        bejelentkezés szükséges!</p>
                                                 </ng-container>
                                             </div>
                                         </div>
@@ -859,8 +865,8 @@
                     <div class="cart-detail-box">
                         <div class="card">
                             <div class="card-header padding-15 fw-700 cart-header">Kosár</div>
-                            <div class="card-body no-padding" id="scrollstyle-with">
-
+                            <div class="card-body no-padding" id="scrollstyle-with"
+                                [ngClass]="{'h-auto': !isLoggedIn()}">
                                 <ng-container *ngIf="!isLoggedIn()">
                                     <div class="loggedout-cart">
                                         <h4>A kosár használatához jelentkezzen be!</h4>
@@ -871,117 +877,127 @@
                                     </div>
                                 </ng-container>
 
-                                <div class="cat-product-box">
-                                    <div class="cat-product">
-                                        <div class="cat-name">
-                                            <a href="#">
-                                                <p class="text-with cart-text"><span class="text-dark-white">1</span>
-                                                    Hamburger, Sültburgonya, CocaCola 0,25L</p> <span
-                                                    class="text-light-white cart-text-extras">Ketchup</span>
-                                            </a>
-                                        </div>
-                                        <div class="delete-btn">
-                                            <a href="#" class="text-dark-white cart-trash"> <i
-                                                    class="far fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                        <div class="price"> <a href="#" class="text-dark-white fw-500">2.250Ft</a>
+                                <ng-container *ngIf="isLoggedIn()">
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a href="#">
+                                                    <p class="text-with cart-text"><span
+                                                            class="text-dark-white">1</span>
+                                                        Hamburger, Sültburgonya, CocaCola 0,25L</p> <span
+                                                        class="text-light-white cart-text-extras">Ketchup</span>
+                                                </a>
+                                            </div>
+                                            <div class="delete-btn">
+                                                <a href="#" class="text-dark-white cart-trash"> <i
+                                                        class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                            <div class="price"> <a href="#" class="text-dark-white fw-500">2.250Ft</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="cat-product-box">
-                                    <div class="cat-product">
-                                        <div class="cat-name">
-                                            <a href="#">
-                                                <p class="text-with cart-text"><span class="text-dark-white">1</span>
-                                                    Hamburger</p> <span
-                                                    class="text-light-white cart-text-extras">+Bacon, +Sajt, +BBQ
-                                                    szósz</span>
-                                            </a>
-                                        </div>
-                                        <div class="delete-btn">
-                                            <a href="#" class="text-dark-white cart-trash"> <i
-                                                    class="far fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                        <div class="price"> <a href="#" class="text-dark-white fw-500">1.490Ft</a>
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a href="#">
+                                                    <p class="text-with cart-text"><span
+                                                            class="text-dark-white">1</span>
+                                                        Hamburger</p> <span
+                                                        class="text-light-white cart-text-extras">+Bacon, +Sajt, +BBQ
+                                                        szósz</span>
+                                                </a>
+                                            </div>
+                                            <div class="delete-btn">
+                                                <a href="#" class="text-dark-white cart-trash"> <i
+                                                        class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                            <div class="price"> <a href="#" class="text-dark-white fw-500">1.490Ft</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="cat-product-box">
-                                    <div class="cat-product">
-                                        <div class="cat-name">
-                                            <a href="#">
-                                                <p class="text-with cart-text"><span class="text-dark-white">2</span>
-                                                    Finom főzelék</p> <span
-                                                    class="text-light-white cart-text-extras"></span>
-                                            </a>
-                                        </div>
-                                        <div class="delete-btn">
-                                            <a href="#" class="text-dark-white cart-trash"> <i
-                                                    class="far fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                        <div class="price"> <a href="#" class="text-dark-white fw-500">1.650Ft</a>
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a href="#">
+                                                    <p class="text-with cart-text"><span
+                                                            class="text-dark-white">2</span>
+                                                        Finom főzelék</p> <span
+                                                        class="text-light-white cart-text-extras"></span>
+                                                </a>
+                                            </div>
+                                            <div class="delete-btn">
+                                                <a href="#" class="text-dark-white cart-trash"> <i
+                                                        class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                            <div class="price"> <a href="#" class="text-dark-white fw-500">1.650Ft</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="cat-product-box">
-                                    <div class="cat-product">
-                                        <div class="cat-name">
-                                            <a href="#">
-                                                <p class="text-with cart-text"><span class="text-dark-white">2</span>
-                                                    Fanta 0,33l</p> <span
-                                                    class="text-light-white cart-text-extras"></span>
-                                            </a>
-                                        </div>
-                                        <div class="delete-btn">
-                                            <a href="#" class="text-dark-white cart-trash"> <i
-                                                    class="far fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                        <div class="price"> <a href="#" class="text-dark-white fw-500">660Ft</a>
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a href="#">
+                                                    <p class="text-with cart-text"><span
+                                                            class="text-dark-white">2</span>
+                                                        Fanta 0,33l</p> <span
+                                                        class="text-light-white cart-text-extras"></span>
+                                                </a>
+                                            </div>
+                                            <div class="delete-btn">
+                                                <a href="#" class="text-dark-white cart-trash"> <i
+                                                        class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                            <div class="price"> <a href="#" class="text-dark-white fw-500">660Ft</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="cat-product-box">
-                                    <div class="cat-product">
-                                        <div class="cat-name">
-                                            <a href="#">
-                                                <p class="text-with cart-text mr-2"><span
-                                                        class="text-dark-white">1</span>
-                                                    Étel neve (Menü esetén étel, köret, ital neve)</p> <span
-                                                    class="text-light-white cart-text-extras">Extrák felsorolva</span>
-                                            </a>
-                                        </div>
-                                        <div class="price"> <a href="#" class="text-dark-white fw-500">Ár Ft</a>
-                                        </div>
-                                        <div class="delete-btn">
-                                            <a href="#" class="text-dark-white cart-trash"> <i
-                                                    class="far fa-trash-alt"></i>
-                                            </a>
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a href="#">
+                                                    <p class="text-with cart-text mr-2"><span
+                                                            class="text-dark-white">1</span>
+                                                        Étel neve (Menü esetén étel, köret, ital neve)</p> <span
+                                                        class="text-light-white cart-text-extras">Extrák
+                                                        felsorolva</span>
+                                                </a>
+                                            </div>
+                                            <div class="price"> <a href="#" class="text-dark-white fw-500">Ár Ft</a>
+                                            </div>
+                                            <div class="delete-btn">
+                                                <a href="#" class="text-dark-white cart-trash"> <i
+                                                        class="far fa-trash-alt"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="item-total">
-                                    <div class="total-price border-0"> <span class="text-dark-white fw-700">Tételek
-                                            összesen:</span>
-                                        <span class="text-dark-white fw-700">4.760Ft</span>
+                                    <div class="item-total">
+                                        <div class="total-price border-0"> <span class="text-dark-white fw-700">Tételek
+                                                összesen:</span>
+                                            <span class="text-dark-white fw-700">4.760Ft</span>
+                                        </div>
+                                        <div class="empty-bag padding-15 fw-700 cursor-pointer"> <a href="#">Kosár
+                                                ürítése</a>
+                                        </div>
                                     </div>
-                                    <div class="empty-bag padding-15 fw-700 cursor-pointer"> <a href="#">Kosár
-                                            ürítése</a>
-                                    </div>
-                                </div>
+                                </ng-container>
                             </div>
-                            <div class="card-footer padding-15"> <a href="checkout.html"
-                                    class="btn-first green-btn text-custom-white full-width fw-500 with-btn">Tovább a
-                                    fizetéshez</a>
-                            </div>
+                            <ng-container *ngIf="isLoggedIn()">
+                                <div class="card-footer padding-15"> <a href="checkout.html"
+                                        class="btn-first green-btn text-custom-white full-width fw-500 with-btn">Tovább
+                                        a
+                                        fizetéshez</a>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
