@@ -10,6 +10,7 @@ import { LocalStorageService } from 'src/app/shared/localStorage.service';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { PizzaService } from './service/pizza.service';
+import { MealService } from './service/meal.sevice';
 
 @Component({
   selector: 'app-restaurant',
@@ -39,7 +40,8 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     public locationService: LocationService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private pizzaService: PizzaService
+    private pizzaService: PizzaService,
+    private mealService: MealService
   ) { }
 
   ngOnInit(): void {
@@ -158,8 +160,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     this.selectedProductForm.get('selectedExtras').setValue(selectedExtraList);
   }
 
-  addSelectedProductToCart() {
+  addSelectedProductToCart(): void {
+    if (this.selectedProductForm.valid) {
 
+    }
   }
 
   addPizzaToCart(): void {
@@ -288,20 +292,20 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   }
 
   private createSelectedProductForm(product): void {
-    this.selectedProductForm = new FormGroup({
-      selectedProductId: new FormControl(product.id),
-      selectedSide: new FormControl(null),
-      selectedDrink: new FormControl(null),
-      selectedExtras: new FormControl([], this.arrayLengthValidator(product.extralimit)),
-      quantity: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(20)])
-    });
-
-    if (product.type === 'menu') {
-      this.selectedProductForm.get('selectedSide').setValidators(Validators.required);
-      this.selectedProductForm.get('selectedDrink').setValidators(Validators.required);
-      this.selectedProductForm.get('selectedSide').updateValueAndValidity();
-      this.selectedProductForm.get('selectedDrink').updateValueAndValidity();
+    this.selectedProductForm = this.mealService.createSelectedProductForm(product);
+    if (this.mealService.isMenu(product)) {
+      this.mealService.setMenuValidators(this.selectedProductForm);
     }
+    this.subscribeToSelectedProductValueChanges();
+  }
+
+  private subscribeToSelectedProductValueChanges(): void {
+    this.selectedProductForm.valueChanges.pipe(filter(_ => !this.pauseForm))
+      .subscribe(
+        () => {
+          this.mealService.calculateSelectedProductPrice(this.selectedProductForm, this.selectedProduct);
+        }
+      );
   }
 
   private subscribeToPizzaValueChanges(): void {

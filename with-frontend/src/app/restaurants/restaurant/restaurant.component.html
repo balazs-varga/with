@@ -782,7 +782,7 @@
                                                     <div class="col-lg-12">
                                                         <div (click)="openModal(product)" class="with-product"
                                                             data-toggle="modal"
-                                                            [attr.data-target]="zip ? '#restaurent-popup' : '#missing-zip'">
+                                                            [attr.data-target]="!zip ? '#missing-zip' : zip && product.price ?  '#restaurent-popup' : null">
                                                             <div class="row with-nomargin h-100">
                                                                 <div class="col-lg-3 col-md-12 with-nopadding">
                                                                     <div class="with-product-img"
@@ -839,11 +839,9 @@
                                                                             class="with-product-icon"
                                                                             src="assets/img/icons/alcoholfree.png">
 
-                                                                        <a href="javascript:void(0)"
-                                                                            class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg">Kosárba</a>
-                                                                        <a href="javascript:void(0)"
-                                                                            class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-sm"><i
-                                                                                class="fas fa-cart-plus"></i></a>
+                                                                        <button
+                                                                            class="btn-first green-btn text-custom-white fw-500 with-btn with-add-to-cart-btn with-cart-lg"
+                                                                            [disabled]="!product.price">Kosárba</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -856,7 +854,6 @@
                                 </div>
                             </ng-container>
                         </ng-container>
-
                     </div>
                 </div>
             </div>
@@ -1035,7 +1032,8 @@
                             <span class="with-product-tag-menu">Menü</span>
                             Ehhez az ételhez előfordulhat, hogy köretet és italt is választani kell.
                         </p>
-                        <p class="text-light-black with-product-margin"><b>Leírás: </b>{{selectedProduct?.description}}
+                        <p *ngIf="selectedProduct?.description" class="text-light-black with-product-margin"><b>Leírás:
+                            </b>{{selectedProduct?.description}}
                         </p>
                         <p *ngIf="selectedProduct?.calorie" class="text-light-black with-product-margin"><b>Kalória
                                 tartalom: </b>körülbelül {{selectedProduct?.calorie}} Kalória
@@ -1093,7 +1091,7 @@
                     </div>
                     <!-- sub product -->
                     <div class="additional-product">
-                        <div class="card">
+                        <div *ngIf="selectedProduct?.sides.length > 0" class="card">
                             <div class="card-header">
                                 <h5 class="no-margin">
                                     <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
@@ -1115,9 +1113,9 @@
                                                 <label class="form-check-label" for="selectedSide">
                                                     {{side.name}}
                                                 </label>
-                                                <label *ngIf="!side.price == '0'" class="price extra-input-price"
+                                                <label *ngIf="side.price !== '0'" class="price extra-input-price"
                                                     for="side-{{i}}">{{side.price}}Ft</label>
-                                                <label *ngIf="side.price == '0'" class="price extra-input-price"
+                                                <label *ngIf="side.price === '0'" class="price extra-input-price"
                                                     for="side-{{i}}">Ingyenes</label>
                                             </div>
                                         </ng-container>
@@ -1129,7 +1127,7 @@
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div *ngIf="selectedProduct?.drinks.length > 0" class="card">
                             <div class="card-header">
                                 <h5 class="no-margin">
                                     <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
@@ -1151,9 +1149,9 @@
                                                 <label class="form-check-label" for="selectedDrink">
                                                     {{drink.name}}
                                                 </label>
-                                                <label *ngIf="!drink.price == '0'" class="price extra-input-price"
+                                                <label *ngIf="drink.price !== '0'" class="price extra-input-price"
                                                     for="drink-{{i}}">{{drink.price}}Ft</label>
-                                                <label *ngIf="drink.price == '0'" class="price extra-input-price"
+                                                <label *ngIf="drink.price === '0'" class="price extra-input-price"
                                                     for="drink-{{i}}">Ingyenes</label>
                                             </div>
                                         </ng-container>
@@ -1165,8 +1163,7 @@
                             </div>
                         </div>
 
-
-                        <div class="card">
+                        <div *ngIf="selectedProduct?.extras.length > 0" class="card">
                             <div class="card-header">
                                 <h5 class="no-margin">
                                     <a class="card-link collapsed text-light-black fw-700" data-toggle="collapse"
@@ -1189,9 +1186,9 @@
                                                 <label class="form-check-label" for="extra-{{i}}">
                                                     {{extra.name}}
                                                 </label>
-                                                <label *ngIf="!extra.price == '0'" class="price extra-input-price"
+                                                <label *ngIf="extra.price !== '0'" class="price extra-input-price"
                                                     for="extra-{{i}}">{{extra.price}}Ft</label>
-                                                <label *ngIf="extra.price == '0'" class="price extra-input-price"
+                                                <label *ngIf="extra.price === '0'" class="price extra-input-price"
                                                     for="extra-{{i}}">Ingyenes</label>
                                             </div>
                                         </ng-container>
@@ -1208,7 +1205,7 @@
                 <div class="modal-footer padding-10">
                     <button class="btn-second with-btn btn-submit" (click)="addSelectedProductToCart()"
                         [disabled]="!isLoggedIn() || !this.selectedProductForm.valid" data-dismiss="modal">Kosárba:
-                        1.910Ft</button>
+                        {{selectedProductForm.value.totalPrice}} Ft</button>
                     <ng-container *ngIf="!isLoggedIn()">
                         <p class="with-alert ">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
                     </ng-container>
