@@ -156,6 +156,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  isRestaurantClosed(): boolean {
+    return !this.restaurant.isrestaurantopenfororders;
+  }
+
   decreaseQuantity(): void {
     if (this.selectedProductForm.get('quantity').value !== 1) {
       this.selectedProductForm.get('quantity').setValue(this.selectedProductForm.get('quantity').value - 1);

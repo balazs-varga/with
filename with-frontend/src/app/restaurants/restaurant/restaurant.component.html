@@ -1077,7 +1077,7 @@
                             <ng-container *ngIf="isLoggedIn() && order && totalPrice">
                                 <div class="card-footer padding-15">
                                     <button class="btn-first green-btn text-custom-white full-width fw-500 with-btn"
-                                        [disabled]="!isMinimumOrderCompleted()">
+                                        [disabled]="!isMinimumOrderCompleted() || isRestaurantClosed()">
                                         Tovább
                                         a
                                         fizetéshez
@@ -1086,12 +1086,22 @@
                                         <small class="text-danger">Az étterem minimális rendelési értéke:
                                             {{restaurant.minimumordervalue}} Ft</small>
                                     </div>
+                                    <div *ngIf="isRestaurantClosed()" class="text-center mt-2">
+                                        <small class="text-danger">Az étterem jelenleg zárva van, ezért nem lehetséges
+                                            rendelést leadni!</small>
+                                    </div>
                                 </div>
                             </ng-container>
                             <ng-template #noOrder>
-                                <p class="text-light-white no-order">Nincs tétel a kosarában!</p>
-                                <p class="text-light-white no-order-description">Nem adott még semmit a kosarához,
-                                    amennyiben rendelni szeretne, válasszon az étterem ajánlatai közül.</p>
+                                <ng-container *ngIf="isRestaurantClosed()">
+                                    <p class="text-light-white no-order closed">Az étterem jelenleg zárva van, nézzen
+                                        vissza később!</p>
+                                </ng-container>
+                                <ng-container *ngIf="!isRestaurantClosed()">
+                                    <p class="text-light-white no-order">Nincs tétel a kosarában!</p>
+                                    <p class="text-light-white no-order-description">Nem adott még semmit a kosarához,
+                                        amennyiben rendelni szeretne, válasszon az étterem ajánlatai közül.</p>
+                                </ng-container>
                             </ng-template>
                         </div>
                     </div>
@@ -1333,7 +1343,8 @@
 </div>
 
 <ng-template #orderItemDelete>
-    <app-delete-order-modal [selectedOrderItem]="selectedOrderItem" (closeModal)="closeModal()" (deleteSelectedOrderItem)="deleteSelectedOrderItem($event)">
+    <app-delete-order-modal [selectedOrderItem]="selectedOrderItem" (closeModal)="closeModal()"
+        (deleteSelectedOrderItem)="deleteSelectedOrderItem($event)">
 
     </app-delete-order-modal>
 </ng-template>
