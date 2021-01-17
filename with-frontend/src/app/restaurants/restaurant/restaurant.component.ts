@@ -36,6 +36,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   zip = null;
   pauseForm = false;
   order = {} as RestaurantLocalStorage;
+  totalPrice = null;
 
   localstorageLocationSubscription: Subscription;
   localstorageOrderDataSubscription: Subscription;
@@ -259,6 +260,14 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     return this.pizzaService.getSaucesOfSelectedPizzaSize(this.pizzaForm, this.pizzaDesigner);
   }
 
+  resetOrder(): void {
+    this.cartService.resetOrder(this.restaurant.restaurantid);
+  }
+
+  isMinimumOrderCompleted(): boolean {
+    return this.totalPrice >= this.restaurant.minimumordervalue;
+  }
+
   private subscribeToRouteParams(): void {
     this.isLoading = true;
     this.restaurant = this.activatedRoute.snapshot.data.restaurant;
@@ -363,6 +372,6 @@ export class RestaurantComponent implements OnInit, OnDestroy {
 
   private getOrderDataOf(restaurantId: number): void {
     this.order = this.cartService.getExistingRestaurantOrderData(restaurantId);
-    console.log(this.order)
+    this.totalPrice = this.cartService.calculateTotalPrice(this.order);
   }
 }

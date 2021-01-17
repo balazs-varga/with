@@ -2742,7 +2742,7 @@ footer .footer-links .appimg {
     background: #fff;
 }
 .sidebar .cart-detail-box>.card .card-body {
-    height: 350px;
+    height: unset;
     overflow-y: auto;
 }
 .sidebar .cart-detail-box>.card>.modify-order>.total-amount,
@@ -2765,6 +2765,7 @@ footer .footer-links .appimg {
     white-space: inherit;
     text-overflow: ellipsis;
     overflow: hidden;
+    width: 100%;
 }
 .sidebar .cart-detail-box>.card>.modify-order>.total-amount {
     background-color: #8f8fa1;

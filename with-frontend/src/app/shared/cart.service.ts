@@ -69,4 +69,40 @@ export class CartService {
         existingRestaurantOrder = JSON.parse(this.localStorageService.getRestaurandOrderData(restaurantId));
         return existingRestaurantOrder;
     }
+
+    resetOrder(restaurantId): void {
+        this.localStorageService.clearRestaurantOrderStorage(restaurantId);
+    }
+
+    calculateTotalPrice(order: RestaurantLocalStorage): number {
+        let totalPrice = 0;
+        if (order) {
+            if (order.drink.length > 0) {
+                order.drink.forEach(e => {
+                    totalPrice += +e.totalPrice;
+                });
+            }
+            if (order.meal.length > 0) {
+                order.meal.forEach(e => {
+                    totalPrice += +e.totalPrice;
+                });
+            }
+            if (order.menu.length > 0) {
+                order.menu.forEach(e => {
+                    totalPrice += +e.totalPrice;
+                });
+            }
+            if (order.pizza.length > 0) {
+                order.pizza.forEach(e => {
+                    totalPrice += +e.totalPrice;
+                });
+            }
+            if (order.side.length > 0) {
+                order.side.forEach(e => {
+                    totalPrice += +e.totalPrice;
+                });
+            }
+        }
+        return totalPrice;
+    }
 }

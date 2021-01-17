@@ -40,3 +40,24 @@ button[disabled] {
 .font-12 {
   font-size: 12px;
 }
+
+.no-order {
+  text-align: center;
+  font-size: 19px;
+  font-weight: bold;
+  padding: 25px;
+  margin-top: 55px;
+}
+
+.no-order-description {
+  padding: 12px;
+  text-align: center;
+  margin-bottom: 55px;
+}
+
+.cat-product-box {
+  .price {
+    width: 100px;
+    text-align: center;
+  }
+}
