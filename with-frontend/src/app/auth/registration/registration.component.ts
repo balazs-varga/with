@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, AbstractControl, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { passwordValidator, phoneValidator } from 'src/app/shared/validation/input-field.validator';
@@ -50,6 +50,12 @@ export class RegistrationComponent implements OnInit {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
+  changePrivacy(isClicked: boolean): void {
+    this.registrationForm.patchValue({
+      isDataPrivacyAccepted: isClicked
+    });
+  }
+
   private redirectToIndexPage(): void {
     this.router.navigate(['/']);
   }
@@ -66,6 +72,7 @@ export class RegistrationComponent implements OnInit {
       city: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
       zipcode: new FormControl('', [Validators.required, Validators.min(1000), Validators.max(9999)]),
       address: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
+      isDataPrivacyAccepted: new FormControl(false, Validators.required)
     },
       passwordMatchValidator
     );

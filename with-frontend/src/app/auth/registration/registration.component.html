@@ -196,10 +196,25 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-12 text-center">
+                                            <div class="with-check border-0 mb-0">
+                                                <input class="form-check-input" type="checkbox" name="privacy"
+                                                    (change)="changePrivacy($event.target.checked)" id="privacy"
+                                                    value="registrationForm.value.isDataPrivacyAccepted">
+                                                <label class="form-check-label" for="cheese-{{i}}">
+                                                    Elfogadom az adatvédelmi szabályzatot
+                                                </label>
+                                            </div>
+                                            <small
+                                                *ngIf="registrationForm.valid && !registrationForm.value.isDataPrivacyAccepted"
+                                                class="text-danger">A regisztrációhoz fogadja el az adatvédelmi
+                                                szabályzatot</small>
+                                        </div>
                                         <div class="col-12 mt-3">
                                             <div class="form-group text-center">
                                                 <button class="green-button full-width"
-                                                    [disabled]="!registrationForm.valid"
+                                                    [disabled]="!registrationForm.value.isDataPrivacyAccepted || !registrationForm.valid"
                                                     (click)="registration()">Regisztráció</button>
                                                 <ng-container *ngIf="registrationErrorMessage">
                                                     <div class="col-12 text-center">
