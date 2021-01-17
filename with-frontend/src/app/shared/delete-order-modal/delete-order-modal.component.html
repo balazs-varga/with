@@ -1,0 +1,75 @@
+<ng-container *ngIf="selectedOrderItem">
+    <div class="modal-header">
+        <h5 class="text-light-black fw-700 mb-0" id="modal-basic-title">Rendelési tétel törlése</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeModalEmitter()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Biztosan törölni szeretné az alábbi rendelési tételt?</p>
+        <div>
+            <div class="d-flex flex-wrap justify-content-center">
+                <div>
+                    <p class="text-with cart-text mb-0">{{selectedOrderItem.quantity}} db {{selectedOrderItem.mealName}}
+                        {{selectedOrderItem.name}}
+                        <ng-container *ngIf="selectedOrderItem.sideName">
+                            , {{selectedOrderItem.sideName}}
+                        </ng-container>
+                        <ng-container *ngIf="selectedOrderItem.drinkName">
+                            , {{selectedOrderItem.drinkName}}
+                        </ng-container>
+                        <ng-container *ngIf="selectedOrderItem.sizeName">
+                            {{selectedOrderItem.sizeName}} egyedi pizza
+                        </ng-container>
+                    </p>
+                </div>
+                <div class="ml-3 font-weight-bold">
+                    <span>
+                        {{selectedOrderItem.totalPrice}} Ft
+                    </span>
+                </div>
+            </div>
+
+            <p class="mb-0 text-center">
+                <ng-container *ngIf="selectedOrderItem.extras?.length > 0">
+                    <ng-container *ngFor="let extra of selectedOrderItem.extras; let i = index; let last = last">
+                        <span class="text-light-white cart-text-extras">{{extra.name}}</span>
+                        <span *ngIf="!last">, </span>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="selectedOrderItem.doughName && selectedOrderItem.baseName">
+                    <span class="text-light-white cart-text-extras">{{selectedOrderItem.doughName}},
+                    </span>
+                    <span class="text-light-white cart-text-extras">{{selectedOrderItem.baseName}}
+                    </span>
+                </ng-container>
+            </p>
+
+            <p class="mb-0 text-center">
+                <ng-container *ngIf="selectedOrderItem.toppings?.length > 0">
+                    <span class="text-light-white cart-text-extras">Feltét(ek):
+                    </span>
+                    <ng-container *ngFor="let topping of selectedOrderItem.toppings; let i = index; let last = last">
+                        <span class="text-light-white cart-text-extras">{{topping.name}}</span>
+                        <span *ngIf="!last">, </span>
+                    </ng-container>
+                </ng-container>
+            </p>
+            <p class="mb-0 text-center">
+                <ng-container *ngIf="selectedOrderItem.sauces?.length > 0">
+                    <span class="text-light-white cart-text-extras">Szósz(ok):
+                    </span>
+                    <ng-container *ngFor="let sauce of selectedOrderItem.sauces; let i = index; let last = last">
+                        <span class="text-light-white cart-text-extras">{{sauce.name}}</span>
+                        <span *ngIf="!last">, </span>
+                    </ng-container>
+                </ng-container>
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn-first fw-500" (click)="closeModalEmitter()">Mégse</button>
+        <button type="button" class="btn-first red-btn text-custom-white fw-500"
+            (click)=deleteSelectedOrderItemEmitter()>Törlés</button>
+    </div>
+</ng-container>
