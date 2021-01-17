@@ -200,7 +200,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   }
 
   addSelectedProductToCart(): void {
-    if (this.selectedProductForm.valid) {
+    if (this.selectedProductForm.valid && !this.isRestaurantClosed()) {
       this.mealService.addToCart(this.selectedProductForm, this.selectedProduct, this.restaurant.restaurantid)
       .then(() => {
         this.selectedProduct = null;
@@ -210,7 +210,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   }
 
   addPizzaToCart(): void {
-    if (this.pizzaForm.valid) {
+    if (this.pizzaForm.valid && !this.isRestaurantClosed()) {
       this.pizzaService.addToCart(this.pizzaForm, this.pizzaDesigner, this.restaurant.restaurantid)
         .then(() => {
           this.pizzaService.resetPizzaForm(this.pizzaForm);

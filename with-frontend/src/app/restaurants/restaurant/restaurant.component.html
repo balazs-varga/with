@@ -745,7 +745,7 @@
                                                     <div class="col-6 with-nopadding">
                                                         <button class="btn-second with-btn btn-submit pizza-cart"
                                                             (click)="addPizzaToCart()"
-                                                            [disabled]="!isLoggedIn() || !this.pizzaForm.valid"
+                                                            [disabled]="!isLoggedIn() || !this.pizzaForm.valid || isRestaurantClosed()"
                                                             data-dismiss="modal">Kosárba</button>
                                                     </div>
                                                 </div>
@@ -756,6 +756,10 @@
                                                 <ng-container *ngIf="!isLoggedIn()">
                                                     <p class="with-alert mt-4">A rendelés összeállításához és leadásához
                                                         bejelentkezés szükséges!</p>
+                                                </ng-container>
+                                                <ng-container *ngIf="isRestaurantClosed()">
+                                                    <p class="with-alert mt-4">Az étterem jelenleg zárva van, nézzen
+                                                        vissza később!</p>
                                                 </ng-container>
                                             </div>
                                         </div>
@@ -1312,10 +1316,13 @@
                 </div>
                 <div class="modal-footer padding-10">
                     <button class="btn-second with-btn btn-submit" (click)="addSelectedProductToCart()"
-                        [disabled]="!isLoggedIn() || !this.selectedProductForm.valid">Kosárba:
+                        [disabled]="!isLoggedIn() || !this.selectedProductForm.valid || isRestaurantClosed()">Kosárba:
                         {{selectedProductForm.value.totalPrice}} Ft</button>
                     <ng-container *ngIf="!isLoggedIn()">
                         <p class="with-alert ">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
+                    </ng-container>
+                    <ng-container *ngIf="isRestaurantClosed()">
+                        <p class="with-alert mt-4">Az étterem jelenleg zárva van, nézzen vissza később!</p>
                     </ng-container>
                 </div>
             </form>
