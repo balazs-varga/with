@@ -1321,7 +1321,7 @@
                     <ng-container *ngIf="!isLoggedIn()">
                         <p class="with-alert ">A rendelés összeállításához és leadásához bejelentkezés szükséges!</p>
                     </ng-container>
-                    <ng-container *ngIf="isRestaurantClosed()">
+                    <ng-container *ngIf="isLoggedIn() && isRestaurantClosed()">
                         <p class="with-alert mt-4">Az étterem jelenleg zárva van, nézzen vissza később!</p>
                     </ng-container>
                 </div>
@@ -1352,6 +1352,5 @@
 <ng-template #orderItemDelete>
     <app-delete-order-modal [selectedOrderItem]="selectedOrderItem" (closeModal)="closeModal()"
         (deleteSelectedOrderItem)="deleteSelectedOrderItem($event)">
-
     </app-delete-order-modal>
 </ng-template>

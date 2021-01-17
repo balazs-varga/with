@@ -87,133 +87,242 @@
                             </div>
 
                             <!-- user cart -->
-                            <div class="cart-btn cart-dropdown">
-                                <a href="#" class="text-light-green fw-700"> <i class="fas fa-shopping-bag"></i>
-                                    <span class="user-alert-cart">3</span>
+                            <div *ngIf="order && restaurant" class="cart-btn cart-dropdown">
+                                <a class="text-light-green fw-700"> <i class="fas fa-shopping-bag"></i>
+                                    <span class="user-alert-cart">{{orderAmount}}</span>
                                 </a>
                                 <div class="cart-detail-box">
                                     <div class="card">
+                                        <div>
+                                            <div class="card-header padding-15 text-center border-0 pb-0">Rendelése
+                                                innen:
+                                            </div>
+                                            <p class="restaurant-name"><a>{{restaurantName}}</a></p>
+                                        </div>
                                         <div class="card-header padding-15">Kosár</div>
                                         <div class="card-body no-padding cart-drop">
-
-                                            <div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name">
-                                                        <a href="#">
-                                                            <p class="text-with cart-text"><span
-                                                                    class="text-dark-white">1</span> Hamburger,
-                                                                Sültburgonya, CocaCola 0,25L</p> <span
-                                                                class="text-light-white cart-text-extras">Ketchup</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="delete-btn">
-                                                        <a href="#" class="text-dark-white cart-trash"> <i
-                                                                class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="price"> <a href="#"
-                                                            class="text-dark-white fw-500">2.250Ft</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name">
-                                                        <a href="#">
-                                                            <p class="text-with cart-text"><span
-                                                                    class="text-dark-white">1</span> Hamburger</p> <span
-                                                                class="text-light-white cart-text-extras">+Bacon, +Sajt,
-                                                                +BBQ szósz</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="delete-btn">
-                                                        <a href="#" class="text-dark-white cart-trash"> <i
-                                                                class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="price"> <a href="#"
-                                                            class="text-dark-white fw-500">1.490Ft</a>
+                                            <ng-container *ngFor="let menu of order.menu; let i = index">
+                                                <div class="cat-product-box">
+                                                    <div class="cat-product">
+                                                        <div class="cat-name">
+                                                            <a>
+                                                                <p class="text-with cart-text mr-2">
+                                                                    <span
+                                                                        class="text-dark-white">{{menu.quantity}}</span>
+                                                                    {{menu.mealName}}
+                                                                    <ng-container *ngIf="menu.sideName">
+                                                                        , {{menu.sideName}}
+                                                                    </ng-container>
+                                                                    <ng-container *ngIf="menu.drinkName">
+                                                                        , {{menu.drinkName}}
+                                                                    </ng-container>
+                                                                </p>
+                                                                <ng-container *ngIf="menu.extras.length > 0">
+                                                                    <ng-container
+                                                                        *ngFor="let extra of menu.extras; let i = index; let last = last">
+                                                                        <span
+                                                                            class="text-light-white cart-text-extras">{{extra.name}}</span>
+                                                                        <span *ngIf="!last">, </span>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </a>
+                                                        </div>
+                                                        <div class="price">
+                                                            <a class="text-dark-white fw-500">{{menu.totalPrice}} Ft</a>
+                                                        </div>
+                                                        <div class="delete-btn"
+                                                            (click)="openOrderDeleteModal(orderItemDelete, menu)">
+                                                            <a class="text-dark-white cart-trash">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </ng-container>
 
-                                            <div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name">
-                                                        <a href="#">
-                                                            <p class="text-with cart-text"><span
-                                                                    class="text-dark-white">2</span> Finom főzelék</p>
-                                                            <span class="text-light-white cart-text-extras"></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="delete-btn">
-                                                        <a href="#" class="text-dark-white cart-trash"> <i
-                                                                class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="price"> <a href="#"
-                                                            class="text-dark-white fw-500">1.650Ft</a>
+                                            <ng-container *ngFor="let drink of order.drink; let i = index">
+                                                <div class="cat-product-box">
+                                                    <div class="cat-product">
+                                                        <div class="cat-name">
+                                                            <a>
+                                                                <p class="text-with cart-text mr-2">
+                                                                    <span
+                                                                        class="text-dark-white">{{drink.quantity}}</span>
+                                                                    {{drink.name}}
+                                                                </p>
+                                                            </a>
+                                                        </div>
+                                                        <div class="price">
+                                                            <a class="text-dark-white fw-500">{{drink.totalPrice}}
+                                                                Ft</a>
+                                                        </div>
+                                                        <div class="delete-btn"
+                                                            (click)="openOrderDeleteModal(orderItemDelete, drink)">
+                                                            <a class="text-dark-white cart-trash">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </ng-container>
 
-                                            <div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name">
-                                                        <a href="#">
-                                                            <p class="text-with cart-text"><span
-                                                                    class="text-dark-white">2</span> Fanta 0,33l</p>
-                                                            <span class="text-light-white cart-text-extras"></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="delete-btn">
-                                                        <a href="#" class="text-dark-white cart-trash"> <i
-                                                                class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="price"> <a href="#"
-                                                            class="text-dark-white fw-500">660Ft</a>
+                                            <ng-container *ngFor="let side of order.side; let i = index">
+                                                <div class="cat-product-box">
+                                                    <div class="cat-product">
+                                                        <div class="cat-name">
+                                                            <a>
+                                                                <p class="text-with cart-text mr-2">
+                                                                    <span
+                                                                        class="text-dark-white">{{side.quantity}}</span>
+                                                                    {{side.name}}
+                                                                </p>
+                                                            </a>
+                                                        </div>
+                                                        <div class="price">
+                                                            <a class="text-dark-white fw-500">{{side.totalPrice}} Ft</a>
+                                                        </div>
+                                                        <div class="delete-btn"
+                                                            (click)="openOrderDeleteModal(orderItemDelete, side)">
+                                                            <a class="text-dark-white cart-trash">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </ng-container>
 
-                                            <div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name">
-                                                        <a href="#">
-                                                            <p class="text-with cart-text"><span
-                                                                    class="text-dark-white">1</span> Étel neve (Menü
-                                                                esetén étel, köret, ital neve)</p> <span
-                                                                class="text-light-white cart-text-extras">Extrák
-                                                                felsorolva</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="delete-btn">
-                                                        <a href="#" class="text-dark-white cart-trash"> <i
-                                                                class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">Ár
-                                                            Ft</a>
+                                            <ng-container *ngFor="let meal of order.meal; let i = index">
+                                                <div class="cat-product-box">
+                                                    <div class="cat-product">
+                                                        <div class="cat-name">
+                                                            <a>
+                                                                <p class="text-with cart-text mr-2">
+                                                                    <span
+                                                                        class="text-dark-white">{{meal.quantity}}</span>
+                                                                    {{meal.mealName}}
+                                                                    <ng-container *ngIf="meal.sideName">
+                                                                        , {{meal.sideName}}
+                                                                    </ng-container>
+                                                                    <ng-container *ngIf="meal.drinkName">
+                                                                        , {{meal.drinkName}}
+                                                                    </ng-container>
+                                                                </p>
+                                                                <ng-container *ngIf="meal.extras.length > 0">
+                                                                    <ng-container
+                                                                        *ngFor="let extra of meal.extras; let i = index; let last = last">
+                                                                        <span
+                                                                            class="text-light-white cart-text-extras">{{extra.name}}</span>
+                                                                        <span *ngIf="!last"> ,</span>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </a>
+                                                        </div>
+                                                        <div class="price">
+                                                            <a class="text-dark-white fw-500">{{meal.totalPrice}} Ft</a>
+                                                        </div>
+                                                        <div class="delete-btn"
+                                                            (click)="openOrderDeleteModal(orderItemDelete, meal)">
+                                                            <a class="text-dark-white cart-trash">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </ng-container>
+
+                                            <ng-container *ngFor="let pizza of order.pizza; let i = index">
+                                                <div class="cat-product-box">
+                                                    <div class="cat-product">
+                                                        <div class="cat-name">
+                                                            <a>
+                                                                <p class="text-with cart-text mr-2">
+                                                                    <span
+                                                                        class="text-dark-white">{{pizza.quantity}}</span>
+                                                                    {{pizza.sizeName}} egyedi pizza
+                                                                </p>
+                                                                <div>
+                                                                    <span
+                                                                        class="text-light-white cart-text-extras">{{pizza?.doughName}},
+                                                                    </span>
+                                                                    <span
+                                                                        class="text-light-white cart-text-extras">{{pizza?.baseName}}
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <ng-container *ngIf="pizza.toppings.length > 0">
+                                                                        <span
+                                                                            class="text-light-white cart-text-extras">Feltét(ek):
+                                                                        </span>
+                                                                        <ng-container
+                                                                            *ngFor="let topping of pizza.toppings; let i = index; let last = last">
+                                                                            <span
+                                                                                class="text-light-white cart-text-extras">{{topping.name}}</span>
+                                                                            <span *ngIf="!last">, </span>
+                                                                        </ng-container>
+                                                                    </ng-container>
+                                                                </div>
+                                                                <div>
+                                                                    <ng-container *ngIf="pizza.sauces.length > 0">
+                                                                        <span
+                                                                            class="text-light-white cart-text-extras">Szósz(ok):
+                                                                        </span>
+                                                                        <ng-container
+                                                                            *ngFor="let sauce of pizza.sauces; let i = index; let last = last">
+                                                                            <span
+                                                                                class="text-light-white cart-text-extras">{{sauce.name}}</span>
+                                                                            <span *ngIf="!last">, </span>
+                                                                        </ng-container>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <div class="price">
+                                                            <a class="text-dark-white fw-500">{{pizza.totalPrice}}
+                                                                Ft</a>
+                                                        </div>
+                                                        <div class="delete-btn"
+                                                            (click)="openOrderDeleteModal(orderItemDelete, pizza)">
+                                                            <a class="text-dark-white cart-trash">
+                                                                <i class="far fa-trash-alt"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
 
                                             <div class="item-total">
-                                                <div class="total-price border-0"> <span
-                                                        class="text-dark-white fw-700">Tételek összesen:</span>
-                                                    <span class="text-dark-white fw-700">4.760Ft</span>
+                                                <div *ngIf="totalPrice" class="total-price border-0"> <span
+                                                        class="text-dark-white fw-700">Tételek
+                                                        összesen:</span>
+                                                    <span class="text-dark-white fw-700">{{totalPrice}} Ft</span>
                                                 </div>
-                                                <div class="empty-bag padding-15 fw-700"> <a href="#">Kosár ürítése</a>
+                                                <div class="empty-bag padding-15 fw-700">
+                                                    <a (click)="resetOrder()"
+                                                        class="empty-bag padding-15 fw-700 pl-0 cursor-pointer">Kosár
+                                                        ürítése</a>
                                                 </div>
                                             </div>
-
                                         </div>
-                                        <div class="card-footer padding-15"> <a href="checkout.html"
-                                                class="btn-first green-btn text-custom-white full-width with-btn fw-500">Tovább
-                                                a fizetéshez</a>
-                                        </div>
+                                        <ng-container *ngIf="isLoggedIn() && order && totalPrice">
+                                            <div class="card-footer padding-15">
+                                                <button
+                                                    class="btn-first green-btn text-custom-white full-width fw-500 with-btn"
+                                                    [disabled]="!isMinimumOrderCompleted() || isRestaurantClosed()">
+                                                    Tovább
+                                                    a
+                                                    fizetéshez
+                                                </button>
+                                                <div *ngIf="!isMinimumOrderCompleted()" class="text-center mt-2">
+                                                    <small class="text-danger">Az étterem minimális rendelési értéke:
+                                                        {{restaurant.minimumordervalue}} Ft</small>
+                                                </div>
+                                                <div *ngIf="isRestaurantClosed()" class="text-center mt-2">
+                                                    <small class="text-danger">Az étterem jelenleg zárva van, ezért nem
+                                                        lehetséges
+                                                        rendelést leadni!</small>
+                                                </div>
+                                            </div>
+                                        </ng-container>
                                     </div>
                                 </div>
                             </div>
@@ -234,3 +343,9 @@
         </div>
     </header>
 </div>
+
+<ng-template #orderItemDelete>
+    <app-delete-order-modal [selectedOrderItem]="selectedOrderItem" (closeModal)="closeModal()"
+        (deleteSelectedOrderItem)="deleteSelectedOrderItem($event)">
+    </app-delete-order-modal>
+</ng-template>

@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 import { RestaurantLocalStorage } from './DTO/RestaurantLocalStorage.model';
 import { CartService } from 'src/app/shared/cart.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RestaurantService } from 'src/app/shared/restaurant.service';
 
 @Component({
   selector: 'app-restaurant',
@@ -55,7 +56,8 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     private pizzaService: PizzaService,
     private mealService: MealService,
     private cartService: CartService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private restaurantService: RestaurantService
   ) { }
 
   ngOnInit(): void {
@@ -292,6 +294,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   private subscribeToRouteParams(): void {
     this.isLoading = true;
     this.restaurant = this.activatedRoute.snapshot.data.restaurant;
+    this.restaurantService.setRestaurant(this.restaurant);
     if (this.restaurant.mapembed) {
       this.mapEmbed = this.transform(this.restaurant.mapembed);
     }

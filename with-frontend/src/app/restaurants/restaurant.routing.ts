@@ -15,7 +15,6 @@ const routes: Routes = [
                 path: 'restaurants/:lowercaseName', component: RestaurantComponent, pathMatch: 'full', resolve: {
                     restaurant: RestaurantResolver
                 }
-
             }
         ]
     }

@@ -936,6 +936,7 @@ span.type-tag{
     display: flex;
     align-items: center;
     background-color: #fff;
+    height: 60px;
 }
 .header .logo {
     flex: 1 150px;
@@ -1250,9 +1251,10 @@ span.type-tag{
 }
 .cart-dropdown .cart-detail-box .card .card-body .cat-product-box .cat-product .cat-name {
     font-size: 10px;
-    white-space: nowrap;
+    white-space: inherit;
     text-overflow: ellipsis;
     overflow: hidden;
+    width: 100%;
 }
 .cart-dropdown .cart-detail-box .card .card-body .cat-product-box .cat-product .cat-name a p {
     margin-bottom: 0px;

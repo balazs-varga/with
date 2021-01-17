@@ -106,6 +106,38 @@ export class CartService {
         return totalPrice;
     }
 
+    calculateOrderAmount(order): number {
+        let orderAmount = 0;
+        if (order) {
+            if (order.drink.length > 0) {
+                order.drink.forEach(e => {
+                    orderAmount += +e.quantity;
+                });
+            }
+            if (order.meal.length > 0) {
+                order.meal.forEach(e => {
+                    orderAmount += +e.quantity;
+                });
+            }
+            if (order.menu.length > 0) {
+                order.menu.forEach(e => {
+                    orderAmount += +e.quantity;
+                });
+            }
+            if (order.pizza.length > 0) {
+                order.pizza.forEach(e => {
+                    orderAmount += +e.quantity;
+                });
+            }
+            if (order.side.length > 0) {
+                order.side.forEach(e => {
+                    orderAmount += +e.quantity;
+                });
+            }
+        }
+        return orderAmount;
+    }
+
     removeSelectedOrderItem(orderItem, restaurantId: number): void {
         const existingOrderData = JSON.parse(this.localStorageService.getRestaurandOrderData(restaurantId));
 
