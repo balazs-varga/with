@@ -7,6 +7,7 @@ import { MealLocalStorage } from '../DTO/meal-product/MealLocalStorage.model';
 import { MenuLocalStorage } from '../DTO/meal-product/MenuLocalStorage.model';
 import { SideLocalStorage } from '../DTO/meal-product/SideLocalStorage.modal';
 import { RestaurantLocalStorage } from '../DTO/RestaurantLocalStorage.model';
+import * as uuid from 'uuid';
 
 @Injectable({
     providedIn: 'root'
@@ -87,14 +88,14 @@ export class MealService {
             if (this.isDrink(selectedProduct) && selectedProductForm.value.selectedProductId) {
                 const drinkDTO = new DrinkLocalStorage(
                     selectedProductForm.value.selectedProductId, selectedProductForm.value.quantity, selectedProduct.name,
-                    selectedProductForm.value.totalPrice, selectedProductForm.value.oneItemPrice
+                    selectedProductForm.value.totalPrice, selectedProductForm.value.oneItemPrice, uuid.v4()
                 );
                 restaurantDTO.drink.push(drinkDTO);
                 this.cartService.addDrinkToCart(restaurantId, restaurantDTO, drinkDTO);
             } else if (this.isSide(selectedProduct) && selectedProductForm.value.selectedProductId) {
                 const sideDTO = new SideLocalStorage(
                     selectedProductForm.value.selectedProductId, selectedProduct.name, selectedProductForm.value.quantity,
-                    selectedProductForm.value.totalPrice, selectedProductForm.value.oneItemPrice
+                    selectedProductForm.value.totalPrice, selectedProductForm.value.oneItemPrice, uuid.v4()
                 );
                 restaurantDTO.side.push(sideDTO);
                 this.cartService.addSideToCart(restaurantId, restaurantDTO, sideDTO);
@@ -105,6 +106,7 @@ export class MealService {
                 mealDTO.totalPrice = selectedProductForm.value.totalPrice;
                 mealDTO.oneItemPrice = selectedProductForm.value.oneItemPrice;
                 mealDTO.mealName = selectedProduct.name;
+                mealDTO.orderItemId = uuid.v4();
                 if (selectedProductForm.value.selectedExtras.length > 0) {
                     selectedProductForm.value.selectedExtras.forEach(extraId => {
                         if (selectedProduct.extras.some(e => +e.id === +extraId)) {
@@ -131,6 +133,7 @@ export class MealService {
                 menuDTO.totalPrice = selectedProductForm.value.totalPrice;
                 menuDTO.oneItemPrice = selectedProductForm.value.oneItemPrice;
                 menuDTO.mealName = selectedProduct.name;
+                menuDTO.orderItemId = uuid.v4();
                 if (selectedProductForm.value.selectedExtras.length > 0) {
                     selectedProductForm.value.selectedExtras.forEach(extraId => {
                         if (selectedProduct.extras.some(e => +e.id === +extraId)) {

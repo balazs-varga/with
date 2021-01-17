@@ -725,7 +725,7 @@
                                                                 <i class="fas fa-minus"></i>
                                                             </button>
                                                         </div>
-                                                        <input id="quantity" type="text"
+                                                        <input id="pizza-quantity" type="text"
                                                             class="text-center background-grey" name="quantity"
                                                             formControlName="quantity" [readonly]="true">
                                                         <div class="input-group-prepend">
@@ -906,7 +906,8 @@
                                                     <div class="price">
                                                         <a class="text-dark-white fw-500">{{menu.totalPrice}} Ft</a>
                                                     </div>
-                                                    <div class="delete-btn">
+                                                    <div class="delete-btn"
+                                                        (click)="openOrderDeleteModal(orderItemDelete, menu)">
                                                         <a class="text-dark-white cart-trash">
                                                             <i class="far fa-trash-alt"></i>
                                                         </a>
@@ -929,7 +930,8 @@
                                                     <div class="price">
                                                         <a class="text-dark-white fw-500">{{drink.totalPrice}} Ft</a>
                                                     </div>
-                                                    <div class="delete-btn">
+                                                    <div class="delete-btn"
+                                                        (click)="openOrderDeleteModal(orderItemDelete, drink)">
                                                         <a class="text-dark-white cart-trash">
                                                             <i class="far fa-trash-alt"></i>
                                                         </a>
@@ -952,7 +954,8 @@
                                                     <div class="price">
                                                         <a class="text-dark-white fw-500">{{side.totalPrice}} Ft</a>
                                                     </div>
-                                                    <div class="delete-btn">
+                                                    <div class="delete-btn"
+                                                        (click)="openOrderDeleteModal(orderItemDelete, side)">
                                                         <a class="text-dark-white cart-trash">
                                                             <i class="far fa-trash-alt"></i>
                                                         </a>
@@ -989,7 +992,8 @@
                                                     <div class="price">
                                                         <a class="text-dark-white fw-500">{{meal.totalPrice}} Ft</a>
                                                     </div>
-                                                    <div class="delete-btn">
+                                                    <div class="delete-btn"
+                                                        (click)="openOrderDeleteModal(orderItemDelete, meal)">
                                                         <a class="text-dark-white cart-trash">
                                                             <i class="far fa-trash-alt"></i>
                                                         </a>
@@ -1046,7 +1050,8 @@
                                                     <div class="price">
                                                         <a class="text-dark-white fw-500">{{pizza.totalPrice}} Ft</a>
                                                     </div>
-                                                    <div class="delete-btn">
+                                                    <div class="delete-btn"
+                                                        (click)="openOrderDeleteModal(orderItemDelete, pizza)">
                                                         <a class="text-dark-white cart-trash">
                                                             <i class="far fa-trash-alt"></i>
                                                         </a>
@@ -1326,3 +1331,9 @@
         </div>
     </div>
 </div>
+
+<ng-template #orderItemDelete>
+    <app-delete-order-modal [selectedOrderItem]="selectedOrderItem" (closeModal)="closeModal()" (deleteSelectedOrderItem)="deleteSelectedOrderItem($event)">
+
+    </app-delete-order-modal>
+</ng-template>

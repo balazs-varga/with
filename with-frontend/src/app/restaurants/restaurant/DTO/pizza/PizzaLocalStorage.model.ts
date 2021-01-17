@@ -13,4 +13,5 @@ export class PizzaLocalStorage {
     sauces: SauceLocalStorage[] = [];
     totalPrice: number;
     oneItemPrice: number;
+    orderItemId: string;
 }

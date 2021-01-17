@@ -11,4 +11,5 @@ export class MealLocalStorage {
     extras: ExtraLocalStorage[] = [];
     totalPrice: number;
     oneItemPrice: number;
+    orderItemId: string;
 }

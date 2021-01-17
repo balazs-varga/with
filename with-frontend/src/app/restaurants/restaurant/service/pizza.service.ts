@@ -5,6 +5,7 @@ import { PizzaLocalStorage } from '../DTO/pizza/PizzaLocalStorage.model';
 import { SauceLocalStorage } from '../DTO/pizza/SauceLocalStorage.model';
 import { ToppingLocalStorage } from '../DTO/pizza/ToppingLocalStorage.model';
 import { RestaurantLocalStorage } from '../DTO/RestaurantLocalStorage.model';
+import * as uuid from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -174,6 +175,7 @@ export class PizzaService {
     return new Promise((resolve) => {
       let pizzaDTO = new PizzaLocalStorage();
       pizzaDTO = pizzaForm.getRawValue();
+      pizzaDTO.orderItemId = uuid.v4();
 
       const dough = this.getDoughsOfSelectedPizzaSize(pizzaForm, pizzaDesigner).find(e => +e.id === +pizzaDTO.pizzadesigner_dough_id);
       pizzaDTO.doughName = dough.name;

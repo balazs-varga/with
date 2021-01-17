@@ -105,4 +105,48 @@ export class CartService {
         }
         return totalPrice;
     }
+
+    removeSelectedOrderItem(orderItem, restaurantId: number): void {
+        const existingOrderData = JSON.parse(this.localStorageService.getRestaurandOrderData(restaurantId));
+
+        if (existingOrderData) {
+            if (existingOrderData.drink.some(e => e.orderItemId === orderItem.orderItemId)) {
+                const drinks = existingOrderData.drink;
+                const index =  drinks.findIndex(e => e.orderItemId === orderItem.orderItemId);
+                if (index > -1) {
+                    drinks.splice(index, 1);
+                }
+                existingOrderData.drink = drinks;
+            } else if (existingOrderData.meal.some(e => e.orderItemId === orderItem.orderItemId)) {
+                const meals = existingOrderData.meal;
+                const index =  meals.findIndex(e => e.orderItemId === orderItem.orderItemId);
+                if (index > -1) {
+                    meals.splice(index, 1);
+                }
+                existingOrderData.meal = meals;
+            } else if (existingOrderData.menu.some(e => e.orderItemId === orderItem.orderItemId)) {
+                const menus = existingOrderData.menu;
+                const index =  menus.findIndex(e => e.orderItemId === orderItem.orderItemId);
+                if (index > -1) {
+                    menus.splice(index, 1);
+                }
+                existingOrderData.menu = menus;
+            } else if (existingOrderData.side.some(e => e.orderItemId === orderItem.orderItemId)) {
+                const sides = existingOrderData.side;
+                const index =  sides.findIndex(e => e.orderItemId === orderItem.orderItemId);
+                if (index > -1) {
+                    sides.splice(index, 1);
+                }
+                existingOrderData.side = sides;
+            } else if (existingOrderData.pizza.some(e => e.orderItemId === orderItem.orderItemId)) {
+                const pizzas = existingOrderData.pizza;
+                const index =  pizzas.findIndex(e => e.orderItemId === orderItem.orderItemId);
+                if (index > -1) {
+                    pizzas.splice(index, 1);
+                }
+                existingOrderData.pizza = pizzas;
+            }
+            this.localStorageService.setRestaurantOrderData(restaurantId, existingOrderData);
+        }
+    }
 }

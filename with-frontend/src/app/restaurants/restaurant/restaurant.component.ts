@@ -14,7 +14,7 @@ import { MealService } from './service/meal.sevice';
 import { Subscription } from 'rxjs';
 import { RestaurantLocalStorage } from './DTO/RestaurantLocalStorage.model';
 import { CartService } from 'src/app/shared/cart.service';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-restaurant',
@@ -37,6 +37,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   pauseForm = false;
   order = {} as RestaurantLocalStorage;
   totalPrice = null;
+  selectedOrderItem = null;
 
   localstorageLocationSubscription: Subscription;
   localstorageOrderDataSubscription: Subscription;
@@ -53,7 +54,8 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     private router: Router,
     private pizzaService: PizzaService,
     private mealService: MealService,
-    private cartService: CartService
+    private cartService: CartService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -83,6 +85,21 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     this.localstorageLocationSubscription.unsubscribe();
     this.localstorageOrderDataSubscription.unsubscribe();
     this.locationService.changeIsLocationSelectorOpen(false);
+  }
+
+  openOrderDeleteModal(modal, orderItem): void {
+    this.selectedOrderItem = orderItem;
+    this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'});
+  }
+
+  deleteSelectedOrderItem(orderItem): void {
+    this.cartService.removeSelectedOrderItem(orderItem, this.restaurant.restaurantid);
+    this.closeModal();
+  }
+
+  closeModal(): void {
+    this.selectedOrderItem = null;
+    this.modalService.dismissAll();
   }
 
   toggleShowPizzaCreator(): void {

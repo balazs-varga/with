@@ -589,11 +589,21 @@ label.custom-checkbox .checkmark:after {
     background-color: #28a745;
     border-color: #28a745;
 }
+.green-btn-without-hover {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
 .green-btn:hover,
 .green-btn:focus {
     border-color: black;
     background: #fff;
     color: black;
+}
+.red-btn {
+    color: #fff;
+    background-color: #ff0018;
+    border-color: #ff0018;
 }
 .paypal-btn {
     color: #fff;
