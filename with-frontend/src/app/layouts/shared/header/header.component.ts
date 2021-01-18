@@ -33,6 +33,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedOrderItem = null;
   restaurantChangeSub: Subscription;
   localstorageOrderDataSubscription: Subscription;
+  isCartShow = false;
+  isUserSettingsShow = false;
 
   constructor(
     public authService: AuthenticationService,
@@ -82,6 +84,22 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
+  }
+
+  toggleCartShow(): void {
+    this.isCartShow = !this.isCartShow;
+  }
+
+  closeCart(): void {
+    this.isCartShow = false;
+  }
+
+  toggleUserSettingsShow(): void {
+    this.isUserSettingsShow = !this.isUserSettingsShow;
+  }
+
+  closeUserSettings(): void {
+    this.isUserSettingsShow = false;
   }
 
   resetOrder(): void {

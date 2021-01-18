@@ -942,6 +942,11 @@ span.type-tag{
     flex: 1 150px;
     justify-content: center;
     max-width: 160px;
+
+    @media (max-width: 500px) {
+        justify-content: start;
+        max-width: 70px;
+    }
 }
 .header .main-search {
     flex: 1;
@@ -1129,6 +1134,15 @@ span.type-tag{
     opacity: 0;
     visibility: hidden;
     transition: 0.3s;
+
+    &.show {
+        @media (max-width: 500px) {
+            width: 100%;
+            left: 0;
+            visibility: visible;
+            opacity: unset;
+        }
+    }
 }
 .cart-dropdown .cart-detail-box,
 .notification-btn .notification-dropdown {
@@ -1140,6 +1154,11 @@ span.type-tag{
     visibility: visible;
     left: -115%;
     transition: 0.3s;
+
+    @media (max-width: 500px) {
+        width: 100%;
+        left: 0;
+    }
 }
 .user-dropdown ul {
     padding: 10px 15px;
@@ -1201,6 +1220,10 @@ span.type-tag{
     right: 0%;
     transition: 0.3s;
     width: 250px;
+
+    @media (max-width: 500px) {
+        width: 100%;
+    }
 }
 .notification-dropdown .product-detail a {
     display: flex;
