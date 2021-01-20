@@ -29,11 +29,30 @@
 }
 
 .cart-trash {
- cursor: pointer;
+  cursor: pointer;
 }
 
 .restaurant-name {
   color: #47b272;
   margin-bottom: 0px;
   text-align: center;
+}
+
+:host .loggedout-mainNavCol {
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+:host .loggedout-logo {
+  @media (max-width: 767px) {
+    max-width: none;
+  }
+}
+
+:host .loggedout-navlink {
+  @media (max-width: 767px) {
+    width: 100%;
+    text-align: center;
+  }
 }

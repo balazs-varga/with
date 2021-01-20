@@ -1095,6 +1095,10 @@ span.type-tag{
     top: 100%;
     left: 0;
     width: 50%;
+
+    @media (max-width: 500px) {
+        width: 100%;
+      }
 }
 .location-picker input {
     padding: 20px 10px 20px 40px;
@@ -1292,6 +1296,10 @@ span.type-tag{
 .mobile-search {
     display: none;
     padding: 0;
+
+    @media (max-width: 500px) {
+        display: block;
+      }
 }
 .header .mobile-address .delivery-add {
     align-items: center;

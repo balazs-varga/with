@@ -16,6 +16,12 @@
 
 .logo-position {
   padding-left: 60px;
+  @media (max-width: 767px) {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 10px;
+    text-align: center;
+  }
 }
 
 .search-input {
@@ -82,4 +88,25 @@
 
 a:hover {
   color: #348e58;
+}
+
+:host .main-img {
+  @media (max-width: 767px) {
+    padding-top: 100px;
+  }
+}
+
+.inner-wrapper .main-page .top-nav {
+  @media (max-width: 767px) {
+    position: relative;
+    top: 0px;
+    right: 0px;
+    margin-bottom: 15px;
+  }
+}
+
+.loggedin-main-img {
+  @media (max-width: 767px) {
+    padding-top: 0px !important;
+  }
 }

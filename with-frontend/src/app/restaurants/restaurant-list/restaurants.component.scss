@@ -92,14 +92,6 @@ footer .ft-social-media ul li:hover a {
   color: #47b272;
 }
 
-
-
-
-
-
-
-
-
 .ad-img {
   border-radius: 8px;
 }
@@ -253,4 +245,10 @@ footer .ft-social-media ul li:hover a {
 
 .text-green {
   color: #47b272;
+}
+
+.section-padding {
+  @media (max-width: 767px) {
+    margin-top: 60px;
+  }
 }

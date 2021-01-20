@@ -7,7 +7,7 @@
         <div class="row no-gutters">
             <div class="col-md-6">
                 <div class="main-banner">
-                    <img src="assets/img/banner/banner-3.jpg" class="img-fluid full-width main-img" alt="banner">
+                    <img src="assets/img/banner/banner-3.jpg" [ngClass]="{'loggedin-main-img': isLoggedIn()}" class="img-fluid full-width main-img" alt="banner">
                     <ng-container *ngIf="!isLoggedIn()">
                         <div class="overlay-2 main-padding logo-position">
                             <a routerLink="/">
@@ -27,7 +27,7 @@
                     </ng-container>
                     <div class="login-box">
                         <form [formGroup]="searchForm">
-                            <div class="col-12">
+                            <div class="col-12 pl-0 pr-0">
                                 <h1 class="text-light-black fw-700">Fedezd fel szuper éttermeinket</h1>
                                 <div class="input-group row">
                                     <div class="input-group2 col-xl-8">

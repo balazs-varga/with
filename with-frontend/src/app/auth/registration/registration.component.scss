@@ -26,3 +26,9 @@
 .with-check:hover {
   background-color: white;
 }
+
+.main-padding {
+  @media (max-width: 767px) {
+    padding: 32px;
+  }
+}

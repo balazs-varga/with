@@ -65,3 +65,9 @@ button[disabled] {
 .closed {
   margin-top: 10px;
 }
+
+.page-banner {
+  @media (max-width: 767px) {
+    margin-top: 60px;
+  }
+}

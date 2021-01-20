@@ -1,13 +1,33 @@
 .login-logo {
-    height: 50px;
+  height: 50px;
 }
 
 .link {
-    color: #47b272;
-    text-decoration: none;
-    transition: 0.5s;
+  color: #47b272;
+  text-decoration: none;
+  transition: 0.5s;
 }
 
 .link:hover {
-    color: #348e58;
+  color: #348e58;
+}
+
+.section-2,
+.main-banner {
+  @media (max-width: 767px) {
+    height: 100vh;
+    padding: 32px;
+  }
+}
+
+:host .main-banner {
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.user-page .login-sec {
+  @media (max-width: 767px) {
+    position: relative;
+  }
 }
