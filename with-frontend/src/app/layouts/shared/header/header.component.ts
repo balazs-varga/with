@@ -153,6 +153,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.router.url === '/';
   }
 
+  isCheckoutPage(): boolean {
+    return this.router.url === '/checkout';
+  }
+
   submitByEnterButton(event): void {
     const ENTER_KEY_CODE = 13;
     if (event.keyCode === ENTER_KEY_CODE) {

@@ -15,7 +15,7 @@
                             <div class="row">
                                 <!-- location picker -->
                                 <div class="col-lg-6 col-md-5">
-                                    <a *ngIf="!isLoginPage()" class="delivery-add p-relative"
+                                    <a *ngIf="!isCheckoutPage() && !isLoginPage()" class="delivery-add p-relative"
                                         (click)="toggleLocationPopup()"> <span class="icon"><i
                                                 class="fas fa-map-marker-alt"></i></span>
                                         <span *ngIf="zip && city" class="address">{{zip}}, {{city}}</span>
@@ -336,7 +336,7 @@
 
                 <div class="col-sm-12 mobile-search">
                     <div class="mobile-address">
-                        <a *ngIf="!isLoginPage()" class="delivery-add p-relative" (click)="toggleLocationPopup()"> <span
+                        <a *ngIf="!isCheckoutPage() && !isLoginPage()" class="delivery-add p-relative" (click)="toggleLocationPopup()"> <span
                                 class="icon"><i class="fas fa-map-marker-alt mr-2"></i></span>
                             <span *ngIf="zip && city" class="address">{{zip}}, {{city}}</span>
                             <span *ngIf="!zip || !city" class="address">Helyszín</span>
