@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RestaurantModule } from './restaurants/restaurant.module';
 import { INTERCEPTORS } from './auth/interceptors.provider';
 import { SharedModule } from './shared/shared.module';
+import { CheckoutModule } from './checkout/checkout.module';
 
 const routes: Routes = [
   { path: '**', redirectTo: '404' }
@@ -34,7 +35,8 @@ const routes: Routes = [
     LayoutsModule,
     AuthModule,
     RestaurantModule,
-    SharedModule
+    SharedModule,
+    CheckoutModule
   ],
   providers: [
     INTERCEPTORS
