@@ -88,7 +88,7 @@
                             </div>
 
                             <!-- user cart -->
-                            <div appClickOutside *ngIf="order && restaurant" class="cart-btn cart-dropdown"
+                            <div appClickOutside *ngIf="order && restaurant && !isCheckoutPage()" class="cart-btn cart-dropdown"
                                 (clickOutside)="closeCart()" (click)="toggleCartShow()">
                                 <a class="text-light-green fw-700"> <i class="fas fa-shopping-bag"></i>
                                     <span class="user-alert-cart">{{orderAmount}}</span>
@@ -308,7 +308,7 @@
                                         <ng-container *ngIf="isLoggedIn() && order && totalPrice">
                                             <div class="card-footer padding-15">
                                                 <button
-                                                    class="btn-first green-btn text-custom-white full-width fw-500 with-btn"
+                                                    class="btn-first green-btn text-custom-white full-width fw-500 with-btn" (click)="placeOrder()"
                                                     [disabled]="!isMinimumOrderCompleted() || isRestaurantClosed()">
                                                     Tovább
                                                     a

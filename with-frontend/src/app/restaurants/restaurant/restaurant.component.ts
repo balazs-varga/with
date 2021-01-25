@@ -291,6 +291,12 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     return this.totalPrice >= this.restaurant.minimumordervalue;
   }
 
+  placeOrder(): void {
+    if (this.isLoggedIn() && this.order && this.totalPrice) {
+      this.cartService.order(this.restaurant);
+    }
+  }
+
   private subscribeToRouteParams(): void {
     this.isLoading = true;
     this.restaurant = this.activatedRoute.snapshot.data.restaurant;

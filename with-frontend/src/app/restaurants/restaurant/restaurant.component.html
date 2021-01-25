@@ -1080,7 +1080,7 @@
                             </div>
                             <ng-container *ngIf="isLoggedIn() && order && totalPrice">
                                 <div class="card-footer padding-15">
-                                    <button class="btn-first green-btn text-custom-white full-width fw-500 with-btn"
+                                    <button class="btn-first green-btn text-custom-white full-width fw-500 with-btn" (click)="placeOrder()"
                                         [disabled]="!isMinimumOrderCompleted() || isRestaurantClosed()">
                                         Tovább
                                         a

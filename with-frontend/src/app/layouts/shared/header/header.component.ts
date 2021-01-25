@@ -154,7 +154,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isCheckoutPage(): boolean {
-    return this.router.url === '/checkout';
+    return this.router.url.startsWith('/checkout/');
   }
 
   submitByEnterButton(event): void {
@@ -163,6 +163,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.locationForm.valid) {
         this.getZipAndCityName(this.locationForm.get('location').value);
       }
+    }
+  }
+
+  placeOrder(): void {
+    if (this.isLoggedIn() && this.order && this.totalPrice) {
+      this.cartService.order(this.restaurant);
     }
   }
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { DrinkLocalStorage } from '../restaurants/restaurant/DTO/meal-product/DrinkLocalStorage.model';
 import { MealLocalStorage } from '../restaurants/restaurant/DTO/meal-product/MealLocalStorage.model';
 import { MenuLocalStorage } from '../restaurants/restaurant/DTO/meal-product/MenuLocalStorage.model';
@@ -11,7 +12,8 @@ import { LocalStorageService } from './localStorage.service';
 export class CartService {
 
     constructor(
-        private localStorageService: LocalStorageService
+        private localStorageService: LocalStorageService,
+        private router: Router
     ) { }
 
     addPizzaToCart(restaurantId, restaurantDTO: RestaurantLocalStorage, pizzaDTO: PizzaLocalStorage): void {
@@ -180,5 +182,9 @@ export class CartService {
             }
             this.localStorageService.setRestaurantOrderData(restaurantId, existingOrderData);
         }
+    }
+
+    order(restaurantDTO: any): void {
+        this.router.navigateByUrl('/checkout/' + restaurantDTO.lowercasename);
     }
 }
