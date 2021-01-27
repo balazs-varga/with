@@ -32,3 +32,9 @@
     padding: 32px;
   }
 }
+
+:host .green-button:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}

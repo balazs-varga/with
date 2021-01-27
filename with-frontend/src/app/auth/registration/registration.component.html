@@ -143,6 +143,26 @@
                                                         class="text-danger">Kötelező mező</small>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 col-sm-6">
+                                            <div class="form-group">
+                                                <label class="text-light-white fs-14">Irányítószám</label>
+                                                <input id="zipcode" type="number" name="zipcode"
+                                                    [class.is-invalid]="registrationForm.controls.zipcode.invalid && registrationForm.controls.zipcode.touched"
+                                                    formControlName="zipcode" class="form-control form-control-submit"
+                                                    placeholder="Irányítószám" min=1000 max=9999>
+                                                <div *ngIf="(registrationForm.controls.zipcode.invalid && registrationForm.controls.zipcode.touched) || registrationForm.controls.zipcode.dirty"
+                                                    class="text-right">
+                                                    <small *ngIf="registrationForm.controls.zipcode.errors?.required"
+                                                        class="text-danger">Kötelező mező</small>
+                                                    <small
+                                                        *ngIf="registrationForm.controls.zipcode.errors?.min || registrationForm.controls.zipcode.errors?.max"
+                                                        class="text-danger">Kérjük adjon meg egy valós
+                                                        irányítószámot</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 col-sm-6">
                                             <div class="form-group">
                                                 <label class="text-light-white fs-14">Város</label>
                                                 <input id="city" type="text" name="city"
@@ -160,25 +180,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-6">
-                                            <div class="form-group">
-                                                <label class="text-light-white fs-14">Irányítószám</label>
-                                                <input id="zipcode" type="number" name="zipcode"
-                                                    [class.is-invalid]="registrationForm.controls.zipcode.invalid && registrationForm.controls.zipcode.touched"
-                                                    formControlName="zipcode" class="form-control form-control-submit"
-                                                    placeholder="Irányítószám">
-                                                <div *ngIf="(registrationForm.controls.zipcode.invalid && registrationForm.controls.zipcode.touched) || registrationForm.controls.zipcode.dirty"
-                                                    class="text-right">
-                                                    <small *ngIf="registrationForm.controls.zipcode.errors?.required"
-                                                        class="text-danger">Kötelező mező</small>
-                                                    <small
-                                                        *ngIf="registrationForm.controls.zipcode.errors?.min || registrationForm.controls.zipcode.errors?.max"
-                                                        class="text-danger">Kérjük adj meg egy valós
-                                                        irányítószámot</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-6">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <label class="text-light-white fs-14">Cím</label>
                                                 <input id="address" type="text" name="address"
@@ -196,7 +198,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-12 text-center">
                                             <div class="with-check border-0 mb-0">
                                                 <input class="form-check-input" type="checkbox" name="privacy"
@@ -224,7 +225,7 @@
                                             </div>
                                             <div class="form-group text-center mb-2"> <span>vagy</span></div>
                                             <div class="form-group text-center">
-                                                <p class="text-light-black mb-0">Rendelkezel felhasználói fiókkal?
+                                                <p class="text-light-black mb-0">Rendelkezik már felhasználói fiókkal?
                                                     <a routerLink="/login" class="sign-in-link">Bejelentkezés</a>
                                                 </p>
                                             </div>
