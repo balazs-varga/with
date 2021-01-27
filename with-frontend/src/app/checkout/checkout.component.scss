@@ -1,0 +1,58 @@
+.bg-light-green {
+  background-color: #47b272;
+}
+
+.cat-product-box {
+  .price {
+    width: 100px;
+    text-align: right;
+  }
+}
+
+.final-order-padding {
+  padding: 48px 0;
+}
+
+:host .with-check {
+  border: none;
+
+  &:hover {
+    background-color: white;
+  }
+}
+
+:host .with-check .form-check-label {
+  font-size: 14px;
+  line-height: unset;
+}
+
+.comment {
+  font-size: 22px;
+}
+
+.afa-container {
+  border: 1px solid #ccc !important;
+  padding: 1em 20px;
+  border-radius: 16px;
+  background-color: #00000015;
+}
+
+.afa-background {
+  background-color: #00000000;
+
+  &:hover {
+    background-color: #00000000 !important;
+  }
+}
+
+:host .green-btn:hover {
+  border-color: #28a745;
+  background: #348e58;
+  color: white;
+}
+
+:host .green-btn:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}

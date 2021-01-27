@@ -1,1 +1,482 @@
-<p>checkout works!</p>
+<ng-container *ngIf="isLoading">
+    <app-loading-spinner></app-loading-spinner>
+</ng-container>
+
+<section class="final-order final-order-padding bg-light-theme">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="main-box padding-20">
+                    <div class="row mb-xl-20">
+                        <div class="col-md-6">
+                            <div class="section-header-left">
+                                <h3 class="text-light-black header-title fw-700">Rendelés leadása</h3>
+                            </div>
+                            <h6 class="text-light-black fw-700 fs-14 mb-5">A rendelés leadásához kérjük válassza ki a
+                                fizetés és szállítás módját, illetve amennyiben szükséges, a kiszállítás pontos címét.
+                            </h6>
+
+                            <ng-container *ngIf="checkoutForm">
+                                <form [formGroup]="checkoutForm">
+                                    <div class="form-group">
+                                        <label class="text-light-white fs-14">Szállítás módja</label>
+                                        <select id="deliveryType" formControlName="deliveryType"
+                                            class="form-control form-control-submit custom-select-2 full-width">
+                                            <option value="delivery" data-name="">Kiszállítás megadott címre</option>
+                                            <option value="personal" data-name="">Személyes átvétel</option>
+                                        </select>
+                                        <div *ngIf="checkoutForm.controls.deliveryType.invalid" class="text-right">
+                                            <small *ngIf="checkoutForm.controls.deliveryType.errors?.required"
+                                                class="text-danger">Kötelező mező</small>
+                                        </div>
+                                    </div>
+
+                                    <ng-container *ngIf="isDelivery()">
+                                        <div class="form-group">
+                                            <label class="text-light-white fs-14">Ország</label>
+                                            <select id="customer_country" formControlName="customer_country"
+                                                class="form-control form-control-submit custom-select-2 full-width">
+                                                <option value="Hungary" data-name="">Magyarország</option>
+                                            </select>
+                                            <div *ngIf="checkoutForm.controls.customer_country.invalid"
+                                                class="text-right">
+                                                <small *ngIf="checkoutForm.controls.customer_country.errors?.required"
+                                                    class="text-danger">Kötelező mező</small>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="col-lg-6 col-md-12 col-sm-6 pl-0">
+                                                <div class="form-group">
+                                                    <label class="text-light-white fs-14">Irányítószám</label>
+                                                    <input id="customer_zipcode" type="number" name="customer_zipcode"
+                                                        [class.is-invalid]="checkoutForm.controls.customer_zipcode.invalid"
+                                                        formControlName="customer_zipcode"
+                                                        class="form-control form-control-submit"
+                                                        placeholder="Irányítószám" min=1000 max=9999>
+                                                    <div *ngIf="checkoutForm.controls.customer_zipcode.invalid"
+                                                        class="text-right">
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.customer_zipcode.errors?.required"
+                                                            class="text-danger">Kötelező mező</small>
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.customer_zipcode.errors?.min || checkoutForm.controls.customer_zipcode.errors?.max"
+                                                            class="text-danger">Kérjük adjon meg egy valós
+                                                            irányítószámot</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-6 pl-0 pr-0">
+                                                <div class="form-group">
+                                                    <label class="text-light-white fs-14">Város</label>
+                                                    <input id="customer_city" type="text" name="customer_city"
+                                                        [class.is-invalid]="checkoutForm.controls.customer_city.invalid"
+                                                        formControlName="customer_city"
+                                                        class="form-control form-control-submit" placeholder="Város">
+                                                    <div *ngIf="checkoutForm.controls.customer_city.invalid"
+                                                        class="text-right">
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.customer_city.errors?.required"
+                                                            class="text-danger">Kötelező mező</small>
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.customer_city.errors?.minlength"
+                                                            class="text-danger">Túl rövid városnév</small>
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.customer_city.errors?.maxlength"
+                                                            class="text-danger">Túl hosszú városnév</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="text-light-white fs-14">Cím</label>
+                                            <input id="customer_address" type="text" name="customer_address"
+                                                [class.is-invalid]="checkoutForm.controls.customer_address.invalid"
+                                                formControlName="customer_address"
+                                                class="form-control form-control-submit" placeholder="Cím">
+                                            <div *ngIf="checkoutForm.controls.customer_address.invalid"
+                                                class="text-right">
+                                                <small *ngIf="checkoutForm.controls.customer_address.errors?.required"
+                                                    class="text-danger">Kötelező mező</small>
+                                                <small *ngIf="checkoutForm.controls.customer_address.errors?.minlength"
+                                                    class="text-danger">Túl rövid cím</small>
+                                                <small *ngIf="checkoutForm.controls.customer_address.errors?.maxlength"
+                                                    class="text-danger">Túl hosszú cím</small>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <div class="form-check with-check">
+                                        <input class="form-check-input" type="checkbox" name="is_invoice_requested"
+                                            id="is_invoice_requested" formControlName="is_invoice_requested">
+                                        <label class="form-check-label" for="is_invoice_requested">
+                                            ÁFA-s számla igénylése
+                                        </label>
+                                    </div>
+
+                                    <ng-container *ngIf="isInvoiceRequested()">
+                                        <div class="section-header-left">
+                                            <h3 class="text-light-black header-title comment">ÁFA-s számla adatok</h3>
+                                        </div>
+                                        <div class="afa-container mb-4">
+                                            <div class="form-check with-check afa-background">
+                                                <input class="form-check-input" type="checkbox"
+                                                    name="invoice_is_company" id="invoice_is_company"
+                                                    formControlName="invoice_is_company">
+                                                <label class="form-check-label" for="invoice_is_company">
+                                                    Számla kiállítása cégre
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="text-light-white fs-14">Név</label>
+                                                <input id="invoice_name" type="text" name="invoice_name"
+                                                    [class.is-invalid]="checkoutForm.controls.invoice_name.invalid"
+                                                    formControlName="invoice_name"
+                                                    class="form-control form-control-submit" placeholder="Név">
+                                                <div *ngIf="checkoutForm.controls.invoice_name.invalid"
+                                                    class="text-right">
+                                                    <small *ngIf="checkoutForm.controls.invoice_name.errors?.required"
+                                                        class="text-danger">Kötelező mező</small>
+                                                    <small *ngIf="checkoutForm.controls.invoice_name.errors?.minlength"
+                                                        class="text-danger">Túl rövid név</small>
+                                                    <small *ngIf="checkoutForm.controls.invoice_name.errors?.maxlength"
+                                                        class="text-danger">Túl hosszú név</small>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="col-lg-6 col-md-12 col-sm-6 pl-0">
+                                                    <div class="form-group">
+                                                        <label class="text-light-white fs-14">Irányítószám</label>
+                                                        <input id="invoice_zipcode" type="number" name="invoice_zipcode"
+                                                            [class.is-invalid]="checkoutForm.controls.invoice_zipcode.invalid"
+                                                            formControlName="invoice_zipcode"
+                                                            class="form-control form-control-submit"
+                                                            placeholder="Irányítószám" min=1000 max=9999>
+                                                        <div *ngIf="checkoutForm.controls.invoice_zipcode.invalid"
+                                                            class="text-right">
+                                                            <small
+                                                                *ngIf="checkoutForm.controls.invoice_zipcode.errors?.required"
+                                                                class="text-danger">Kötelező mező</small>
+                                                            <small
+                                                                *ngIf="checkoutForm.controls.invoice_zipcode.errors?.min || checkoutForm.controls.invoice_zipcode.errors?.max"
+                                                                class="text-danger">Kérjük adjon meg egy valós
+                                                                irányítószámot</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-6 pl-0 pr-0">
+                                                    <div class="form-group">
+                                                        <label class="text-light-white fs-14">Város</label>
+                                                        <input id="invoice_city" type="text" name="invoice_city"
+                                                            [class.is-invalid]="checkoutForm.controls.invoice_city.invalid"
+                                                            formControlName="invoice_city"
+                                                            class="form-control form-control-submit"
+                                                            placeholder="Város">
+                                                        <div *ngIf="checkoutForm.controls.invoice_city.invalid"
+                                                            class="text-right">
+                                                            <small
+                                                                *ngIf="checkoutForm.controls.invoice_city.errors?.required"
+                                                                class="text-danger">Kötelező mező</small>
+                                                            <small
+                                                                *ngIf="checkoutForm.controls.invoice_city.errors?.minlength"
+                                                                class="text-danger">Túl rövid városnév</small>
+                                                            <small
+                                                                *ngIf="checkoutForm.controls.invoice_city.errors?.maxlength"
+                                                                class="text-danger">Túl hosszú városnév</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="text-light-white fs-14">Cím</label>
+                                                <input id="invoice_address" type="text" name="invoice_address"
+                                                    [class.is-invalid]="checkoutForm.controls.invoice_address.invalid"
+                                                    formControlName="invoice_address"
+                                                    class="form-control form-control-submit" placeholder="Cím">
+                                                <div *ngIf="checkoutForm.controls.invoice_address.invalid"
+                                                    class="text-right">
+                                                    <small
+                                                        *ngIf="checkoutForm.controls.invoice_address.errors?.required"
+                                                        class="text-danger">Kötelező mező</small>
+                                                    <small
+                                                        *ngIf="checkoutForm.controls.invoice_address.errors?.minlength"
+                                                        class="text-danger">Túl rövid cím</small>
+                                                    <small
+                                                        *ngIf="checkoutForm.controls.invoice_address.errors?.maxlength"
+                                                        class="text-danger">Túl hosszú cím</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="text-light-white fs-14">Adószám</label>
+                                                <input id="invoice_tax_number" type="text" name="invoice_tax_number"
+                                                    [class.is-invalid]="checkoutForm.controls.invoice_tax_number.invalid"
+                                                    formControlName="invoice_tax_number"
+                                                    class="form-control form-control-submit" placeholder="Adószám">
+                                                <div *ngIf="checkoutForm.controls.invoice_tax_number.invalid"
+                                                    class="text-right">
+                                                    <small
+                                                        *ngIf="checkoutForm.controls.invoice_tax_number.errors?.required"
+                                                        class="text-danger">Kötelező mező</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </form>
+                            </ng-container>
+                            <form [formGroup]="checkoutForm">
+                                <div class="form-group">
+                                    <label class="text-light-white fs-14">Fizetési mód</label>
+                                    <select id="paying_method" formControlName="paying_method"
+                                        class="form-control form-control-submit custom-select-2 full-width">
+                                        <option value="null" selected disabled hidden>Kérem válasszon</option>
+                                        <option value="1" data-name="">Készpénzfizetés - utánvét</option>
+                                        <option value="2" data-name="">Bankkártyás fizetés - utánvét</option>
+                                        <option value="3" data-name="">Online bankkártyás fizetés most</option>
+                                    </select>
+                                    <div *ngIf="checkoutForm.controls.paying_method.invalid" class="text-right">
+                                        <small *ngIf="checkoutForm.controls.paying_method.errors?.required"
+                                            class="text-danger">Kötelező mező</small>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="advertisement-img">
+                                <img src="assets/img/checkout.jpg" class="img-fluid full-width" alt="advertisement-img">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="payment-sec">
+                                <form [formGroup]="checkoutForm">
+                                    <div class="section-header-left">
+                                        <h3 class="text-light-black header-title comment">Megjegyzés</h3>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control form-control-submit" rows="4"
+                                            formControlName="comment" placeholder="Megjegyzés"></textarea>
+                                        <div *ngIf="checkoutForm.controls.comment.invalid" class="text-right">
+                                            <small *ngIf="checkoutForm.controls.comment.errors?.maxlength"
+                                                class="text-danger">Túl hosszú megjegyzés</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <button type="submit" (click)="orderProducts()"
+                                                    [disabled]="!checkoutForm.valid"
+                                                    class="btn-first green-btn text-custom-white full-width fw-500">Rendelés
+                                                    leadása</button>
+                                            </div>
+                                            <p class="text-center text-light-black no-margin">By placing
+                                                your order, you agree to Munchbox's <a href="#">terms of
+                                                    use</a> and <a href="#">privacy agreement</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="cart-detail-box">
+                        <div class="card">
+                            <div class="card-header padding-15 fw-700">Rendelése innen:
+                                <p class="text-light-white no-margin fw-500">{{restaurant.restaurantname}}</p>
+                            </div>
+                            <div class="card-body no-padding" id="scrollstyle-4">
+                                <ng-container *ngFor="let menu of order.menu; let i = index">
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a>
+                                                    <p class="text-with cart-text mr-2">
+                                                        <span class="text-dark-white">{{menu.quantity}}</span>
+                                                        {{menu.mealName}}
+                                                        <ng-container *ngIf="menu.sideName">
+                                                            , {{menu.sideName}}
+                                                        </ng-container>
+                                                        <ng-container *ngIf="menu.drinkName">
+                                                            , {{menu.drinkName}}
+                                                        </ng-container>
+                                                    </p>
+                                                    <ng-container *ngIf="menu.extras.length > 0">
+                                                        <ng-container
+                                                            *ngFor="let extra of menu.extras; let i = index; let last = last">
+                                                            <span
+                                                                class="text-light-white cart-text-extras">{{extra.name}}</span>
+                                                            <span *ngIf="!last">, </span>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </a>
+                                            </div>
+                                            <div class="price">
+                                                <a class="text-dark-white fw-500">{{menu.totalPrice}} Ft</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngFor="let drink of order.drink; let i = index">
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a>
+                                                    <p class="text-with cart-text mr-2">
+                                                        <span class="text-dark-white">{{drink.quantity}}</span>
+                                                        {{drink.name}}
+                                                    </p>
+                                                </a>
+                                            </div>
+                                            <div class="price">
+                                                <a class="text-dark-white fw-500">{{drink.totalPrice}} Ft</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngFor="let side of order.side; let i = index">
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a>
+                                                    <p class="text-with cart-text mr-2">
+                                                        <span class="text-dark-white">{{side.quantity}}</span>
+                                                        {{side.name}}
+                                                    </p>
+                                                </a>
+                                            </div>
+                                            <div class="price">
+                                                <a class="text-dark-white fw-500">{{side.totalPrice}} Ft</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngFor="let meal of order.meal; let i = index">
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a>
+                                                    <p class="text-with cart-text mr-2">
+                                                        <span class="text-dark-white">{{meal.quantity}}</span>
+                                                        {{meal.mealName}}
+                                                        <ng-container *ngIf="meal.sideName">
+                                                            , {{meal.sideName}}
+                                                        </ng-container>
+                                                        <ng-container *ngIf="meal.drinkName">
+                                                            , {{meal.drinkName}}
+                                                        </ng-container>
+                                                    </p>
+                                                    <ng-container *ngIf="meal.extras.length > 0">
+                                                        <ng-container
+                                                            *ngFor="let extra of meal.extras; let i = index; let last = last">
+                                                            <span
+                                                                class="text-light-white cart-text-extras">{{extra.name}}</span>
+                                                            <span *ngIf="!last"> ,</span>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </a>
+                                            </div>
+                                            <div class="price">
+                                                <a class="text-dark-white fw-500">{{meal.totalPrice}} Ft</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngFor="let pizza of order.pizza; let i = index">
+                                    <div class="cat-product-box">
+                                        <div class="cat-product">
+                                            <div class="cat-name">
+                                                <a>
+                                                    <p class="text-with cart-text mr-2">
+                                                        <span class="text-dark-white">{{pizza.quantity}}</span>
+                                                        {{pizza.sizeName}} egyedi pizza
+                                                    </p>
+                                                    <div>
+                                                        <span
+                                                            class="text-light-white cart-text-extras">{{pizza?.doughName}},
+                                                        </span>
+                                                        <span
+                                                            class="text-light-white cart-text-extras">{{pizza?.baseName}}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <ng-container *ngIf="pizza.toppings.length > 0">
+                                                            <span class="text-light-white cart-text-extras">Feltét(ek):
+                                                            </span>
+                                                            <ng-container
+                                                                *ngFor="let topping of pizza.toppings; let i = index; let last = last">
+                                                                <span
+                                                                    class="text-light-white cart-text-extras">{{topping.name}}</span>
+                                                                <span *ngIf="!last">, </span>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </div>
+                                                    <div>
+                                                        <ng-container *ngIf="pizza.sauces.length > 0">
+                                                            <span class="text-light-white cart-text-extras">Szósz(ok):
+                                                            </span>
+                                                            <ng-container
+                                                                *ngFor="let sauce of pizza.sauces; let i = index; let last = last">
+                                                                <span
+                                                                    class="text-light-white cart-text-extras">{{sauce.name}}</span>
+                                                                <span *ngIf="!last">, </span>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="price">
+                                                <a class="text-dark-white fw-500">{{pizza.totalPrice}} Ft</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <div class="item-total">
+                                    <div class="total-price border-0 pb-0"> <span class="text-dark-white fw-600">Tételek
+                                            összesen:
+                                            :</span>
+                                        <span class="text-dark-white fw-600">{{productsTotalPrice}} Ft</span>
+                                    </div>
+                                    <ng-container
+                                        *ngIf="this.checkoutForm.value.deliveryType === deliveryType.DELIVERY">
+                                        <div class="total-price border-0 pt-0 pb-0">
+                                            <span class="text-dark-white fw-600">Kiszállítás:</span>
+                                            <ng-container *ngIf="+restaurant.deliveryprice !== 0;else freeDelivery">
+                                                <span class="text-dark-white fw-600">{{restaurant.deliveryprice}}
+                                                    Ft</span>
+                                            </ng-container>
+                                            <ng-template #freeDelivery>
+                                                <span class="text-dark-white fw-600">Ingyenes</span>
+                                            </ng-template>
+                                        </div>
+                                    </ng-container>
+                                    <div class="total-price border-0"> <span
+                                            class="text-light-black fw-700">Összesen:</span>
+                                        <span class="text-light-black fw-700">{{checkoutForm.value.totalPrice}}
+                                            Ft</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer p-0 modify-order">
+                                <button class="text-custom-white full-width fw-500 bg-light-green"
+                                    (click)="navigateToRestaurantPage()"><i class="fas fa-chevron-left mr-2"></i>
+                                    Rendelés módosítása</button>
+                                <a class="total-amount"><span class="text-custom-white fw-700">Összesen</span>
+                                    <span class="text-custom-white fw-700">{{checkoutForm.value.totalPrice}} Ft</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
