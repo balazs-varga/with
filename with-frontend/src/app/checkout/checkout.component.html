@@ -63,6 +63,13 @@
                                                             class="text-danger">Kérjük adjon meg egy valós
                                                             irányítószámot</small>
                                                     </div>
+                                                    <div *ngIf="checkoutForm.controls.customer_zipcode.invalid"
+                                                        class="text-right">
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.customer_zipcode.errors?.deliveryError || checkoutForm.controls.customer_zipcode.errors?.deliveryError"
+                                                            class="text-danger">Házhozszállítás nem lehetséges a
+                                                            megadott címre</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-6 pl-0 pr-0">

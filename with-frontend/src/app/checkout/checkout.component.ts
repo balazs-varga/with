@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../shared/cart.service';
 import { DeliveryType } from './delivery-type.enum';
@@ -101,6 +101,8 @@ export class CheckoutComponent implements OnInit {
       paying_method: new FormControl(null, Validators.required)
     });
 
+    this.checkoutForm.setValidators(this.deliveryValidator('customer_zipcode', 'deliveryType', this.restaurant.zipcodes));
+
     this.checkoutForm.get('deliveryType').valueChanges.subscribe((value) => {
       if (value === this.deliveryType.DELIVERY) {
         this.checkoutForm.get('customer_country').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(25)]);
@@ -170,5 +172,19 @@ export class CheckoutComponent implements OnInit {
         this.checkoutForm.get('invoice_tax_number').updateValueAndValidity({ emitEvent: false });
       }
     });
+  }
+
+  deliveryValidator(controlName: string, deliveryControlName: string, deliveryZipCodes) {
+    return (formGroup: FormGroup): ValidationErrors => {
+      if (formGroup.controls[controlName].errors) {
+        return;
+      }
+      const isDelivery = deliveryZipCodes.some(e => +e.zipcode === +formGroup.controls[controlName].value);
+      if (!isDelivery && formGroup.controls[deliveryControlName].value === this.deliveryType.DELIVERY) {
+        formGroup.controls[controlName].setErrors({ deliveryError: true });
+      } else {
+        formGroup.controls[controlName].setErrors(null);
+      }
+    };
   }
 }
