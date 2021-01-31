@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { passwordValidator, phoneValidator } from 'src/app/shared/validation/input-field.validator';
+import { addressValidator, cityValidator, passwordValidator, phoneValidator } from 'src/app/shared/validation/input-field.validator';
 import { passwordMatchValidator } from 'src/app/shared/validation/must-match.validator';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../auth.service';
@@ -69,9 +69,9 @@ export class RegistrationComponent implements OnInit {
       c_password: new FormControl('', [Validators.required, passwordValidator, Validators.minLength(8), Validators.maxLength(25)]),
       phone: new FormControl('', [Validators.required, phoneValidator]),
       country: new FormControl('Hungary', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]),
-      city: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
+      city: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25), cityValidator]),
       zipcode: new FormControl('', [Validators.required, Validators.min(1000), Validators.max(9999)]),
-      address: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
+      address: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50), addressValidator]),
       isDataPrivacyAccepted: new FormControl(false, Validators.required)
     },
       passwordMatchValidator

@@ -15,3 +15,27 @@ export function passwordValidator(control: AbstractControl): { [key: string]: bo
     }
     return null;
 }
+
+export function cityValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const cityRegex = /^[A-Za-záéúűőóüöíÍÉÁŰŐÚÓÓÜÖ]+(?:[\s-][A-Za-záéúűőóüöíÍÉÁŰŐÚÓÓÜÖ]+)*$/;
+    if (control.value && !cityRegex.test(control.value)) {
+        return { invalidCityFormat: true };
+    }
+    return null;
+}
+
+export function addressValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const addressRegex = /\d{1}/;
+    if (control.value && !addressRegex.test(control.value)) {
+        return { invalidAddressFormat: true };
+    }
+    return null;
+}
+
+export function taxNumberValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const taxNumberRegex = /^(\d{7})(\d)\-([1-5])\-(0[2-9]|[13][0-9]|2[02-9]|4[0-4]|51)$/;
+    if (control.value && !taxNumberRegex.test(control.value)) {
+        return { invalidTaxNumberFormat: true };
+    }
+    return null;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../shared/cart.service';
+import { addressValidator, cityValidator, taxNumberValidator } from '../shared/validation/input-field.validator';
 import { DeliveryType } from './delivery-type.enum';
 
 @Component({
@@ -48,7 +49,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   isDelivery(): boolean {
-    return this.checkoutForm.value.deliveryType === 'delivery';
+    return this.checkoutForm.value.deliveryType === this.deliveryType.DELIVERY;
   }
 
   isInvoiceRequested(): boolean {
@@ -85,9 +86,9 @@ export class CheckoutComponent implements OnInit {
       is_delivery: new FormControl(1, Validators.required),
       deliveryType: new FormControl(this.deliveryType.DELIVERY, Validators.required),
       customer_country: new FormControl('Hungary', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]),
-      customer_city: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]),
+      customer_city: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(25), cityValidator]),
       customer_zipcode: new FormControl('', [Validators.required, Validators.min(1000), Validators.max(9999)]),
-      customer_address: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
+      customer_address: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50), addressValidator]),
       comment: new FormControl('', Validators.maxLength(2000)),
       totalPrice: new FormControl(this.productsTotalPrice + +this.restaurant.deliveryprice, Validators.required),
       is_invoice_requested: new FormControl(false, Validators.required),
@@ -106,9 +107,11 @@ export class CheckoutComponent implements OnInit {
     this.checkoutForm.get('deliveryType').valueChanges.subscribe((value) => {
       if (value === this.deliveryType.DELIVERY) {
         this.checkoutForm.get('customer_country').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(25)]);
-        this.checkoutForm.get('customer_city').setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(25)]);
+        this.checkoutForm.get('customer_city').setValidators(
+          [Validators.required, Validators.minLength(3), Validators.maxLength(25), cityValidator]);
         this.checkoutForm.get('customer_zipcode').setValidators([Validators.required, Validators.min(1000), Validators.max(9999)]);
-        this.checkoutForm.get('customer_address').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(50)]);
+        this.checkoutForm.get('customer_address').setValidators(
+          [Validators.required, Validators.minLength(5), Validators.maxLength(50), addressValidator]);
         this.checkoutForm.get('customer_country').setValue('Hungary', { emitEvent: false });
         this.checkoutForm.get('is_delivery').setValue(1, { emitEvent: false });
         this.checkoutForm.get('customer_country').updateValueAndValidity({ emitEvent: false });
@@ -142,15 +145,15 @@ export class CheckoutComponent implements OnInit {
         this.checkoutForm.get('invoice_is_company').setValue(false, { emitEvent: false });
         this.checkoutForm.get('invoice_name').setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
         this.checkoutForm.get('invoice_zipcode').setValidators([Validators.required, Validators.min(1000), Validators.max(9999)]);
-        this.checkoutForm.get('invoice_city').setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(25)]);
-        this.checkoutForm.get('invoice_address').setValidators([Validators.required, Validators.minLength(5), Validators.maxLength(50)]);
-        this.checkoutForm.get('invoice_tax_number').setValidators([Validators.required]);
+        this.checkoutForm.get('invoice_city').setValidators(
+          [Validators.required, Validators.minLength(3), Validators.maxLength(25), cityValidator]);
+        this.checkoutForm.get('invoice_address').setValidators(
+          [Validators.required, Validators.minLength(5), Validators.maxLength(50), addressValidator]);
         this.checkoutForm.get('invoice_is_company').updateValueAndValidity({ emitEvent: false });
         this.checkoutForm.get('invoice_name').updateValueAndValidity({ emitEvent: false });
         this.checkoutForm.get('invoice_zipcode').updateValueAndValidity({ emitEvent: false });
         this.checkoutForm.get('invoice_city').updateValueAndValidity({ emitEvent: false });
         this.checkoutForm.get('invoice_address').updateValueAndValidity({ emitEvent: false });
-        this.checkoutForm.get('invoice_tax_number').updateValueAndValidity({ emitEvent: false });
       } else {
         this.checkoutForm.get('invoice_is_company').setValidators(null);
         this.checkoutForm.get('invoice_is_company').setValue(null, { emitEvent: false });
@@ -170,6 +173,16 @@ export class CheckoutComponent implements OnInit {
         this.checkoutForm.get('invoice_city').updateValueAndValidity({ emitEvent: false });
         this.checkoutForm.get('invoice_address').updateValueAndValidity({ emitEvent: false });
         this.checkoutForm.get('invoice_tax_number').updateValueAndValidity({ emitEvent: false });
+      }
+    });
+
+    this.checkoutForm.get('invoice_is_company').valueChanges.subscribe((value) => {
+      if (value === true) {
+        this.checkoutForm.get('invoice_tax_number').setValidators([Validators.required, taxNumberValidator]);
+        this.checkoutForm.get('invoice_tax_number').updateValueAndValidity({ emitEvent: false });
+      } else {
+        this.checkoutForm.get('invoice_tax_number').setValidators(null);
+        this.checkoutForm.get('invoice_tax_number').setValue(null, { emitEvent: false });
       }
     });
   }

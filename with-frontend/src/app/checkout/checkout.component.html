@@ -67,8 +67,8 @@
                                                         class="text-right">
                                                         <small
                                                             *ngIf="checkoutForm.controls.customer_zipcode.errors?.deliveryError || checkoutForm.controls.customer_zipcode.errors?.deliveryError"
-                                                            class="text-danger">Házhozszállítás nem lehetséges a
-                                                            megadott címre</small>
+                                                            class="text-danger">Ez az étterem sajnos nem szállít a
+                                                            megadott városba</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -91,6 +91,12 @@
                                                             *ngIf="checkoutForm.controls.customer_city.errors?.maxlength"
                                                             class="text-danger">Túl hosszú városnév</small>
                                                     </div>
+                                                    <div *ngIf="checkoutForm.controls.customer_city.invalid"
+                                                        class="text-right">
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.customer_city.errors?.invalidCityFormat"
+                                                            class="text-danger">Nem megfelelő formátum</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -109,6 +115,12 @@
                                                 <small *ngIf="checkoutForm.controls.customer_address.errors?.maxlength"
                                                     class="text-danger">Túl hosszú cím</small>
                                             </div>
+                                            <div *ngIf="checkoutForm.controls.customer_address.invalid"
+                                                class="text-right">
+                                                <small
+                                                    *ngIf="checkoutForm.controls.customer_address.errors?.invalidAddressFormat"
+                                                    class="text-danger">Nem megfelelő formátum</small>
+                                            </div>
                                         </div>
                                     </ng-container>
 
@@ -116,13 +128,13 @@
                                         <input class="form-check-input" type="checkbox" name="is_invoice_requested"
                                             id="is_invoice_requested" formControlName="is_invoice_requested">
                                         <label class="form-check-label" for="is_invoice_requested">
-                                            ÁFA-s számla igénylése
+                                            Áfás számlát kérek
                                         </label>
                                     </div>
 
                                     <ng-container *ngIf="isInvoiceRequested()">
                                         <div class="section-header-left">
-                                            <h3 class="text-light-black header-title comment">ÁFA-s számla adatok</h3>
+                                            <h3 class="text-light-black header-title comment">Számlázási adatok</h3>
                                         </div>
                                         <div class="afa-container mb-4">
                                             <div class="form-check with-check afa-background">
@@ -190,6 +202,12 @@
                                                                 *ngIf="checkoutForm.controls.invoice_city.errors?.maxlength"
                                                                 class="text-danger">Túl hosszú városnév</small>
                                                         </div>
+                                                        <div *ngIf="checkoutForm.controls.invoice_city.invalid"
+                                                            class="text-right">
+                                                            <small
+                                                                *ngIf="checkoutForm.controls.invoice_city.errors?.invalidCityFormat"
+                                                                class="text-danger">Nem megfelelő formátum</small>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -211,20 +229,32 @@
                                                         *ngIf="checkoutForm.controls.invoice_address.errors?.maxlength"
                                                         class="text-danger">Túl hosszú cím</small>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="text-light-white fs-14">Adószám</label>
-                                                <input id="invoice_tax_number" type="text" name="invoice_tax_number"
-                                                    [class.is-invalid]="checkoutForm.controls.invoice_tax_number.invalid"
-                                                    formControlName="invoice_tax_number"
-                                                    class="form-control form-control-submit" placeholder="Adószám">
-                                                <div *ngIf="checkoutForm.controls.invoice_tax_number.invalid"
+                                                <div *ngIf="checkoutForm.controls.invoice_address.invalid"
                                                     class="text-right">
                                                     <small
-                                                        *ngIf="checkoutForm.controls.invoice_tax_number.errors?.required"
-                                                        class="text-danger">Kötelező mező</small>
+                                                        *ngIf="checkoutForm.controls.invoice_address.errors?.invalidAddressFormat"
+                                                        class="text-danger">Nem megfelelő formátum</small>
                                                 </div>
                                             </div>
+                                            <ng-container *ngIf="checkoutForm.value.invoice_is_company">
+                                                <div class="form-group">
+                                                    <label class="text-light-white fs-14">Adószám</label>
+                                                    <input id="invoice_tax_number" type="text" name="invoice_tax_number"
+                                                        [class.is-invalid]="checkoutForm.controls.invoice_tax_number.invalid"
+                                                        formControlName="invoice_tax_number"
+                                                        class="form-control form-control-submit" placeholder="Adószám">
+                                                    <div *ngIf="checkoutForm.controls.invoice_tax_number.invalid"
+                                                        class="text-right">
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.invoice_tax_number.errors?.required"
+                                                            class="text-danger">Kötelező mező</small>
+                                                        <small
+                                                            *ngIf="checkoutForm.controls.invoice_tax_number.errors?.invalidTaxNumberFormat"
+                                                            class="text-danger">Nem megfelelő formátum, pl:
+                                                            12345678-1-12</small>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
                                         </div>
                                     </ng-container>
                                 </form>
@@ -268,6 +298,28 @@
                                         </div>
                                     </div>
 
+                                    <ng-container
+                                        *ngIf="isDelivery() && checkoutForm.valid && checkoutForm.value.customer_zipcode && checkoutForm.value.customer_city && checkoutForm.value.customer_address">
+                                        <div class="row mt-5 text-center">
+                                            <div class="w-100">
+                                                <p class="green">A rendelését házhozszállítjuk az alábbi címre:</p>
+                                                <p class="green">{{checkoutForm.value.customer_zipcode}}
+                                                    {{checkoutForm.value.customer_city}}
+                                                    {{checkoutForm.value.customer_address}}</p>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="!isDelivery() && checkoutForm.valid">
+                                        <div class="row mt-5 text-center">
+                                            <div class="w-100">
+                                                <p class="green">A rendelését személyesen átveheti nyitvatartási időben
+                                                    az alábbi címen:</p>
+                                                <p class="green">{{restaurant.restaurantaddress}}</p>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
                                     <div class="row mt-5">
                                         <div class="col-12">
                                             <div class="form-group">
@@ -276,6 +328,9 @@
                                                     class="btn-first green-btn text-custom-white full-width fw-500">Rendelés
                                                     leadása</button>
                                             </div>
+                                            <p class="text-center text-light-black no-margin">Tudomásul veszem, hogy a
+                                                megrendelés fizetési kötelezettséget keletkeztet számomra az Általános
+                                                Szerződési Feltételeknek megfelelően.</p>
                                             <p class="text-center text-light-black no-margin">By placing
                                                 your order, you agree to Munchbox's <a href="#">terms of
                                                     use</a> and <a href="#">privacy agreement</a>

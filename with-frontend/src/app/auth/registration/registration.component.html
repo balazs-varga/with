@@ -178,6 +178,11 @@
                                                     <small *ngIf="registrationForm.controls.city.errors?.maxlength"
                                                         class="text-danger">Túl hosszú városnév</small>
                                                 </div>
+                                                <div *ngIf="(registrationForm.controls.city.invalid && registrationForm.controls.city.touched) || registrationForm.controls.city.dirty"
+                                                    class="text-right">
+                                                    <small *ngIf="registrationForm.controls.city.errors?.invalidCityFormat"
+                                                        class="text-danger">Nem megfelelő formátum</small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -195,6 +200,11 @@
                                                         class="text-danger">Túl rövid cím</small>
                                                     <small *ngIf="registrationForm.controls.address.errors?.maxlength"
                                                         class="text-danger">Túl hosszú cím</small>
+                                                </div>
+                                                <div *ngIf="(registrationForm.controls.address.invalid && registrationForm.controls.address.touched) || registrationForm.controls.address.dirty"
+                                                    class="text-right">
+                                                    <small *ngIf="registrationForm.controls.address.errors?.invalidAddressFormat"
+                                                        class="text-danger">Nem megfelelő formátum</small>
                                                 </div>
                                             </div>
                                         </div>
