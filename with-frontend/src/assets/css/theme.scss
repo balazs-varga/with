@@ -2193,7 +2193,6 @@ footer .footer-links .appimg {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
 }
 .restaurent-address .address-details .address {
     flex-basis: auto;
@@ -2206,7 +2205,7 @@ footer .footer-links .appimg {
 .restaurent-address .address-details .change-address {
     display: flex;
     flex-direction: column;
-    padding: 0 5px 0 15px;
+    padding: 0 15px 0 15px;
     text-align: right;
     justify-content: center;
 }
