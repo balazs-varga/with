@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { DeleteOrderModalComponent } from './delete-order-modal/delete-order-modal.component';
 import { ClickOutsideDirective } from './click-outside.directive';
+import { DeleteAllOrderModalComponent } from './delete-all-order-modal/delete-all-order-modal.component';
 
 @NgModule({
   imports: [
@@ -17,11 +18,13 @@ import { ClickOutsideDirective } from './click-outside.directive';
   exports: [
     LoadingSpinnerComponent,
     DeleteOrderModalComponent,
+    DeleteAllOrderModalComponent,
     ClickOutsideDirective
   ],
   declarations: [
     LoadingSpinnerComponent,
     DeleteOrderModalComponent,
+    DeleteAllOrderModalComponent,
     ClickOutsideDirective
   ]
 })

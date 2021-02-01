@@ -61,6 +61,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.subscribeToRouteParams();
     this.getZipAndCityFromLocalStorage();
     this.isRestaurantDeliversToSelectedCity();
@@ -81,6 +82,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     this.localstorageOrderDataSubscription = this.localStorageService.watchOrderDataStorage().subscribe((restaurantId: number) => {
       this.getOrderDataOf(restaurantId);
     });
+    this.isLoading = false;
   }
 
   ngOnDestroy(): void {
@@ -89,9 +91,11 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     this.locationService.changeIsLocationSelectorOpen(false);
   }
 
-  openOrderDeleteModal(modal, orderItem): void {
-    this.selectedOrderItem = orderItem;
-    this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'});
+  openDeleteModal(modal, orderItem?): void {
+    if (orderItem) {
+      this.selectedOrderItem = orderItem;
+    }
+    this.modalService.open(modal, { centered: true, backdrop: 'static' });
   }
 
   deleteSelectedOrderItem(orderItem): void {
@@ -204,10 +208,10 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   addSelectedProductToCart(): void {
     if (this.selectedProductForm.valid && !this.isRestaurantClosed()) {
       this.mealService.addToCart(this.selectedProductForm, this.selectedProduct, this.restaurant.restaurantid)
-      .then(() => {
-        this.selectedProduct = null;
-        this.productModalClose.nativeElement.click();
-      });
+        .then(() => {
+          this.selectedProduct = null;
+          this.productModalClose.nativeElement.click();
+        });
     }
   }
 
@@ -285,6 +289,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
 
   resetOrder(): void {
     this.cartService.resetOrder(this.restaurant.restaurantid);
+    this.closeModal();
   }
 
   isMinimumOrderCompleted(): boolean {
@@ -298,7 +303,6 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToRouteParams(): void {
-    this.isLoading = true;
     this.restaurant = this.activatedRoute.snapshot.data.restaurant;
     this.restaurantService.setRestaurant(this.restaurant);
     if (this.restaurant.mapembed) {
@@ -315,7 +319,6 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       }
     });
     this.getOrderDataOf(this.restaurant.restaurantid);
-    this.isLoading = false;
   }
 
   private getZipAndCityFromLocalStorage(): void {
@@ -342,10 +345,15 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   }
 
   private getProductsByCategoryId(category): void {
+    this.isLoading = true;
     this.http.get<any>(`${environment.apiUrl}/restaurant/` +
-      this.restaurant.restaurantid + `/products/category/` + category.id).subscribe((res) => {
-        this.productsByCategory.set(category, res);
-      });
+      this.restaurant.restaurantid + `/products/category/` + category.id).subscribe(
+        (res) => {
+          this.productsByCategory.set(category, res);
+          this.isLoading = false;
+        }, (error) => {
+          this.isLoading = false;
+        });
   }
 
   private transform(url): SafeResourceUrl {
@@ -403,5 +411,9 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   private getOrderDataOf(restaurantId: number): void {
     this.order = this.cartService.getExistingRestaurantOrderData(restaurantId);
     this.totalPrice = this.cartService.calculateTotalPrice(this.order);
+    if (this.order && this.order.drink.length === 0 && this.order.meal.length === 0 &&
+      this.order.menu.length === 0 && this.order.pizza.length === 0 && this.order.side.length === 0) {
+      this.cartService.resetOrder(restaurantId);
+    }
   }
 }

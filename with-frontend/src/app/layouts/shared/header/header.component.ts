@@ -104,6 +104,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   resetOrder(): void {
     this.cartService.resetOrder(this.restaurant.restaurantid);
+    this.closeModal();
   }
 
   isMinimumOrderCompleted(): boolean {
@@ -120,9 +121,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     return !this.restaurant.isrestaurantopenfororders;
   }
 
-  openOrderDeleteModal(modal, orderItem): void {
-    this.selectedOrderItem = orderItem;
-    this.modalService.open(modal, {ariaLabelledBy: 'modal-basic-title'});
+  openDeleteModal(modal, orderItem?): void {
+    if (orderItem) {
+      this.selectedOrderItem = orderItem;
+    }
+    this.modalService.open(modal, { centered: true, backdrop: 'static' });
   }
 
   deleteSelectedOrderItem(orderItem): void {

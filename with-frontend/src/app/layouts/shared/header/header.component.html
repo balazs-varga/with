@@ -6,7 +6,7 @@
                     <!-- logo -->
                     <div class="logo mainNavCol" [ngClass]="{'loggedout-logo': !isLoggedIn()}">
                         <a routerLink="/" [ngClass]="{'loggedout-navlink': !isLoggedIn()}">
-                            <img src="../../assets/logo/with_logo3.png" class="img-fluid logo" alt="Logo" />
+                            <img src="../../assets/logo/with_logo3.png" class="img-fluid logo" alt="Logo" [ngClass]="{'pl-0': !isLoggedIn()}" />
                         </a>
                     </div>
                     <!-- logo -->
@@ -133,7 +133,7 @@
                                                             <a class="text-dark-white fw-500">{{menu.totalPrice}} Ft</a>
                                                         </div>
                                                         <div class="delete-btn"
-                                                            (click)="openOrderDeleteModal(orderItemDelete, menu)">
+                                                            (click)="openDeleteModal(orderItemDelete, menu)">
                                                             <a class="text-dark-white cart-trash">
                                                                 <i class="far fa-trash-alt"></i>
                                                             </a>
@@ -159,7 +159,7 @@
                                                                 Ft</a>
                                                         </div>
                                                         <div class="delete-btn"
-                                                            (click)="openOrderDeleteModal(orderItemDelete, drink)">
+                                                            (click)="openDeleteModal(orderItemDelete, drink)">
                                                             <a class="text-dark-white cart-trash">
                                                                 <i class="far fa-trash-alt"></i>
                                                             </a>
@@ -184,7 +184,7 @@
                                                             <a class="text-dark-white fw-500">{{side.totalPrice}} Ft</a>
                                                         </div>
                                                         <div class="delete-btn"
-                                                            (click)="openOrderDeleteModal(orderItemDelete, side)">
+                                                            (click)="openDeleteModal(orderItemDelete, side)">
                                                             <a class="text-dark-white cart-trash">
                                                                 <i class="far fa-trash-alt"></i>
                                                             </a>
@@ -223,7 +223,7 @@
                                                             <a class="text-dark-white fw-500">{{meal.totalPrice}} Ft</a>
                                                         </div>
                                                         <div class="delete-btn"
-                                                            (click)="openOrderDeleteModal(orderItemDelete, meal)">
+                                                            (click)="openDeleteModal(orderItemDelete, meal)">
                                                             <a class="text-dark-white cart-trash">
                                                                 <i class="far fa-trash-alt"></i>
                                                             </a>
@@ -283,7 +283,7 @@
                                                                 Ft</a>
                                                         </div>
                                                         <div class="delete-btn"
-                                                            (click)="openOrderDeleteModal(orderItemDelete, pizza)">
+                                                            (click)="openDeleteModal(orderItemDelete, pizza)">
                                                             <a class="text-dark-white cart-trash">
                                                                 <i class="far fa-trash-alt"></i>
                                                             </a>
@@ -299,7 +299,7 @@
                                                     <span class="text-dark-white fw-700">{{totalPrice}} Ft</span>
                                                 </div>
                                                 <div class="empty-bag padding-15 fw-700">
-                                                    <a (click)="resetOrder()"
+                                                    <a (click)="openDeleteModal(cartDelete)"
                                                         class="empty-bag padding-15 fw-700 pl-0 cursor-pointer">Kosár
                                                         ürítése</a>
                                                 </div>
@@ -370,4 +370,9 @@
     <app-delete-order-modal [selectedOrderItem]="selectedOrderItem" (closeModal)="closeModal()"
         (deleteSelectedOrderItem)="deleteSelectedOrderItem($event)">
     </app-delete-order-modal>
+</ng-template>
+
+<ng-template #cartDelete>
+    <app-delete-all-order-modal (closeModal)="closeModal()" (deleteCart)="resetOrder()">
+    </app-delete-all-order-modal>
 </ng-template>
