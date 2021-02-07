@@ -57,14 +57,14 @@
                     <div class="footer-links">
                         <h6 class="text-with">Az én fiókom:</h6>
                         <ul>
-                            <li><a href="#" class="text-light-white fw-600">Fiók beállítások</a>
+                            <li><a [routerLink]="['/user-profile']" class="text-light-white fw-600">Fiók beállítások</a>
                             </li>
                             <li><a href="#" class="text-light-white fw-600">Összes rendelés</a>
                             </li>
                             <li><a routerLink="/" class="text-light-white fw-600">Étterem keresés</a>
                             </li>
                             <li><a href="#" class="text-light-white fw-600">Rendelés követés</a>
-                            </li>
+                            </li> 
                             <li><a (click)="logout()" class="text-light-white fw-600 cursor-pointer">Kijelentkezés</a>
                             </li>
                         </ul>

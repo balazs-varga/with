@@ -152,8 +152,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isLocationPopupShow = !this.isLocationPopupShow;
   }
 
-  isLoginPage(): boolean {
-    return this.router.url === '/';
+  isRestaurantPage(): boolean {
+    return this.router.url.startsWith('/restaurants');
   }
 
   isCheckoutPage(): boolean {
