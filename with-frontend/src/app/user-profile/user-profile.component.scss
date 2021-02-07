@@ -1,0 +1,32 @@
+.user-profile-box {
+    max-width: 1100px;
+    width: auto;
+    margin: 0 auto;
+    margin-top: 0px;
+    box-shadow: 0 0 0 1px rgba(67, 41, 163, 0.08), 0 1px 5px 0 rgba(67, 41, 163, 0.08);
+    border-radius: 3px;
+    background: #fff;
+    padding: 30px;
+}
+
+.main-padding {
+    @media (max-width: 767px) {
+      padding: 32px;
+    }
+}
+
+.field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-top: -28px;
+    position: relative;
+    z-index: 2;
+    right: 18px;
+    cursor: pointer;
+}
+
+:host .green-button:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}

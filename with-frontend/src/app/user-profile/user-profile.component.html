@@ -1,0 +1,319 @@
+<ng-container *ngIf="isLoading;else loadSuccess">
+    <app-loading-spinner></app-loading-spinner>
+</ng-container>
+
+<ng-template #loadSuccess>
+    <div class="user-page main-padding">
+        <div class="user-profile-box text-left">
+            <ng-container *ngIf="userProfileForm">
+                <form [formGroup]="userProfileForm">
+                    <h4 class="text-light-black fw-600 text-center">Saját profil</h4>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Vezetéknév</label>
+                                <input id="lastName" type="text" name="lastname" formControlName="lastname"
+                                    [class.is-invalid]="userProfileForm.controls.lastname.invalid && userProfileForm.controls.lastname.touched"
+                                    class="form-control form-control-submit" placeholder="Vezetéknév">
+                                <div *ngIf="(userProfileForm.controls.lastname.invalid && userProfileForm.controls.lastname.touched) || userProfileForm.controls.lastname.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.lastname.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small *ngIf="userProfileForm.controls.lastname.errors?.minlength"
+                                        class="text-danger">Túl rövid vezetéknév</small>
+                                    <small *ngIf="userProfileForm.controls.lastname.errors?.maxlength"
+                                        class="text-danger">Túl hosszú vezetéknév</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Keresztnév</label>
+                                <input id="firstname" type="text" name="firstname" formControlName="firstname"
+                                    [class.is-invalid]="userProfileForm.controls.firstname.invalid && userProfileForm.controls.firstname.touched"
+                                    class="form-control form-control-submit" placeholder="Keresztnév">
+                                <div *ngIf="(userProfileForm.controls.firstname.invalid && userProfileForm.controls.firstname.touched) || userProfileForm.controls.firstname.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.firstname.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small *ngIf="userProfileForm.controls.firstname.errors?.minlength"
+                                        class="text-danger">Túl rövid keresztnév</small>
+                                    <small *ngIf="userProfileForm.controls.firstname.errors?.maxlength"
+                                        class="text-danger">Túl hosszú keresztnév</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-6 col-md-12 col-sm-6">
+                        <div class="form-group">
+                            <label class="text-light-white fs-14">Jelszó</label>
+                            <input id="password" [type]="isPasswordVisible ? 'text' : 'password'" name="password"
+                                formControlName="password" class="form-control form-control-submit"
+                                [class.is-invalid]="userProfileForm.controls.password.invalid && userProfileForm.controls.password.touched"
+                                placeholder="Jelszó">
+                            <div (click)="toggleShowPassword()" *ngIf="userProfileForm.controls.password.valid"
+                                [class]="isPasswordVisible ? 'fa fa-fw fa-eye-slash field-icon toggle-password' : 'fa fa-fw fa-eye field-icon toggle-password'">
+                            </div>
+                            <div *ngIf="(userProfileForm.controls.password.invalid && userProfileForm.controls.password.touched) || userProfileForm.controls.password.dirty"
+                                class="text-right">
+                                <small *ngIf="userProfileForm.controls.password.errors?.required"
+                                    class="text-danger">Kötelező mező</small>
+                                <small *ngIf="userProfileForm.controls.password.errors?.invalidPasswordFormat"
+                                    class="text-danger">Minimum nyolc karakter, egy betű, egy szám
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-6">
+                        <div class="form-group">
+                            <label class="text-light-white fs-14">Jelszó mégegyszer</label>
+                            <input id="c_password" [type]="isPasswordVisible ? 'text' : 'password'" name="c_password"
+                                formControlName="c_password" class="form-control form-control-submit"
+                                [class.is-invalid]="userProfileForm.controls.c_password.invalid && userProfileForm.controls.c_password.touched"
+                                placeholder="Jelszó mégegyszer">
+                            <div *ngIf="(userProfileForm.controls.c_password.invalid && userProfileForm.controls.c_password.touched) || userProfileForm.controls.c_password.dirty"
+                                class="text-right">
+                                <small *ngIf="userProfileForm.controls.c_password.errors?.required"
+                                    class="text-danger">Kötelező mező</small>
+                                <small *ngIf="userProfileForm.controls.c_password.errors?.invalidPasswordFormat"
+                                    class="text-danger">Minimum nyolc karakter, egy betű, egy szám
+                                </small>
+                                <small
+                                    *ngIf="!userProfileForm.controls.c_password.errors?.minlength && !userProfileForm.controls.c_password.errors?.maxlength && userProfileForm.errors?.mustMatch"
+                                    class="text-danger">A jelszavak nem egyeznek</small>
+                            </div>
+                        </div>
+                    </div> -->
+                        <div class="col-lg-6 col-md-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Email</label>
+                                <input id="email" type="text" name="email"
+                                    [class.is-invalid]="userProfileForm.controls.email.invalid && userProfileForm.controls.email.touched"
+                                    formControlName="email" class="form-control form-control-submit"
+                                    placeholder="Email">
+                                <div *ngIf="(userProfileForm.controls.email.invalid && userProfileForm.controls.email.touched) || userProfileForm.controls.email.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.email.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small *ngIf="userProfileForm.controls.email.errors?.pattern"
+                                        class="text-danger">Kérjük
+                                        adj meg egy valós email címet</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Telefonszám</label>
+                                <input id="phone" type="text" name="phone"
+                                    [class.is-invalid]="userProfileForm.controls.phone.invalid && userProfileForm.controls.phone.touched"
+                                    formControlName="phone" class="form-control form-control-submit"
+                                    placeholder="Telefonszám">
+                                <div *ngIf="(userProfileForm.controls.phone.invalid && userProfileForm.controls.phone.touched) || userProfileForm.controls.phone.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.phone.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small *ngIf="userProfileForm.controls.phone.errors?.invalidPhoneFormat"
+                                        class="text-danger">Nem megfelelő telefonszám formátum
+                                        (06301234567)</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Ország</label>
+                                <select id="country" formControlName="country"
+                                    class="form-control form-control-submit custom-select-2 full-width">
+                                    <option value="Hungary" data-name="">Magyarország</option>
+                                </select>
+                                <div *ngIf="(userProfileForm.controls.country.invalid && userProfileForm.controls.country.touched) || userProfileForm.controls.country.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.country.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Irányítószám</label>
+                                <input id="zipcode" type="number" name="zipcode"
+                                    [class.is-invalid]="userProfileForm.controls.zipcode.invalid && userProfileForm.controls.zipcode.touched"
+                                    formControlName="zipcode" class="form-control form-control-submit"
+                                    placeholder="Irányítószám" min=1000 max=9999>
+                                <div *ngIf="(userProfileForm.controls.zipcode.invalid && userProfileForm.controls.zipcode.touched) || userProfileForm.controls.zipcode.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.zipcode.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small
+                                        *ngIf="userProfileForm.controls.zipcode.errors?.min || userProfileForm.controls.zipcode.errors?.max"
+                                        class="text-danger">Kérjük adjon meg egy valós
+                                        irányítószámot</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Város</label>
+                                <input id="city" type="text" name="city"
+                                    [class.is-invalid]="userProfileForm.controls.city.invalid && userProfileForm.controls.city.touched"
+                                    formControlName="city" class="form-control form-control-submit" placeholder="Város">
+                                <div *ngIf="(userProfileForm.controls.city.invalid && userProfileForm.controls.city.touched) || userProfileForm.controls.city.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.city.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small *ngIf="userProfileForm.controls.city.errors?.minlength"
+                                        class="text-danger">Túl
+                                        rövid városnév</small>
+                                    <small *ngIf="userProfileForm.controls.city.errors?.maxlength"
+                                        class="text-danger">Túl
+                                        hosszú városnév</small>
+                                </div>
+                                <div *ngIf="(userProfileForm.controls.city.invalid && userProfileForm.controls.city.touched) || userProfileForm.controls.city.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.city.errors?.invalidCityFormat"
+                                        class="text-danger">Nem megfelelő formátum</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Cím</label>
+                                <input id="address" type="text" name="address"
+                                    [class.is-invalid]="userProfileForm.controls.address.invalid && userProfileForm.controls.address.touched"
+                                    formControlName="address" class="form-control form-control-submit"
+                                    placeholder="Cím">
+                                <div *ngIf="(userProfileForm.controls.address.invalid && userProfileForm.controls.address.touched) || userProfileForm.controls.address.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.address.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small *ngIf="userProfileForm.controls.address.errors?.minlength"
+                                        class="text-danger">Túl rövid cím</small>
+                                    <small *ngIf="userProfileForm.controls.address.errors?.maxlength"
+                                        class="text-danger">Túl hosszú cím</small>
+                                </div>
+                                <div *ngIf="(userProfileForm.controls.address.invalid && userProfileForm.controls.address.touched) || userProfileForm.controls.address.dirty"
+                                    class="text-right">
+                                    <small *ngIf="userProfileForm.controls.address.errors?.invalidAddressFormat"
+                                        class="text-danger">Nem megfelelő formátum</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <ng-container *ngIf="userProfileSuccessMessage">
+                                <div class="col-12 text-center">
+                                    <p class="text-success mb-3">{{userProfileSuccessMessage}}</p>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div class="form-group text-center">
+                                <button class="green-button full-width" [disabled]="!userProfileForm.valid"
+                                    (click)="updateUserProfile()">Mentés</button>
+                                <ng-container *ngIf="userProfileErrorMessage">
+                                    <div class="col-12 text-center">
+                                        <small class="text-danger">{{userProfileErrorMessage}}</small>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="user-page main-padding pt-0">
+        <div class="user-profile-box text-left">
+            <ng-container *ngIf="passwordResetForm">
+                <form [formGroup]="passwordResetForm">
+                    <h4 class="text-light-black fw-600 text-center">Jelszó megváltoztatása</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Jelenlegi jelszó</label>
+                                <input id="old_password" [type]="isPasswordVisible ? 'text' : 'password'"
+                                    name="old_password"
+                                    [class.is-invalid]="passwordResetForm.controls.old_password.invalid && passwordResetForm.controls.old_password.touched"
+                                    formControlName="old_password" class="form-control form-control-submit"
+                                    placeholder="Jelenlegi jelszó">
+                                <div (click)="toggleShowPassword()"
+                                    *ngIf="passwordResetForm.controls.old_password.valid"
+                                    [class]="isPasswordVisible ? 'fa fa-fw fa-eye-slash field-icon toggle-password' : 'fa fa-fw fa-eye field-icon toggle-password'">
+                                </div>
+                                <div *ngIf="(passwordResetForm.controls.old_password.invalid && passwordResetForm.controls.old_password.touched) || passwordResetForm.controls.old_password.dirty"
+                                    class="text-right">
+                                    <small *ngIf="passwordResetForm.controls.old_password.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small *ngIf="passwordResetForm.controls.old_password.errors?.invalidPasswordFormat"
+                                        class="text-danger">Minimum nyolc karakter, egy betű, egy szám
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Jelszó</label>
+                                <input id="new_password" [type]="isPasswordVisible ? 'text' : 'password'"
+                                    name="new_password" formControlName="new_password"
+                                    class="form-control form-control-submit"
+                                    [class.is-invalid]="passwordResetForm.controls.new_password.invalid && passwordResetForm.controls.new_password.touched"
+                                    placeholder="Jelszó">
+                                <div (click)="toggleShowPassword()"
+                                    *ngIf="passwordResetForm.controls.new_password.valid"
+                                    [class]="isPasswordVisible ? 'fa fa-fw fa-eye-slash field-icon toggle-password' : 'fa fa-fw fa-eye field-icon toggle-password'">
+                                </div>
+                                <div *ngIf="(passwordResetForm.controls.new_password.invalid && passwordResetForm.controls.new_password.touched) || passwordResetForm.controls.new_password.dirty"
+                                    class="text-right">
+                                    <small *ngIf="passwordResetForm.controls.new_password.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small *ngIf="passwordResetForm.controls.new_password.errors?.invalidPasswordFormat"
+                                        class="text-danger">Minimum nyolc karakter, egy betű, egy szám
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="text-light-white fs-14">Jelszó mégegyszer</label>
+                                <input id="new_password_confirm" [type]="isPasswordVisible ? 'text' : 'password'"
+                                    name="new_password_confirm" formControlName="new_password_confirm"
+                                    class="form-control form-control-submit"
+                                    [class.is-invalid]="passwordResetForm.controls.new_password_confirm.invalid && passwordResetForm.controls.new_password_confirm.touched"
+                                    placeholder="Jelszó mégegyszer">
+                                <div *ngIf="(passwordResetForm.controls.new_password_confirm.invalid && passwordResetForm.controls.new_password_confirm.touched) || passwordResetForm.controls.new_password_confirm.dirty"
+                                    class="text-right">
+                                    <small *ngIf="passwordResetForm.controls.new_password_confirm.errors?.required"
+                                        class="text-danger">Kötelező mező</small>
+                                    <small
+                                        *ngIf="passwordResetForm.controls.new_password_confirm.errors?.invalidPasswordFormat"
+                                        class="text-danger">Minimum nyolc karakter, egy betű, egy szám
+                                    </small>
+                                    <small
+                                        *ngIf="!passwordResetForm.controls.new_password_confirm.errors?.minlength && !passwordResetForm.controls.new_password_confirm.errors?.maxlength && passwordResetForm.errors?.mustMatch"
+                                        class="text-danger">A jelszavak nem egyeznek</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 mt-3">
+                            <ng-container *ngIf="passwordSuccessMessage">
+                                <div class="col-12 text-center">
+                                    <p class="text-success mb-3">{{passwordSuccessMessage}}</p>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div class="form-group text-center">
+                                <button class="green-button full-width" [disabled]="!passwordResetForm.valid"
+                                    (click)="updatePassword()">Mentés</button>
+                                <ng-container *ngIf="passwordErrorMessage">
+                                    <div class="col-12 text-center">
+                                        <small class="text-danger">{{passwordErrorMessage}}</small>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>

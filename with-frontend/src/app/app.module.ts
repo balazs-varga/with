@@ -14,6 +14,7 @@ import { RestaurantModule } from './restaurants/restaurant.module';
 import { INTERCEPTORS } from './auth/interceptors.provider';
 import { SharedModule } from './shared/shared.module';
 import { CheckoutModule } from './checkout/checkout.module';
+import { UserProfileModule } from './user-profile/user-profile.module';
 
 const routes: Routes = [
   { path: '**', redirectTo: '404' }
@@ -36,7 +37,8 @@ const routes: Routes = [
     AuthModule,
     RestaurantModule,
     SharedModule,
-    CheckoutModule
+    CheckoutModule,
+    UserProfileModule
   ],
   providers: [
     INTERCEPTORS
